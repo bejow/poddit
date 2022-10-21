@@ -1,14 +1,16 @@
-import logo from "./logo.svg"
 import "./App.css"
-import Login from "./pages/Login"
+import { BrowserRouter } from "react-router-dom"
+import Routes from "./routing/Routes"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Login />
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <header className="App-header">
+          <Routes />
+        </header>
+      </div>
+    </BrowserRouter>
   )
 }
 
