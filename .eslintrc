@@ -20,5 +20,13 @@
     "no-duplicate-imports": "error",
     "indent": ["error", 2],
     "max-len": ["error", { "code": 100, "comments": 65, "tabWidth": 4 }]
+  },
+  "globals": {
+    // Fix testing "undefined" linting errors
+    "cy": true,
+    "it": true,
+    "describe": true,
+    "module": true,
+    "require": true
   }
 }
