@@ -27,6 +27,8 @@
     "it": true,
     "describe": true,
     "module": true,
-    "require": true
+    "require": true,
+    "test": true,
+    "expect": true
   }
 }
