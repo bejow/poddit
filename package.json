@@ -20,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test -- --config ./tests/setupJest.js",
+    "test": "react-scripts test",
     "clear:jest:cache": "jest --clearCache",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open"
@@ -57,6 +57,9 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
-    }
+    },
+    "testMatch": [
+      "**/*.test.js"
+    ]
   }
 }
