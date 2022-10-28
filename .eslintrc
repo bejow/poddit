@@ -13,6 +13,7 @@
   },
   "plugins": ["react", "react-hooks", "prettier"],
   "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
