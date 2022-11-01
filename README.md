@@ -22,6 +22,7 @@ src
 ├── pages --> Screens
 ├── routing --> Routing Options (Routes)
 ├── components --> JSX Components
+├── styles --> Styling related (Constants, Mixins, Animations)
 └── states --> Zustand State Management Files
 .husky
 └── --> Commit Hooks
@@ -80,4 +81,4 @@ This Project makes use of Continues Deployment, every code change on the "main" 
 
 ### Preview Deployment
 
-If you want to deploy your feature branch in a production like environment you can create a pullrequest to main with the label prefix "WIP:". The pullrequest will trigger a preview deployment on Netlify which can be found on github within the pullrequest.
+If you want to deploy your feature branch in a production like environment you can create a pullrequest to main with the label prefix "WIP:". The Pullrequest will trigger a preview deployment on Netlify which can be found on github within the pullrequest.
