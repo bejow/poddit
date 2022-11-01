@@ -22,6 +22,7 @@ src
 ├── pages --> Screens
 ├── routing --> Routing Options (Routes)
 ├── components --> JSX Components
+├── styles --> Styling related (Constants, Mixins, Animations)
 └── states --> Zustand State Management Files
 .husky
 └── --> Commit Hooks
