@@ -8,6 +8,7 @@ import shallow from "zustand/shallow"
 import useUserStore from "../../states/User"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import { Layout } from "../../components/Layout/Layout"
 
 const Login = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
@@ -58,12 +59,12 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <Layout>
       <p>Login</p>
       <p>Status: {isUserLoggedIn().toString()}</p>
       <p>User: {JSON.stringify(user)}</p>
       <button onClick={onLogin}>Login with Inrupt</button>
-    </div>
+    </Layout>
   )
 }
 

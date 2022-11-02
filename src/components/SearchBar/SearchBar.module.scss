@@ -1,0 +1,15 @@
+@import "../../styles/constants.scss";
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  margin: 0 16px;
+}
+
+.searchIcon {
+  padding: 0 4px 0 15px;
+  svg,
+  path {
+    fill: $dark_grey;
+  }
+}

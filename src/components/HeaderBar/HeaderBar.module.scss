@@ -1,0 +1,19 @@
+@import "../../styles/constants.scss";
+
+.wrapper {
+  height: 48px;
+  background-color: $white;
+  width: 100vw;
+  align-items: center;
+}
+
+.content {
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin-right: 20px;
+}

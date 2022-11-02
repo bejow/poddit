@@ -1,0 +1,25 @@
+@import "../../styles/constants.scss";
+
+.search__control {
+  flex-grow: 1 !important;
+  background-color: $lighter_grey !important;
+  height: 38px !important;
+  border-radius: 19px !important;
+  border-color: #edeff1 !important;
+}
+
+.search__menu {
+  margin-top: 3px !important;
+  border: none !important;
+  box-shadow: 0 2px 0 1px hsl(0deg 0% 0% / 10%), 0 4px 11px hsl(0deg 0% 0% / 10%) !important;
+  border-radius: 0 0 4px 4px !important;
+}
+
+.search__control--menu-is-open {
+  border-radius: 19px 19px 0 0 !important;
+  border-bottom: none;
+}
+
+.search__value-container {
+  font-size: 14px;
+}
