@@ -1,4 +1,5 @@
 $screen_mobile: 960px;
+$screen_mobile_s: 620px;
 
 $white: #ffffff;
 $lighter_grey: #f8f9fa;
@@ -11,5 +12,10 @@ $black: #1c1c1c;
 $blue: #0079d3;
 $orangered: #ff4500;
 
-$blue_hover: rgba(0, 121, 211, 0.08);
+$blue_hover: rgba(0, 120, 211, 0.92);
 $dark_hover: rgba(26, 26, 27, 0.1);
+$white_hover: rgba(0, 120, 211, 0.04);
+
+$white_hover_oppacity: 0.96;
+
+$blue_hover_opacity: 0.92;
