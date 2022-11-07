@@ -3,7 +3,7 @@ import Select, { components } from "react-select"
 import styles from "./SearchBar.module.scss"
 import "./Searchbar.scss"
 import SvgSearch from "../icons/Search"
-import { searchBarPlaceholderText } from "../../assets/constants/strings"
+import { SEARCHBAR_PLACEHOLDER } from "../../assets/constants/strings"
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -36,7 +36,7 @@ export const SearchBar = () => {
   return (
     <Select
       classNamePrefix="search"
-      placeholder={searchBarPlaceholderText}
+      placeholder={SEARCHBAR_PLACEHOLDER}
       components={customComponents}
       className={styles.wrapper}
       value={selectedOption}

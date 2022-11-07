@@ -6,6 +6,10 @@
   height: 38px !important;
   border-radius: 19px !important;
   border-color: #edeff1 !important;
+  cursor: text !important;
+  &:hover {
+    border-color: $blue !important;
+  }
 }
 
 .search__menu {
@@ -21,5 +25,5 @@
 }
 
 .search__value-container {
-  font-size: 14px;
+  font-size: 13px;
 }

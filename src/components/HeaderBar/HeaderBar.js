@@ -3,24 +3,40 @@ import SvgPodditLogoS from "../icons/PodditLogoS"
 import SvgPodditLogoOnly from "../icons/PodditLogoOnly"
 import styles from "./HeaderBar.module.scss"
 import { SearchBar } from "../SearchBar/SearchBar"
-
-const screensizepalceholder = 1024
-const breakpointplaceholder = 900
+import { Button } from "../Button/Button"
+import useIsMobile from "../../utils/hooks/useIsMobile"
+import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
+import SvgUserIcon from "../icons/UserIcon"
+import SvgCaretDown from "../icons/CaretDown"
 
 export const HeaderBar = () => {
+  const isMobile = useIsMobile()
+  const isSmallMobile = useIsSmallMobile()
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        {screensizepalceholder > breakpointplaceholder ? (
-          <SvgPodditLogoS className={styles.logo} />
+        {isMobile ? (
+          <SvgPodditLogoOnly className={styles.logo} viewBox="0 0 500 500" height="30" width="30" />
         ) : (
-          <SvgPodditLogoOnly className={styles.logo} />
+          <SvgPodditLogoS className={styles.logo} viewBox="0 0 140 38" />
         )}
         <SearchBar />
-        <div className="loginBtns">
-          <button>SignUp</button>
-          <button>SignIn</button>
-          <button>Profile</button>
+        <div className={styles.buttonWrapper}>
+          {isSmallMobile ? undefined : (
+            <>
+              <Button type="secondary">SignUp</Button>
+              <Button type="primary">Log In</Button>
+            </>
+          )}
+          <div className={styles.profileButton}>
+            <SvgUserIcon className={styles.userIcon} width="20" height="20" viewBox="0 0 100 100" />
+            <SvgCaretDown
+              className={styles.carretIcon}
+              width="20"
+              height="20"
+              viewBox="0 0 300 300"
+            />
+          </div>
         </div>
       </div>
     </div>

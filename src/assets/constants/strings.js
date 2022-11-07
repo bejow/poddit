@@ -1,3 +1,3 @@
-const searchBarPlaceholderText = "Search Poddit"
+const SEARCHBAR_PLACEHOLDER = "Search Poddit"
 
-export { searchBarPlaceholderText }
+export { SEARCHBAR_PLACEHOLDER }
