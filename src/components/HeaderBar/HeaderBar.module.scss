@@ -33,13 +33,15 @@
   path {
     fill: $darker_grey;
   }
-  ::after {
-    content: "\f350";
-  }
 }
 
 .profileButton {
+  margin-left: 2px;
   cursor: pointer;
+  box-sizing: border-box;
+  &:hover {
+    box-shadow: 0 0 0 1px #edeff1;
+  }
 }
 
 .carretIcon {
