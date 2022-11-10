@@ -30,7 +30,11 @@
     "prettier:fix": "prettier --write ./src/**/*.js",
     "lint:github-actions": "node ./node_modules/eslint/bin/eslint ./{src,cypress}/**/*.js --max-warnings 0",
     "prepare": "husky install",
+    "linter": "node ./node_modules/eslint/bin/eslint --max-warnings 0",
     "svgr:convert": "npx @svgr/cli --out-dir ./src/components/icons/ --ignore-existing -- ./src/assets/icons/"
+  },
+  "lint-staged": {
+    "*": "lint:github-actions"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +65,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "netlify-plugin-cypress": "^2.2.0",
     "prettier": "^2.7.1"
   },
