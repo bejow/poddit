@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import styles from "./Button.module.scss"
 import classNames from "classnames"
 
-export const Button = ({ onClick, children, type }) => {
+const Button = ({ onClick, children, type }) => {
   return (
     <div className={classNames(styles.button, styles[type])} onClick={onClick}>
       {children}
@@ -16,3 +16,5 @@ Button.propTypes = {
   children: PropTypes.node,
   type: PropTypes.oneOf(["primary", "secondary"]),
 }
+
+export default Button

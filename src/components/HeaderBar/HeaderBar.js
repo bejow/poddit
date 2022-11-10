@@ -2,16 +2,20 @@ import React from "react"
 import SvgPodditLogoS from "../icons/PodditLogoS"
 import SvgPodditLogoOnly from "../icons/PodditLogoOnly"
 import styles from "./HeaderBar.module.scss"
-import { SearchBar } from "../SearchBar/SearchBar"
-import { Button } from "../Button/Button"
+import SearchBar from "../SearchBar/SearchBar"
+import Button from "../Button/Button"
 import useIsMobile from "../../utils/hooks/useIsMobile"
 import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
 import SvgUserIcon from "../icons/UserIcon"
 import SvgCaretDown from "../icons/CaretDown"
+import useAuth from "../../utils/hooks/useAuth"
 
 export const HeaderBar = () => {
   const isMobile = useIsMobile()
   const isSmallMobile = useIsSmallMobile()
+  const { user, isUserLoggedIn, login } = useAuth()
+  console.log(user)
+  console.log(isUserLoggedIn())
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -25,7 +29,9 @@ export const HeaderBar = () => {
           {isSmallMobile ? undefined : (
             <>
               <Button type="secondary">SignUp</Button>
-              <Button type="primary">Log In</Button>
+              <Button type="primary" onClick={() => login()}>
+                Log In
+              </Button>
             </>
           )}
           <div className={styles.profileButton}>

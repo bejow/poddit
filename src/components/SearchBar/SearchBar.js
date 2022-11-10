@@ -26,7 +26,7 @@ const customComponents = {
   },
 }
 
-export const SearchBar = () => {
+const SearchBar = () => {
   const [selectedOption, setSelectedOption] = useState(null)
 
   const onSelectedChange = (option) => {
@@ -45,3 +45,5 @@ export const SearchBar = () => {
     />
   )
 }
+
+export default SearchBar
