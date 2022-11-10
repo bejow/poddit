@@ -1,3 +1,4 @@
 const SEARCHBAR_PLACEHOLDER = "Search Poddit"
-
-export { SEARCHBAR_PLACEHOLDER }
+const SIGN_UP_TEXT = "SignUp"
+const SIGN_IN_TEXT = "SignIn"
+export { SEARCHBAR_PLACEHOLDER, SIGN_UP_TEXT, SIGN_IN_TEXT }

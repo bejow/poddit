@@ -9,6 +9,7 @@ import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
 import SvgUserIcon from "../icons/UserIcon"
 import SvgCaretDown from "../icons/CaretDown"
 import useAuth from "../../utils/hooks/useAuth"
+import { SIGN_IN_TEXT, SIGN_UP_TEXT } from "../../assets/constants/strings"
 
 export const HeaderBar = () => {
   const isMobile = useIsMobile()
@@ -28,9 +29,9 @@ export const HeaderBar = () => {
         <div className={styles.buttonWrapper}>
           {isSmallMobile ? undefined : (
             <>
-              <Button type="secondary">SignUp</Button>
+              <Button type="secondary">{SIGN_UP_TEXT}</Button>
               <Button type="primary" onClick={() => login()}>
-                Log In
+                {SIGN_IN_TEXT}
               </Button>
             </>
           )}
