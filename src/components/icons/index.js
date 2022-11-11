@@ -1,3 +1,4 @@
+export { default as ArrowUp } from "./ArrowUp"
 export { default as CaretDown } from "./CaretDown"
 export { default as PodditLogo } from "./PodditLogo"
 export { default as PodditLogoOnly } from "./PodditLogoOnly"

@@ -1,11 +1,29 @@
 import React from "react"
-
+import Box from "../../components/Box/Box"
+import styles from "./Login.module.scss"
 import { Layout } from "../../components/Layout/Layout"
+import Feed from "../../components/Feed/Feed"
 
 const Login = () => {
   return (
     <Layout>
-      <p>Unauthed Feed</p>
+      <div className={styles.pageWrapper}>
+        <div className={styles.feedWrapper}>
+          <Feed />
+        </div>
+        <div className={styles.infoWrapper}>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+          <Box>Communities</Box>
+        </div>
+      </div>
     </Layout>
   )
 }

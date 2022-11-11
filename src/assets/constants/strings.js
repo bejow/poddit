@@ -1,4 +1,51 @@
 const SEARCHBAR_PLACEHOLDER = "Search Poddit"
 const SIGN_UP_TEXT = "SignUp"
 const SIGN_IN_TEXT = "SignIn"
-export { SEARCHBAR_PLACEHOLDER, SIGN_UP_TEXT, SIGN_IN_TEXT }
+const VOTE_CONTAINER_TEXT = "Vote"
+const POSTED_BY_TEXT = "Posted by"
+
+const COMMUNITY_ROUTE = "/community"
+const PROFILE_ROUTE = "/profile"
+
+const JUST_NOW_TEXT = "just now"
+const SECOND_TEXT = "second"
+const SECONDS_TEXT = "seconds"
+const MINUTE_TEXT = "minute"
+const MINUTES_TEXT = "minutes"
+const HOUR_TEXT = "hour"
+const HOURS_TEXT = "hours"
+const DAY_TEXT = "day"
+const DAYS_TEXT = "days"
+const WEEK_TEXT = "week"
+const WEEKS_TEXT = "weeks"
+const YEAR_TEXT = "year"
+const YEARS_TEXT = "years"
+
+const AGO_TEXT = "ago"
+
+const COMMENTS_TEXT = "Comments"
+
+export {
+  SEARCHBAR_PLACEHOLDER,
+  SIGN_UP_TEXT,
+  SIGN_IN_TEXT,
+  VOTE_CONTAINER_TEXT,
+  COMMUNITY_ROUTE,
+  POSTED_BY_TEXT,
+  PROFILE_ROUTE,
+  JUST_NOW_TEXT,
+  SECOND_TEXT,
+  SECONDS_TEXT,
+  MINUTE_TEXT,
+  MINUTES_TEXT,
+  HOUR_TEXT,
+  HOURS_TEXT,
+  DAY_TEXT,
+  DAYS_TEXT,
+  WEEK_TEXT,
+  WEEKS_TEXT,
+  YEAR_TEXT,
+  YEARS_TEXT,
+  AGO_TEXT,
+  COMMENTS_TEXT,
+}

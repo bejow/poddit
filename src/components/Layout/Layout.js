@@ -1,12 +1,13 @@
 import React from "react"
 import { HeaderBar } from "../HeaderBar/HeaderBar"
 import PropTypes from "prop-types"
+import styles from "./Layout.module.scss"
 
 export const Layout = ({ children }) => {
   return (
-    <div>
+    <div className={styles.layoutWrapper}>
       <HeaderBar />
-      {children}
+      <div className={styles.childrenWrapper}>{children}</div>
     </div>
   )
 }

@@ -1,0 +1,13 @@
+.childrenWrapper {
+  display: flex;
+  justify-content: center;
+  width: calc(100% - 64px);
+  padding: 24px 32px;
+}
+
+.layoutWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,6 +1,6 @@
 import { isSizeMobile, isSizeSmallMobile } from "./screensize"
 
-describe("Screensize", () => {
+describe("Screensize Utils", () => {
   // 960 is mobile breakpoint
   // 620 is mobile_s breakpoint
   test("isSizeMobile returns true for mobile screens", () => {
