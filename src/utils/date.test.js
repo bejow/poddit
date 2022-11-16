@@ -33,4 +33,27 @@ describe("Date Utils", () => {
 
     expect(results).toMatchObject(assertions)
   })
+  test("getTimeSinceDateString returns undefined for invalid dates / formats", () => {
+    const results = {
+      undefinedInput: getTimeSinceDateString(undefined),
+      nullInput: getTimeSinceDateString(null),
+      emptyStringInput: getTimeSinceDateString(""),
+      invalidStringInput: getTimeSinceDateString("02.11.2022"),
+      numberInput: getTimeSinceDateString(412621),
+      invalidDateInput: getTimeSinceDateString(new Date("WRONG")),
+      futureDateInput: getTimeSinceDateString(new Date("2000-12-25T09:59:59Z")),
+    }
+
+    const assertions = {
+      undefinedInput: undefined,
+      nullInput: undefined,
+      emptyStringInput: undefined,
+      invalidStringInput: undefined,
+      numberInput: undefined,
+      invalidDateInput: undefined,
+      futureDateInput: undefined,
+    }
+
+    expect(results).toMatchObject(assertions)
+  })
 })
