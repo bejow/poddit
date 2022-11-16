@@ -16,7 +16,9 @@ const useAuth = () => {
   )
 
   useEffect(() => {
-    onRedirectAfterLogin()
+    if (!isUserLoggedIn()) {
+      onRedirectAfterLogin()
+    }
   }, [])
 
   const location = useLocation()
