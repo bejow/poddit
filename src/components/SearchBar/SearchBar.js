@@ -30,7 +30,6 @@ const SearchBar = () => {
   const [selectedOption, setSelectedOption] = useState(null)
 
   const onSelectedChange = (option) => {
-    console.log(option)
     setSelectedOption(option)
   }
   return (

@@ -1,7 +1,7 @@
 import React from "react"
 import Box from "../../components/Box/Box"
 import styles from "./Login.module.scss"
-import { Layout } from "../../components/Layout/Layout"
+import Layout from "../../components/Layout/Layout"
 import Feed from "../../components/Feed/Feed"
 
 const Login = () => {

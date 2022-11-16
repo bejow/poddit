@@ -3,9 +3,10 @@ import styles from "./Input.module.scss"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 
-const Input = ({ name, onChange, value, placeholder, className }) => {
+const Input = ({ name, onChange, value, placeholder, className, onClick }) => {
   return (
     <input
+      onClick={onClick}
       className={classNames(className, styles.input)}
       name={name}
       onChange={onChange}
@@ -16,6 +17,7 @@ const Input = ({ name, onChange, value, placeholder, className }) => {
 }
 
 Input.propTypes = {
+  onClick: PropTypes.func,
   className: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,

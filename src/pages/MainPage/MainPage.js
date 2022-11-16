@@ -2,10 +2,10 @@ import React from "react"
 import Box from "../../components/Box/Box"
 import Feed from "../../components/Feed/Feed"
 import PostInputBox from "../../components/PostInputBox/PostInputBox"
-import { Layout } from "../../components/Layout/Layout"
+import Layout from "../../components/Layout/Layout"
 import styles from "./MainPage.module.scss"
 
-export const MainPage = () => {
+const MainPage = () => {
   return (
     <Layout>
       <div className={styles.pageWrapper}>
@@ -29,3 +29,5 @@ export const MainPage = () => {
     </Layout>
   )
 }
+
+export default MainPage

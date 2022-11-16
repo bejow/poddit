@@ -3,7 +3,7 @@ import { HeaderBar } from "../HeaderBar/HeaderBar"
 import PropTypes from "prop-types"
 import styles from "./Layout.module.scss"
 
-export const Layout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
     <div className={styles.layoutWrapper}>
       <HeaderBar />
@@ -15,3 +15,5 @@ export const Layout = ({ children }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
+
+export default Layout

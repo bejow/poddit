@@ -10,13 +10,46 @@ import SvgUserIcon from "../icons/UserIcon"
 import SvgCaretDown from "../icons/CaretDown"
 import useAuth from "../../utils/hooks/useAuth"
 import { SIGN_IN_TEXT, SIGN_UP_TEXT } from "../../assets/constants/strings"
-
+import { getNameFromWebId } from "../../utils/webId"
+import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 export const HeaderBar = () => {
   const isMobile = useIsMobile()
   const isSmallMobile = useIsSmallMobile()
   const { user, isUserLoggedIn, login } = useAuth()
-  console.log(user)
-  console.log(isUserLoggedIn())
+
+  const renderButtons = () => {
+    return (
+      <div className={styles.buttonWrapper}>
+        {renderAuthButtons()}
+        {renderProfileButton()}
+      </div>
+    )
+  }
+
+  const renderAuthButtons = () =>
+    isSmallMobile || isUserLoggedIn() ? undefined : (
+      <>
+        <Button type="secondary">{SIGN_UP_TEXT}</Button>
+        <Button type="primary" onClick={() => login()}>
+          {SIGN_IN_TEXT}
+        </Button>
+      </>
+    )
+
+  const renderProfileButton = () =>
+    isUserLoggedIn() ? (
+      <div className={styles.profileButton}>
+        <SvgUnknownUserIcon className={styles.unknownUserIcon} />
+        <span className={styles.usernameText}>{getNameFromWebId(user.info.webId)}</span>
+        <SvgCaretDown className={styles.carretIcon} width="16" height="16" viewBox="0 0 250 250" />
+      </div>
+    ) : (
+      <div className={styles.profileButton}>
+        <SvgUserIcon className={styles.userIcon} width="20" height="20" viewBox="0 0 100 100" />
+        <SvgCaretDown className={styles.carretIcon} width="20" height="20" viewBox="0 0 300 300" />
+      </div>
+    )
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -26,25 +59,7 @@ export const HeaderBar = () => {
           <SvgPodditLogoS className={styles.logo} viewBox="0 0 140 38" />
         )}
         <SearchBar />
-        <div className={styles.buttonWrapper}>
-          {isSmallMobile ? undefined : (
-            <>
-              <Button type="secondary">{SIGN_UP_TEXT}</Button>
-              <Button type="primary" onClick={() => login()}>
-                {SIGN_IN_TEXT}
-              </Button>
-            </>
-          )}
-          <div className={styles.profileButton}>
-            <SvgUserIcon className={styles.userIcon} width="20" height="20" viewBox="0 0 100 100" />
-            <SvgCaretDown
-              className={styles.carretIcon}
-              width="20"
-              height="20"
-              viewBox="0 0 300 300"
-            />
-          </div>
-        </div>
+        {renderButtons()}
       </div>
     </div>
   )
