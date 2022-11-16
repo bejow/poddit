@@ -1,0 +1,39 @@
+@import "../../styles/constants.scss";
+
+.pageWrapper {
+  display: flex;
+  flex-grow: 1;
+  max-width: 974px;
+}
+
+.postInputBox {
+  margin-bottom: 16px;
+}
+
+.feedWrapper {
+  width: 100%;
+}
+
+.infoWrapper {
+  display: none;
+  width: 312px;
+
+  & > * {
+    margin-top: 18px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (min-width: $screen_mobile) {
+  .infoWrapper {
+    display: initial;
+  }
+
+  .feedWrapper {
+    // flex-basis: calc(100% - 388px);
+    margin-right: 28px;
+  }
+}

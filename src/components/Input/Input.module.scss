@@ -1,0 +1,14 @@
+@import "../../styles/constants.scss";
+
+.input {
+  background-color: $lighter_grey;
+  border: 1px solid #edeff1;
+  height: 38px;
+  outline: none;
+  padding: 0 16px;
+  border-radius: 4px;
+  &:hover {
+    background-color: $white;
+    border: 1px solid $blue;
+  }
+}

@@ -3,6 +3,7 @@ const SIGN_UP_TEXT = "SignUp"
 const SIGN_IN_TEXT = "SignIn"
 const VOTE_CONTAINER_TEXT = "Vote"
 const POSTED_BY_TEXT = "Posted by"
+const CREATE_POST_PLACEHOLDER = "Create Post"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -48,4 +49,5 @@ export {
   YEARS_TEXT,
   AGO_TEXT,
   COMMENTS_TEXT,
+  CREATE_POST_PLACEHOLDER,
 }
