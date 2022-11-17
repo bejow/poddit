@@ -6,26 +6,27 @@ import Layout from "../../components/Layout/Layout"
 import styles from "./MainPage.module.scss"
 
 const MainPage = () => {
-  return (
-    <Layout>
-      <div className={styles.pageWrapper}>
-        <div className={styles.feedWrapper}>
-          <PostInputBox className={styles.postInputBox} />
-          <Feed />
-        </div>
-        <div className={styles.infoWrapper}>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-        </div>
+  const renderInfo = () => {
+    return (
+      <div>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
+        <Box>Communities</Box>
       </div>
+    )
+  }
+
+  return (
+    <Layout infoContent={renderInfo()}>
+      <PostInputBox className={styles.postInputBox} />
+      <Feed />
     </Layout>
   )
 }

@@ -15,13 +15,7 @@ const PostCreate = () => {
           <Feed />
         </div>
         <div className={styles.infoWrapper}>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-
-          <Box>Communities</Box>
-          <Box>Communities</Box>
-          <Box>Communities</Box>
+          <Box>Posting to Reddit Disclaimer</Box>
         </div>
       </div>
     </Layout>
