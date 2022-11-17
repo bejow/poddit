@@ -1,0 +1,15 @@
+@import "../../styles/constants.scss";
+
+.button {
+  border: none;
+  padding: 8px;
+  font-size: 12px;
+  font-family: "IBM Plex Sans";
+  font-weight: 800;
+  color: $darker_grey;
+  background-color: $white;
+  cursor: pointer;
+  &:hover {
+    background-color: $grey_hover;
+  }
+}

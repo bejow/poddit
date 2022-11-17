@@ -1,0 +1,48 @@
+@import "../../styles/constants.scss";
+
+.unknownUserIcon {
+  cursor: pointer;
+  fill: $white;
+  background: $icon_background_grey;
+  border-radius: 50%;
+  margin-right: 8px;
+  width: 38px;
+  height: 38px;
+}
+
+.linkIcon {
+  stroke: $darker_grey;
+  margin: 1px;
+  border-radius: 4px;
+  padding: 6px;
+  cursor: pointer;
+  &:hover {
+    background-color: $grey_hover;
+  }
+}
+
+.icon {
+  padding: 6px;
+  margin: 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  svg,
+  path {
+    fill: $darker_grey;
+  }
+  &:hover {
+    background-color: $grey_hover;
+  }
+}
+
+.input {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.postInputContainer {
+  padding: 8px;
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+}

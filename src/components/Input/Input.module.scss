@@ -1,0 +1,15 @@
+@import "../../styles/constants.scss";
+
+.input {
+  background-color: $lighter_grey;
+  flex-grow: 1;
+  border: 1px solid $button_border_grey;
+  height: 38px;
+  outline: none;
+  padding: 0 16px;
+  border-radius: 4px;
+  &:hover {
+    background-color: $white;
+    border: 1px solid $blue;
+  }
+}

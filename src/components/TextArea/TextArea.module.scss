@@ -1,0 +1,33 @@
+@import "../../styles/constants.scss";
+
+.textArea {
+  resize: none;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  font-family: "IBM Plex Sans";
+  background-color: $white;
+  width: 100%;
+  border: 1px solid $button_border_grey;
+  box-sizing: border-box;
+  height: 39px;
+  outline: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  &.wordcountMargin {
+    padding: 8px 72px 8px 16px;
+  }
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.charCount {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  color: $darker_grey;
+}

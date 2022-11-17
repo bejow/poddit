@@ -1,0 +1,33 @@
+@import "../../styles/constants.scss";
+
+.community__indicator-separator {
+  display: none;
+}
+
+.community__control {
+  &:hover {
+    border: 1px solid $color_medium_border;
+  }
+}
+
+.community__indicator {
+  color: $darker_grey;
+  cursor: pointer;
+  &:hover {
+    color: $darker_grey;
+  }
+}
+
+.community__placeholder {
+  font-weight: 500;
+  color: $black;
+  font-size: 14px !important;
+  font-family: "IBM Plex Sans" !important;
+}
+
+.community__input {
+  font-weight: 500;
+  color: $black;
+  font-size: 14px !important;
+  font-family: "IBM Plex Sans" !important;
+}

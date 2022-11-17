@@ -1,0 +1,116 @@
+@import "../../styles/constants.scss";
+
+.container {
+  margin-top: 10px;
+  display: flex;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.header {
+  display: flex;
+  padding: 0 8px 8px 8px;
+  align-items: center;
+}
+
+.postTitle {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  padding-right: 8px;
+}
+
+.postText {
+  font-family: "Noto Sans";
+  font-size: 14px;
+  font-weight: 100;
+  position: relative;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent 150px, $white);
+  }
+}
+
+.content {
+  padding: 0 8px;
+}
+
+.voteContainer {
+  display: flex;
+  padding: 8px;
+  flex-direction: column;
+  background-color: $lighter_grey;
+  align-items: center;
+}
+
+.contentContainer {
+  padding-top: 8px;
+  font-size: 12px;
+}
+
+.postedByText {
+  margin-right: 4px;
+}
+
+.voteText {
+  font-weight: 700;
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+.communityLink {
+  font-weight: 700;
+  text-decoration: none;
+  color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.userLink {
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.smallText {
+  color: $dark_grey;
+}
+
+.dotSeperator {
+  margin: 0 4px;
+  font-size: 8px;
+  color: $dark_grey;
+}
+
+.voteIcon {
+  padding: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+  path {
+    stroke: $darker_grey;
+  }
+  &:hover {
+    background-color: $grey_hover;
+    path {
+      stroke: $orangered;
+    }
+  }
+}
+
+.downvoteIcon {
+  transform: rotate(180deg);
+  &:hover {
+    path {
+      stroke: $blue;
+    }
+  }
+}

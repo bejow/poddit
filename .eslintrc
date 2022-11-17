@@ -22,6 +22,7 @@
     "indent": ["error", 2],
     "max-len": ["error", { "code": 100, "comments": 65, "tabWidth": 4 }]
   },
+  "ignorePatterns": ["**/icons/*.js"],
   "globals": {
     // Fix testing "undefined" linting errors
     "cy": true,
@@ -30,6 +31,8 @@
     "module": true,
     "require": true,
     "test": true,
-    "expect": true
+    "expect": true,
+    "global": true,
+    "jest": true
   }
 }

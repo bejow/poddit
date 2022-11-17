@@ -1,0 +1,9 @@
+@import "./styles/constants.scss";
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $light_grey;
+}

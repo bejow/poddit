@@ -1,0 +1,48 @@
+@import "../../styles/constants.scss";
+
+.button {
+  position: relative;
+  color: $darker_grey;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  border-color: $button_border_grey;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  border-radius: 0;
+  flex: 1;
+  background-color: transparent;
+  padding: 15px 17px;
+  &:last-child {
+    border-width: 0 0 1px 0;
+  }
+  &:hover {
+    background-color: $white_hover;
+    &.disabled {
+      background: transparent;
+    }
+  }
+}
+
+.active {
+  color: $blue;
+  svg,
+  path {
+    fill: $blue;
+  }
+  &::after {
+    position: absolute;
+    height: 2px;
+    background-color: $blue;
+    left: 0;
+    right: 0;
+    content: " ";
+    bottom: -1px;
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  color: $disabled_grey;
+}
