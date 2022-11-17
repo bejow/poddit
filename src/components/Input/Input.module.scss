@@ -2,7 +2,8 @@
 
 .input {
   background-color: $lighter_grey;
-  border: 1px solid #edeff1;
+  flex-grow: 1;
+  border: 1px solid $button_border_grey;
   height: 38px;
   outline: none;
   padding: 0 16px;

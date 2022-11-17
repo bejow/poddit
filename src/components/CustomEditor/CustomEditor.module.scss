@@ -1,0 +1,43 @@
+@import "../../styles/constants.scss";
+
+.editorContainer {
+  min-height: 200px;
+}
+
+.wrapper {
+  border: 1px solid $button_border_grey;
+  border-radius: 4px;
+  &:focus-within {
+    border: 1px solid $black;
+  }
+}
+
+.editor {
+  resize: vertical;
+  min-height: 150px;
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+.toolbar {
+  background-color: $lighter_grey !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 5px !important;
+  height: 32px !important;
+}
+
+.optionButton {
+  color: $darker_grey !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 4px !important;
+  width: 32px !important;
+  height: 32px !important;
+  background-color: transparent !important;
+  &:hover {
+    box-shadow: none !important;
+    background-color: $grey_hover !important;
+  }
+}

@@ -12,7 +12,10 @@ import useAuth from "../../utils/hooks/useAuth"
 import { SIGN_IN_TEXT, SIGN_UP_TEXT } from "../../assets/constants/strings"
 import { getNameFromWebId } from "../../utils/webId"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
+import { useNavigate } from "react-router-dom"
+import paths from "../../routing/routePaths"
 export const HeaderBar = () => {
+  const navigate = useNavigate()
   const isMobile = useIsMobile()
   const isSmallMobile = useIsSmallMobile()
   const { user, isUserLoggedIn, login } = useAuth()
@@ -54,9 +57,19 @@ export const HeaderBar = () => {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         {isMobile ? (
-          <SvgPodditLogoOnly className={styles.logo} viewBox="0 0 500 500" height="30" width="30" />
+          <SvgPodditLogoOnly
+            onClick={() => navigate(paths.main)}
+            className={styles.logo}
+            viewBox="0 0 500 500"
+            height="30"
+            width="30"
+          />
         ) : (
-          <SvgPodditLogoS className={styles.logo} viewBox="0 0 140 38" />
+          <SvgPodditLogoS
+            onClick={() => navigate(paths.main)}
+            className={styles.logo}
+            viewBox="0 0 140 38"
+          />
         )}
         <SearchBar />
         {renderButtons()}

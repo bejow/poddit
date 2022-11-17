@@ -1,1 +1,49 @@
 @import "../../styles/constants.scss";
+
+.heading {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  height: 34px;
+  font-family: "IBM Plex Sans";
+  color: $black;
+}
+
+.communityIcon {
+  margin-left: 8px;
+  svg,
+  path {
+    fill: $darker_grey;
+  }
+}
+
+.headingContainer {
+  padding: 4px;
+  margin: 16px 0;
+  border-bottom: 1px solid $button_border_grey;
+}
+
+.wrapper {
+  width: 300px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.postFormContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.textAreaWrapper {
+  margin-bottom: 8px;
+}
+
+.inputContainer {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}

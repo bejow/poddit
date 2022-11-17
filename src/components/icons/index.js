@@ -1,5 +1,6 @@
 export { default as ArrowUp } from "./ArrowUp"
 export { default as CaretDown } from "./CaretDown"
+export { default as DottedCircle } from "./DottedCircle"
 export { default as LinkIcon } from "./LinkIcon"
 export { default as MediaIcon } from "./MediaIcon"
 export { default as PodditLogo } from "./PodditLogo"

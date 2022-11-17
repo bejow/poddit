@@ -1,0 +1,17 @@
+@import "../../styles/constants.scss";
+
+.public-DraftStyleDefault-block {
+  margin: 0 !important;
+}
+
+.public-DraftEditorPlaceholder-hasFocus {
+  color: $darker_grey !important;
+}
+
+.public-DraftEditorPlaceholder-root {
+  color: $darker_grey !important;
+}
+
+.DraftEditor-root {
+  height: calc(100% - 18px) !important;
+}

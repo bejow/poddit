@@ -1,9 +1,13 @@
 const SEARCHBAR_PLACEHOLDER = "Search Poddit"
+const SEARCHBAR_COMMUNITY_PLACEHOLDER = "Choose a community"
+const INPUT_TITLE_PLACEHOLDER = "Title"
 const SIGN_UP_TEXT = "SignUp"
 const SIGN_IN_TEXT = "SignIn"
 const VOTE_CONTAINER_TEXT = "Vote"
 const POSTED_BY_TEXT = "Posted by"
 const CREATE_POST_PLACEHOLDER = "Create Post"
+const CREATE_POST_HEADING = "Create a post"
+const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -50,4 +54,8 @@ export {
   AGO_TEXT,
   COMMENTS_TEXT,
   CREATE_POST_PLACEHOLDER,
+  CREATE_POST_HEADING,
+  SEARCHBAR_COMMUNITY_PLACEHOLDER,
+  INPUT_TITLE_PLACEHOLDER,
+  CREATE_POST_TEXT_PLACEHOLDER,
 }
