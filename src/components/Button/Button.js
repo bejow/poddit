@@ -14,7 +14,7 @@ const Button = ({ onClick, children, type }) => {
 Button.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.node,
-  type: PropTypes.oneOf(["primary", "secondary"]),
+  type: PropTypes.oneOf(["primary", "secondary", "disabled"]),
 }
 
 export default Button

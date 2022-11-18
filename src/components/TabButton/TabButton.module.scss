@@ -2,6 +2,9 @@
 
 .button {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: $darker_grey;
   font-size: 14px;
   font-weight: 700;
@@ -11,7 +14,7 @@
   border-style: solid;
   border-width: 0 1px 1px 0;
   border-radius: 0;
-  flex: 1;
+  flex-grow: 1;
   background-color: transparent;
   padding: 15px 17px;
   &:last-child {
@@ -45,4 +48,11 @@
 .disabled {
   cursor: not-allowed;
   color: $disabled_grey;
+  & > svg {
+    svg,
+    path {
+      fill: $disabled_grey;
+      stroke: $disabled_grey;
+    }
+  }
 }

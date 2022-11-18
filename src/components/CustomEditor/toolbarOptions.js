@@ -1,7 +1,7 @@
 import styles from "./CustomEditor.module.scss"
 
 const toolbarOptions = {
-  options: ["inline", "list", "link", "image"],
+  options: ["inline", "list", "link"],
   inline: {
     inDropdown: false,
     className: undefined,
