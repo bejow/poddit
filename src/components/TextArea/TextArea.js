@@ -15,7 +15,7 @@ const TextArea = ({
 }) => {
   const matchTextareaHeightToContent = (e) => {
     e.target.style.height = "inherit"
-    e.target.style.height = `${e.target.scrollHeight + 3}px`
+    e.target.style.height = `${e.target.scrollHeight + 5}px`
   }
 
   const [charCount, setCharCount] = useState(0)

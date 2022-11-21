@@ -5,11 +5,7 @@ import Box from "../../components/Box/Box"
 import "./PostCreate.scss"
 import Layout from "../../components/Layout/Layout"
 import {
-  CREATE_POST_BUTTON_TEXT,
-  CREATE_POST_DRAFT_BUTTON_TEXT,
   CREATE_POST_HEADING,
-  CREATE_POST_TEXT_PLACEHOLDER,
-  INPUT_TITLE_PLACEHOLDER,
   RULES_TITLE_TEXT,
   SEARCHBAR_COMMUNITY_PLACEHOLDER,
   TABBUTTON_IMAGES_VIDEOS,
@@ -21,14 +17,11 @@ import {
 import SvgDottedCircle from "../../components/icons/DottedCircle"
 import TabButton from "../../components/TabButton/TabButton"
 import TabBar from "../../components/TabBar/TabBar"
-import TextArea from "../../components/TextArea/TextArea"
-import CustomEditor from "../../components/CustomEditor/CustomEditor"
-import { EditorState } from "draft-js"
-import Button from "../../components/Button/Button"
 import RuleBox from "../../components/RuleBox/RuleBox"
 import { RULES } from "../../assets/constants/rules"
 import SvgMediaIcon from "../../components/icons/MediaIcon"
 import SvgLinkIcon from "../../components/icons/LinkIcon"
+import TextPost from "./TextPost"
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -56,11 +49,18 @@ const customComponents = {
 
 const PostCreate = () => {
   const [selectedOption, setSelectedOption] = useState(null)
-  const [title, setTitle] = useState("")
-  const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
-
+  const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
   const onSelectedChange = (option) => {
     setSelectedOption(option)
+  }
+
+  const renderTabContent = () => {
+    switch (currentTab) {
+      case TABBUTTON_POST:
+        return <TextPost community={selectedOption} />
+      default:
+        return null
+    }
   }
 
   return (
@@ -85,7 +85,9 @@ const PostCreate = () => {
       </div>
       <Box noBorder className={styles.postFormContainer}>
         <TabBar>
-          <TabButton active>{TABBUTTON_POST}</TabButton>
+          <TabButton onClick={() => setCurrentTab(TABBUTTON_POST)} active>
+            {TABBUTTON_POST}
+          </TabButton>
           <TabButton disabled>
             <SvgMediaIcon viewBox="0 0 24 24" width={20} height={20} className={styles.icon} />{" "}
             {TABBUTTON_IMAGES_VIDEOS}
@@ -97,32 +99,7 @@ const PostCreate = () => {
           <TabButton disabled>{TABBUTTON_POLL}</TabButton>
           <TabButton disabled>{TABBUTTON_TALK}</TabButton>
         </TabBar>
-        <div className={styles.inputContainer}>
-          <div className={styles.textAreaWrapper}>
-            <TextArea
-              onChange={(event) => setTitle(event.target.value)}
-              displayWordCount
-              rows={1}
-              maxLength={300}
-              placeholder={INPUT_TITLE_PLACEHOLDER}
-              value={title}
-              className={styles.titleInput}
-            />
-          </div>
-          <CustomEditor
-            onChange={(editorState) => setEditorState(editorState)}
-            editorState={editorState}
-            placeholder={CREATE_POST_TEXT_PLACEHOLDER}
-          />
-        </div>
-        <div className={styles.submitButtonContainer}>
-          <Button className={styles.submitButton} type="disabled">
-            {CREATE_POST_DRAFT_BUTTON_TEXT}
-          </Button>
-          <Button className={styles.submitButton} type="primary">
-            {CREATE_POST_BUTTON_TEXT}
-          </Button>
-        </div>
+        {renderTabContent()}
       </Box>
     </Layout>
   )
