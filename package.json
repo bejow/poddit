@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@inrupt/solid-client": "^1.23.3",
     "@inrupt/solid-client-authn-browser": "^1.12.2",
+    "@inrupt/vocab-common-rdf": "^1.0.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -33,7 +35,8 @@
     "lint:github-actions": "node ./node_modules/eslint/bin/eslint ./{src,cypress}/**/*.js --max-warnings 0",
     "prepare": "husky install",
     "linter": "node ./node_modules/eslint/bin/eslint --max-warnings 0",
-    "svgr:convert": "npx @svgr/cli --out-dir ./src/components/icons/ --ignore-existing -- ./src/assets/icons/"
+    "svgr:convert": "npx @svgr/cli --out-dir ./src/components/icons/ --ignore-existing -- ./src/assets/icons/",
+    "generate:shex": "shex-codegen generate && eslint --fix src/generated"
   },
   "lint-staged": {
     "*": "lint:github-actions"

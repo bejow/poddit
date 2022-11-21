@@ -13,9 +13,20 @@ import { EditorState } from "draft-js"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Button from "../../components/Button/Button"
 import TextArea from "../../components/TextArea/TextArea"
+import getProfile from "../../utils/profile"
+import useAuth from "../../utils/hooks/useAuth"
 
 const TextPost = ({ community }) => {
+  const { user } = useAuth()
+
+  const [profile, setProfile] = useState({})
+  console.log(user)
+  getProfile(user.info.webId, (profile) => {
+    setProfile(profile)
+  })
   console.log(community)
+  console.log(profile)
+
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const [postState, setPostState] = useState({ title: "" })
   return (
@@ -37,6 +48,7 @@ const TextPost = ({ community }) => {
           editorState={editorState}
           placeholder={CREATE_POST_TEXT_PLACEHOLDER}
         />
+        <p>{profile.name ? profile.name : "nope"}</p>
       </div>
       <div className={styles.submitButtonContainer}>
         <Button className={styles.submitButton} type="disabled">
