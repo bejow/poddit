@@ -8,6 +8,7 @@ import shallow from "zustand/shallow"
 import useUserStore from "../../states/User"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import { getPodUrl } from "../rdfHelper"
 
 const useAuth = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
@@ -49,7 +50,8 @@ const useAuth = () => {
     // check for login state
     if (session?.info?.isLoggedIn) {
       // successful Login
-      setUser(session)
+      const pods = await getPodUrl(session)
+      setUser({ ...session, pods })
       if (from) {
         // Redirect User to Page visited before Login
         navigate(from)

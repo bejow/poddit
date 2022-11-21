@@ -19,7 +19,7 @@ const Layout = ({ children, infoContent, contentSize }) => {
 }
 
 Layout.propTypes = {
-  contentSize: PropTypes.oneOf("s", "m", "l"),
+  contentSize: PropTypes.oneOf(["s", "m", "l"]),
   children: PropTypes.node.isRequired,
   infoContent: PropTypes.node,
 }

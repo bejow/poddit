@@ -9,26 +9,32 @@ import {
   INPUT_TITLE_PLACEHOLDER,
 } from "../../assets/constants/strings"
 
-import { EditorState } from "draft-js"
+import { convertToRaw, EditorState } from "draft-js"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Button from "../../components/Button/Button"
 import TextArea from "../../components/TextArea/TextArea"
-import getProfile from "../../utils/profile"
 import useAuth from "../../utils/hooks/useAuth"
+import { postText } from "../../utils/rdfHelper"
 
 const TextPost = ({ community }) => {
   const { user } = useAuth()
-
-  const [profile, setProfile] = useState({})
-  console.log(user)
-  getProfile(user.info.webId, (profile) => {
-    setProfile(profile)
-  })
-  console.log(community)
-  console.log(profile)
-
+  console.log("User:", user)
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const [postState, setPostState] = useState({ title: "" })
+
+  const onSubmit = () => {
+    postText(
+      user,
+      {
+        community,
+        title: postState.title,
+        content: convertToRaw(editorState.getCurrentContent()),
+      },
+      (result) => {
+        console.log(result)
+      },
+    )
+  }
   return (
     <div>
       <div className={styles.inputContainer}>
@@ -48,13 +54,12 @@ const TextPost = ({ community }) => {
           editorState={editorState}
           placeholder={CREATE_POST_TEXT_PLACEHOLDER}
         />
-        <p>{profile.name ? profile.name : "nope"}</p>
       </div>
       <div className={styles.submitButtonContainer}>
         <Button className={styles.submitButton} type="disabled">
           {CREATE_POST_DRAFT_BUTTON_TEXT}
         </Button>
-        <Button className={styles.submitButton} type="primary">
+        <Button className={styles.submitButton} onClick={onSubmit} type="primary">
           {CREATE_POST_BUTTON_TEXT}
         </Button>
       </div>
