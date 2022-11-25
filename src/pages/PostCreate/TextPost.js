@@ -9,7 +9,7 @@ import {
   INPUT_TITLE_PLACEHOLDER,
 } from "../../assets/constants/strings"
 
-import { convertToRaw, EditorState } from "draft-js"
+import { EditorState } from "draft-js"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Button from "../../components/Button/Button"
 import TextArea from "../../components/TextArea/TextArea"
@@ -28,7 +28,7 @@ const TextPost = ({ community }) => {
       {
         community,
         title: postState.title,
-        content: convertToRaw(editorState.getCurrentContent()),
+        content: editorState.getCurrentContent().getPlainText(),
       },
       (result) => {
         console.log(result)

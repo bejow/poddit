@@ -11,10 +11,15 @@ import {
   setThing,
   saveSolidDatasetAt,
   saveSolidDatasetInContainer,
+  createAcl,
+  getResourceAcl,
+  getSolidDatasetWithAcl,
+  saveAclFor,
 } from "@inrupt/solid-client"
 import { FOAF, RDF, RDFS, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf"
+import { universalAccess } from "@inrupt/solid-client"
 import { PUBLIC_CONTAINER } from "../assets/constants/pod"
-import { getNameFromWebId } from "./webId"
+import { v4 as uuidv4 } from "uuid"
 
 const postText = async (user, post, callback) => {
   const profileURL = new URL(user.info.webId)
@@ -27,24 +32,60 @@ const postText = async (user, post, callback) => {
   //   fetch: user.fetch,
   // })
 
+  const uuid = uuidv4()
+  const timestamp = Date.now()
+  const identifier = `poddit-${timestamp}-${uuid}`
   var postSolidDataset = createSolidDataset()
+  var commentSolidDataset = createSolidDataset()
+  const commentsThing = buildThing(
+    createThing({
+      name: `poddit-comments-${timestamp}-${uuid}`,
+    }),
+  )
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
+    .addStringNoLocale(RDF.List, JSON.stringify(["test"]))
+    .addUrl(RDF.type, "https://schema.org/comment")
+    .build()
 
-  const postThing = buildThing(createThing({ name: "book1" }))
-    .addStringNoLocale(SCHEMA_INRUPT.name, "ABC123 of Example Literature")
-    .addUrl(RDF.type, "https://schema.org/Book")
+  const postThing = buildThing(createThing({ name: identifier }))
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
+    .addStringEnglish(SCHEMA_INRUPT.name, post.title)
+    .addStringEnglish(SCHEMA_INRUPT.text, post.content)
+    .addStringNoLocale(SCHEMA_INRUPT.image, "insert link to image HERE <---")
+    .addUrl(RDF.type, "https://schema.org/SocialMediaPosting")
+    .addUrl("https://schema.org/comment", commentsThing)
     .build()
 
   postSolidDataset = setThing(postSolidDataset, postThing)
+  commentSolidDataset = setThing(commentSolidDataset, commentsThing)
 
-  const savedSolidDataset = await saveSolidDatasetInContainer(
-    user.pods[0] + PUBLIC_CONTAINER,
+  const savedSolidPostDataset = await saveSolidDatasetAt(
+    user.pods[0] + PUBLIC_CONTAINER + identifier,
     postSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
 
-  console.log(savedSolidDataset)
-  callback(savedSolidDataset)
-  return savedSolidDataset
+  const savedSolidCommentDataset = await saveSolidDatasetAt(
+    user.pods[0] + PUBLIC_CONTAINER + identifier + "/comments",
+    commentSolidDataset,
+    { fetch: user.fetch }, // fetch from authenticated Session
+  )
+
+  console.log(savedSolidCommentDataset)
+  console.log(savedSolidCommentDataset.internal_resourceInfo)
+
+  const access = await setPublicAccess(
+    savedSolidCommentDataset.internal_resourceInfo.sourceIri, // Resource
+    { read: true, write: false, append: true }, // Access object
+    { fetch: user.fetch }, // fetch function from authenticated session
+  )
+
+  await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
+
+  console.log(access)
+  console.log([savedSolidPostDataset, savedSolidCommentDataset])
+  callback([savedSolidPostDataset, savedSolidCommentDataset])
+  return [savedSolidPostDataset, savedSolidCommentDataset]
 }
 
 const getProfile = async (webId, callback) => {
