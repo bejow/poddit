@@ -15,6 +15,8 @@ import {
   getResourceAcl,
   getSolidDatasetWithAcl,
   saveAclFor,
+  createContainerAt,
+  getPublicAccess,
 } from "@inrupt/solid-client"
 import { FOAF, RDF, RDFS, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf"
 import { universalAccess } from "@inrupt/solid-client"
@@ -59,14 +61,26 @@ const postText = async (user, post, callback) => {
   postSolidDataset = setThing(postSolidDataset, postThing)
   commentSolidDataset = setThing(commentSolidDataset, commentsThing)
 
-  const savedSolidPostDataset = await saveSolidDatasetAt(
-    user.pods[0] + PUBLIC_CONTAINER + identifier,
+  const container = await createContainerAt(user.pods[0] + PUBLIC_CONTAINER + identifier, {
+    fetch: user.fetch,
+  })
+  console.log(container)
+
+  const savedSolidPostDataset = await saveSolidDatasetInContainer(
+    container.internal_resourceInfo.sourceIri,
     postSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
 
-  const savedSolidCommentDataset = await saveSolidDatasetAt(
+  const container2 = await createContainerAt(
     user.pods[0] + PUBLIC_CONTAINER + identifier + "/comments",
+    {
+      fetch: user.fetch,
+    },
+  )
+
+  const savedSolidCommentDataset = await saveSolidDatasetInContainer(
+    container2.internal_resourceInfo.sourceIri,
     commentSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
@@ -74,13 +88,13 @@ const postText = async (user, post, callback) => {
   console.log(savedSolidCommentDataset)
   console.log(savedSolidCommentDataset.internal_resourceInfo)
 
-  const access = await setPublicAccess(
+  const access = await universalAccess.setPublicAccess(
     savedSolidCommentDataset.internal_resourceInfo.sourceIri, // Resource
     { read: true, write: false, append: true }, // Access object
     { fetch: user.fetch }, // fetch function from authenticated session
   )
 
-  await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
+  // await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
 
   console.log(access)
   console.log([savedSolidPostDataset, savedSolidCommentDataset])
