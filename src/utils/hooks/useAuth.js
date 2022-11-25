@@ -36,7 +36,7 @@ const useAuth = () => {
     }
 
     login({
-      oidcIssuer: "https://inrupt.net",
+      oidcIssuer: "https://login.inrupt.com",
       clientName: "Poddit - Decentral Reddit",
       redirectUrl,
     })
