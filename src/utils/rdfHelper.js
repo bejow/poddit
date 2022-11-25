@@ -61,18 +61,18 @@ const postText = async (user, post, callback) => {
   postSolidDataset = setThing(postSolidDataset, postThing)
   commentSolidDataset = setThing(commentSolidDataset, commentsThing)
 
-  const container = await createContainerAt(user.pods[0] + PUBLIC_CONTAINER + identifier, {
+  const postContainer = await createContainerAt(user.pods[0] + PUBLIC_CONTAINER + identifier, {
     fetch: user.fetch,
   })
-  console.log(container)
+  console.log(postContainer)
 
   const savedSolidPostDataset = await saveSolidDatasetInContainer(
-    container.internal_resourceInfo.sourceIri,
+    postContainer.internal_resourceInfo.sourceIri,
     postSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
 
-  const container2 = await createContainerAt(
+  const commentContainer = await createContainerAt(
     user.pods[0] + PUBLIC_CONTAINER + identifier + "/comments",
     {
       fetch: user.fetch,
@@ -80,7 +80,7 @@ const postText = async (user, post, callback) => {
   )
 
   const savedSolidCommentDataset = await saveSolidDatasetInContainer(
-    container2.internal_resourceInfo.sourceIri,
+    commentContainer.internal_resourceInfo.sourceIri,
     commentSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
@@ -94,6 +94,11 @@ const postText = async (user, post, callback) => {
     { fetch: user.fetch }, // fetch function from authenticated session
   )
 
+  const fetchedAccess = await universalAccess.getPublicAccess(
+    savedSolidCommentDataset.internal_resourceInfo.sourceIri,
+    { fetch: user.fetch },
+  )
+  console.log(fetchedAccess)
   // await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
 
   console.log(access)
