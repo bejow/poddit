@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styles from "./PostCreate.module.scss"
 import Select, { components } from "react-select"
 import Box from "../../components/Box/Box"
@@ -22,12 +22,13 @@ import { RULES } from "../../assets/constants/rules"
 import SvgMediaIcon from "../../components/icons/MediaIcon"
 import SvgLinkIcon from "../../components/icons/LinkIcon"
 import TextPost from "./TextPost"
+import { getCommunities } from "../../utils/api"
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-]
+// const options = [
+//   { value: "chocolate", label: "Chocolate" },
+//   { value: "strawberry", label: "Strawberry" },
+//   { value: "vanilla", label: "Vanilla" },
+// ]
 
 const customComponents = {
   IndicatorSeperator: () => null,
@@ -50,8 +51,23 @@ const customComponents = {
 const PostCreate = () => {
   const [selectedOption, setSelectedOption] = useState(null)
   const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
+  const [communityOptions, setCommunityOptions] = useState([])
+
   const onSelectedChange = (option) => {
     setSelectedOption(option)
+  }
+
+  useEffect(() => {
+    getCommunityOptions()
+    return () => {}
+  }, [])
+
+  const getCommunityOptions = async () => {
+    const communities = await getCommunities()
+    const communityOptions = communities.map((community) => {
+      return { value: community.id, label: community.title, info: community.info, id: community.id }
+    })
+    setCommunityOptions(communityOptions)
   }
 
   const renderTabContent = () => {
@@ -80,7 +96,7 @@ const PostCreate = () => {
           components={customComponents}
           value={selectedOption}
           onChange={onSelectedChange}
-          options={options}
+          options={communityOptions}
         />
       </div>
       <Box noBorder className={styles.postFormContainer}>

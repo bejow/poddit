@@ -68,7 +68,11 @@ const TextPost = ({ community }) => {
 }
 
 TextPost.propTypes = {
-  community: PropTypes.string,
+  community: PropTypes.shape({
+    info: PropTypes.string,
+    title: PropTypes.string,
+    id: PropTypes.number,
+  }),
 }
 
 export default TextPost
