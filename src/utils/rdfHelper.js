@@ -17,11 +17,15 @@ import {
   saveAclFor,
   createContainerAt,
   getPublicAccess,
+  getThingAll,
+  getStringEnglish,
+  getUrl,
 } from "@inrupt/solid-client"
 import { FOAF, RDF, RDFS, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf"
 import { universalAccess } from "@inrupt/solid-client"
 import { PUBLIC_CONTAINER } from "../assets/constants/pod"
 import { v4 as uuidv4 } from "uuid"
+import { getNameFromWebId } from "./webId"
 
 const postText = async (user, post, callback) => {
   const profileURL = new URL(user.info.webId)
@@ -50,6 +54,7 @@ const postText = async (user, post, callback) => {
     .build()
 
   const postThing = buildThing(createThing({ name: identifier }))
+    .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
     .addStringEnglish(SCHEMA_INRUPT.name, post.title)
     .addStringEnglish(SCHEMA_INRUPT.text, post.content)
@@ -88,27 +93,41 @@ const postText = async (user, post, callback) => {
   console.log(savedSolidCommentDataset)
   console.log(savedSolidCommentDataset.internal_resourceInfo)
 
-  const access = await universalAccess.setPublicAccess(
+  const accessComment = await universalAccess.setPublicAccess(
     commentContainer.internal_resourceInfo.sourceIri, // Resource
     { read: true, write: false, append: true }, // Access object
     { fetch: user.fetch }, // fetch function from authenticated session
   )
 
-  const fetchedAccess = await universalAccess.getPublicAccess(
+  const accessPost = await universalAccess.setPublicAccess(
+    savedSolidPostDataset.internal_resourceInfo.sourceIri, // Resource
+    { read: true, write: false, append: false }, // Access object
+    { fetch: user.fetch }, // fetch function from authenticated session
+  )
+
+  const fetchedAccessComment = await universalAccess.getPublicAccess(
     commentContainer.internal_resourceInfo.sourceIri,
     { fetch: user.fetch },
   )
+
+  const fetchedAccessPost = await universalAccess.getPublicAccess(
+    savedSolidPostDataset.internal_resourceInfo.sourceIri,
+    { fetch: user.fetch },
+  )
+  console.log(fetchedAccessPost)
+
   console.log("fetched from: " + commentContainer.internal_resourceInfo.sourceIri)
-  console.log(fetchedAccess)
+  console.log(fetchedAccessComment)
+  console.log(fetchedAccessPost)
   // await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
 
-  console.log(access)
   console.log([savedSolidPostDataset, savedSolidCommentDataset])
   callback([savedSolidPostDataset, savedSolidCommentDataset])
   return [savedSolidPostDataset, savedSolidCommentDataset]
 }
 
 const getProfile = async (webId, callback) => {
+  console.log(webId)
   const profileURL = new URL(webId)
   // remove hash
   profileURL.hash = ""
@@ -133,4 +152,29 @@ const getPodUrl = async (user) => {
   return myPods
 }
 
-export { getProfile, postText, getPodUrl }
+const getPost = async (postUrl) => {
+  const postSolidDataset = await getSolidDataset(postUrl)
+
+  console.log(postSolidDataset)
+  const postThing = await getThingAll(postSolidDataset)
+
+  const commentSolidDataset = await getSolidDataset(
+    getUrl(postThing[0], "https://schema.org/comment"),
+  )
+  const commentThings = await getThingAll(commentSolidDataset)
+
+  console.log(commentThings)
+  const creatorWebId = await getStringNoLocale(postThing[0], SCHEMA_INRUPT.Person)
+  const post = {
+    title: getStringEnglish(postThing[0], SCHEMA_INRUPT.name),
+    content: getStringEnglish(postThing[0], SCHEMA_INRUPT.text),
+    creator: {
+      webId: creatorWebId,
+      name: getNameFromWebId(creatorWebId),
+    },
+    comments: commentThings,
+  }
+  return post
+}
+
+export { getProfile, postText, getPodUrl, getPost }

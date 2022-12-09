@@ -20,6 +20,7 @@ const TABBUTTON_TALK = "Talk"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
+const POST_ROUTE = "/post"
 
 const API_ENDPOINT = "/api"
 const COMMUNITY_ENDPOINT = "/communities"
@@ -82,4 +83,5 @@ export {
   API_ENDPOINT,
   COMMUNITY_ENDPOINT,
   POST_ENDPOINT,
+  POST_ROUTE,
 }

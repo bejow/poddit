@@ -6,6 +6,7 @@ const paths = {
   ownProfile: "/profile/me",
   main: "/",
   postCreate: "/post/create",
+  post: "/post",
 }
 
 export default paths

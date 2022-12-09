@@ -7,21 +7,15 @@ const Feed = ({ posts }) => {
   console.log(posts)
   return (
     <div className={styles.feedWrapper}>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
-      <PostBox>Unauthed Feed</PostBox>
+      {posts.map((post) => {
+        return <PostBox key={`postbox-${post.id}`} post={post} />
+      })}
     </div>
   )
 }
 
 Feed.propTypes = {
-  posts: PropTypes.object,
+  posts: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default Feed

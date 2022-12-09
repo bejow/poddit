@@ -15,6 +15,7 @@ import Button from "../../components/Button/Button"
 import TextArea from "../../components/TextArea/TextArea"
 import useAuth from "../../utils/hooks/useAuth"
 import { postText } from "../../utils/rdfHelper"
+import { publishPostToCommunity } from "../../utils/api"
 
 const TextPost = ({ community }) => {
   const { user } = useAuth()
@@ -31,7 +32,11 @@ const TextPost = ({ community }) => {
         content: editorState.getCurrentContent().getPlainText(),
       },
       (result) => {
-        console.log(result)
+        const createdSolidPostDataset = result[0]
+        publishPostToCommunity(
+          createdSolidPostDataset.internal_resourceInfo.sourceIri,
+          community.id,
+        )
       },
     )
   }

@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom"
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
 import Login from "../pages/Login/Login"
 import MainPage from "../pages/MainPage/MainPage"
+import Post from "../pages/Post/Post"
 import PostCreate from "../pages/PostCreate/PostCreate"
 import Profile from "../pages/Profile/Profile"
 import paths from "./routePaths"
@@ -34,7 +35,14 @@ const MyRoutes = () => {
           </ProtectedRoute>
         }
       />
-
+      <Route
+        path={paths.post}
+        element={
+          <ProtectedRoute redirectTo={paths.login} from={paths.postCreate}>
+            <Post />
+          </ProtectedRoute>
+        }
+      />
       <Route path={paths.login} element={<Login />} />
     </Routes>
   )
