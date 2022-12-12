@@ -173,8 +173,33 @@ const getPost = async (postUrl) => {
       name: getNameFromWebId(creatorWebId),
     },
     comments: commentThings,
+    commentUrl: commentThings[0].url,
   }
   return post
 }
 
-export { getProfile, postText, getPodUrl, getPost }
+const postComment = async (user, commentUrl, comment, callback) => {
+  console.log(commentUrl)
+  console.log(comment)
+  const uuid = uuidv4()
+  const timestamp = Date.now()
+  const identifier = `#poddit-comment-${timestamp}-${uuid}`
+
+  const commentSolidDataset = getSolidDataset(commentUrl, { fetch: user.fetch })
+
+  var commentThing = buildThing(createThing({ name: identifier }))
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
+    .addStringEnglish(SCHEMA_INRUPT.text, comment)
+    .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
+    .build()
+
+  commentSolidDataset = commentSolidDataset.setThing(commentSolidDataset, commentThing)
+
+  const savedSolidCommentDataset = await saveSolidDatasetAt(commentUrl, commentSolidDataset, {
+    fetch: user.fetch,
+  })
+
+  callback(savedSolidCommentDataset)
+}
+
+export { getProfile, postText, getPodUrl, getPost, postComment }

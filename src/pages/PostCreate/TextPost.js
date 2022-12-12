@@ -40,6 +40,7 @@ const TextPost = ({ community }) => {
       },
     )
   }
+
   return (
     <div>
       <div className={styles.inputContainer}>

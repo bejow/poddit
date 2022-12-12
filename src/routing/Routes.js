@@ -36,7 +36,7 @@ const MyRoutes = () => {
         }
       />
       <Route
-        path={paths.post}
+        path={`${paths.post}/:postId/:postUrl`}
         element={
           <ProtectedRoute redirectTo={paths.login} from={paths.postCreate}>
             <Post />

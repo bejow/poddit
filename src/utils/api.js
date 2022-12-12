@@ -13,6 +13,14 @@ const getPosts = async () => {
   return posts
 }
 
+// MetaPost = Post references in the database
+// Post = Actual Post (with content) saved in solid pods
+const getMetaPost = async (postId) => {
+  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}/${postId}`)
+  const post = await response.json()
+  return post
+}
+
 const publishPostToCommunity = async (postUrl, communityId) => {
   let response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}`, {
     method: "POST",
@@ -27,4 +35,4 @@ const publishPostToCommunity = async (postUrl, communityId) => {
   return response
 }
 
-export { getCommunities, publishPostToCommunity, getPosts }
+export { getCommunities, publishPostToCommunity, getPosts, getMetaPost }

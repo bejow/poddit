@@ -8,7 +8,7 @@ const Feed = ({ posts }) => {
   return (
     <div className={styles.feedWrapper}>
       {posts.map((post) => {
-        return <PostBox key={`postbox-${post.id}`} post={post} />
+        return <PostBox clickable key={`postbox-${post.id}`} post={post} />
       })}
     </div>
   )

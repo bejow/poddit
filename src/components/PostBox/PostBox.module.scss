@@ -2,11 +2,25 @@
 
 .container {
   margin-top: 10px;
-  display: flex;
   cursor: pointer;
   font-family: "IBM Plex Sans", Arial, sans-serif;
   &:first-child {
     margin-top: 0;
+  }
+}
+
+.white {
+  background-color: $white !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.cursorNormal {
+  cursor: initial !important;
+  &:hover {
+    background-color: $white !important;
   }
 }
 
@@ -54,6 +68,7 @@
 .contentContainer {
   padding-top: 8px;
   font-size: 12px;
+  width: 100%;
 }
 
 .postedByText {

@@ -1,0 +1,38 @@
+@import "../../styles/constants.scss";
+
+.editor {
+  background-color: $white;
+  position: relative;
+}
+
+.editorContainer {
+  margin: 24px 40px 24px 48px;
+}
+
+.commentInfo {
+  font-size: 12px;
+  color: $black;
+}
+
+.commentButton {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+  height: 16px;
+  padding: 4px 20px;
+  margin: 4px 8px;
+}
+
+.userLink {
+  margin-left: 3px;
+  color: $black;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.editorWrapper {
+  display: flex;
+  flex-direction: column-reverse;
+}

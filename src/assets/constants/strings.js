@@ -7,10 +7,13 @@ const VOTE_CONTAINER_TEXT = "Vote"
 const POSTED_BY_TEXT = "Posted by"
 const CREATE_POST_PLACEHOLDER = "Create Post"
 const CREATE_POST_HEADING = "Create a post"
+const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
 const RULES_TITLE_TEXT = "Posting to Reddit"
+const COMMENT_AS_TEXT = "Comment as"
+const COMMENT_BUTTON_TEXT = "Comment"
 
 const TABBUTTON_POST = "Post"
 const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
@@ -84,4 +87,7 @@ export {
   COMMUNITY_ENDPOINT,
   POST_ENDPOINT,
   POST_ROUTE,
+  CREATE_COMMENT_PLACEHOLDER,
+  COMMENT_AS_TEXT,
+  COMMENT_BUTTON_TEXT,
 }
