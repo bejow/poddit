@@ -14,6 +14,8 @@ const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
 const RULES_TITLE_TEXT = "Posting to Reddit"
 const COMMENT_AS_TEXT = "Comment as"
 const COMMENT_BUTTON_TEXT = "Comment"
+const DOT_TEXT = "·"
+const JOIN_COMMUNITY_TEXT = "Join"
 
 const TABBUTTON_POST = "Post"
 const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
@@ -90,4 +92,6 @@ export {
   CREATE_COMMENT_PLACEHOLDER,
   COMMENT_AS_TEXT,
   COMMENT_BUTTON_TEXT,
+  DOT_TEXT,
+  JOIN_COMMUNITY_TEXT,
 }

@@ -16,8 +16,8 @@ import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
 export const HeaderBar = () => {
   const navigate = useNavigate()
-  const isMobile = useIsMobile()
-  const isSmallMobile = useIsSmallMobile()
+  const { isMobile } = useIsMobile()
+  const { isSmallMobile } = useIsSmallMobile()
   const { user, isUserLoggedIn, login } = useAuth()
 
   const renderButtons = () => {

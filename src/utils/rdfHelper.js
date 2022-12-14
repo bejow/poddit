@@ -49,33 +49,12 @@ const postText = async (user, post, callback) => {
     }),
   )
     .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
-    .addStringNoLocale(RDF.List, JSON.stringify(["test"]))
     .addUrl(RDF.type, "https://schema.org/comment")
     .build()
-
-  const postThing = buildThing(createThing({ name: identifier }))
-    .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
-    .addStringEnglish(SCHEMA_INRUPT.name, post.title)
-    .addStringEnglish(SCHEMA_INRUPT.text, post.content)
-    .addStringNoLocale(SCHEMA_INRUPT.image, "insert link to image HERE <---")
-    .addUrl(RDF.type, "https://schema.org/SocialMediaPosting")
-    .addUrl("https://schema.org/comment", commentsThing)
-    .build()
-
-  postSolidDataset = setThing(postSolidDataset, postThing)
-  commentSolidDataset = setThing(commentSolidDataset, commentsThing)
 
   const postContainer = await createContainerAt(user.pods[0] + PUBLIC_CONTAINER + identifier, {
     fetch: user.fetch,
   })
-  console.log(postContainer)
-
-  const savedSolidPostDataset = await saveSolidDatasetInContainer(
-    postContainer.internal_resourceInfo.sourceIri,
-    postSolidDataset,
-    { fetch: user.fetch }, // fetch from authenticated Session
-  )
 
   const commentContainer = await createContainerAt(
     user.pods[0] + PUBLIC_CONTAINER + identifier + "/comments",
@@ -84,15 +63,33 @@ const postText = async (user, post, callback) => {
     },
   )
 
-  const savedSolidCommentDataset = await saveSolidDatasetInContainer(
-    commentContainer.internal_resourceInfo.sourceIri,
-    commentSolidDataset,
+  const postThing = buildThing(createThing({ name: identifier }))
+    .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
+    .addStringEnglish(SCHEMA_INRUPT.name, post.title)
+    .addStringEnglish(SCHEMA_INRUPT.text, post.content)
+    .addStringNoLocale(SCHEMA_INRUPT.image, "insert link to image HERE <---")
+    .addUrl(RDF.type, "https://schema.org/SocialMediaPosting")
+    .addUrl("https://schema.org/comment", commentContainer.internal_resourceInfo.sourceIri)
+    .build()
+
+  postSolidDataset = setThing(postSolidDataset, postThing)
+  commentSolidDataset = setThing(commentSolidDataset, commentsThing)
+
+  const savedSolidPostDataset = await saveSolidDatasetInContainer(
+    postContainer.internal_resourceInfo.sourceIri,
+    postSolidDataset,
     { fetch: user.fetch }, // fetch from authenticated Session
   )
 
-  console.log(savedSolidCommentDataset)
-  console.log(savedSolidCommentDataset.internal_resourceInfo)
+  // const savedSolidCommentDataset = await saveSolidDatasetInContainer(
+  //   commentContainer.internal_resourceInfo.sourceIri,
+  //   commentSolidDataset,
+  //   { fetch: user.fetch }, // fetch from authenticated Session
+  // )
 
+  // console.log(savedSolidCommentDataset)
+  // console.log(savedSolidCommentDataset.internal_resourceInfo)
   const accessComment = await universalAccess.setPublicAccess(
     commentContainer.internal_resourceInfo.sourceIri, // Resource
     { read: true, write: false, append: true }, // Access object
@@ -114,20 +111,14 @@ const postText = async (user, post, callback) => {
     savedSolidPostDataset.internal_resourceInfo.sourceIri,
     { fetch: user.fetch },
   )
-  console.log(fetchedAccessPost)
 
-  console.log("fetched from: " + commentContainer.internal_resourceInfo.sourceIri)
-  console.log(fetchedAccessComment)
-  console.log(fetchedAccessPost)
   // await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
 
-  console.log([savedSolidPostDataset, savedSolidCommentDataset])
-  callback([savedSolidPostDataset, savedSolidCommentDataset])
-  return [savedSolidPostDataset, savedSolidCommentDataset]
+  callback([savedSolidPostDataset, commentContainer])
+  return [savedSolidPostDataset, commentContainer]
 }
 
 const getProfile = async (webId, callback) => {
-  console.log(webId)
   const profileURL = new URL(webId)
   // remove hash
   profileURL.hash = ""
@@ -155,45 +146,53 @@ const getPodUrl = async (user) => {
 const getPost = async (postUrl) => {
   const postSolidDataset = await getSolidDataset(postUrl)
 
-  console.log(postSolidDataset)
-  const postThing = await getThingAll(postSolidDataset)
+  const postThings = await getThingAll(postSolidDataset)
 
   const commentSolidDataset = await getSolidDataset(
-    getUrl(postThing[0], "https://schema.org/comment"),
+    getUrl(postThings[0], "https://schema.org/comment"),
   )
+
   const commentThings = await getThingAll(commentSolidDataset)
 
-  console.log(commentThings)
-  const creatorWebId = await getStringNoLocale(postThing[0], SCHEMA_INRUPT.Person)
+  let comments = commentThings.map((commentThing) => {
+    return {
+      text: getStringEnglish(commentThing, SCHEMA_INRUPT.text),
+      creator: getStringNoLocale(commentThing, SCHEMA_INRUPT.Person),
+      identifier: getStringNoLocale(commentThing, SCHEMA_INRUPT.identifier),
+      dateModified: getStringNoLocale(commentThing, SCHEMA_INRUPT.dateModified),
+    }
+  })
+
+  const creatorWebId = await getStringNoLocale(postThings[0], SCHEMA_INRUPT.Person)
   const post = {
-    title: getStringEnglish(postThing[0], SCHEMA_INRUPT.name),
-    content: getStringEnglish(postThing[0], SCHEMA_INRUPT.text),
+    title: getStringEnglish(postThings[0], SCHEMA_INRUPT.name),
+    content: getStringEnglish(postThings[0], SCHEMA_INRUPT.text),
     creator: {
       webId: creatorWebId,
       name: getNameFromWebId(creatorWebId),
     },
-    comments: commentThings,
-    commentUrl: commentThings[0].url,
+    comments,
+    commentUrl: commentSolidDataset.internal_resourceInfo.sourceIri,
   }
   return post
 }
 
 const postComment = async (user, commentUrl, comment, callback) => {
-  console.log(commentUrl)
-  console.log(comment)
   const uuid = uuidv4()
   const timestamp = Date.now()
   const identifier = `#poddit-comment-${timestamp}-${uuid}`
 
-  const commentSolidDataset = getSolidDataset(commentUrl, { fetch: user.fetch })
+  let commentSolidDataset = await getSolidDataset(commentUrl, { fetch: user.fetch })
 
   var commentThing = buildThing(createThing({ name: identifier }))
     .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
     .addStringEnglish(SCHEMA_INRUPT.text, comment)
     .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
+    .addStringNoLocale(SCHEMA_INRUPT.dateModified, new Date().toISOString())
+    .addUrl(RDF.type, "https://schema.org/Comment")
     .build()
 
-  commentSolidDataset = commentSolidDataset.setThing(commentSolidDataset, commentThing)
+  commentSolidDataset = setThing(commentSolidDataset, commentThing)
 
   const savedSolidCommentDataset = await saveSolidDatasetAt(commentUrl, commentSolidDataset, {
     fetch: user.fetch,

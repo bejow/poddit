@@ -1,0 +1,231 @@
+@import "../../styles/constants.scss";
+
+.commentContainer {
+  margin: 0.5rem 0;
+}
+
+.comment-stack:last-child {
+  margin-bottom: 0;
+}
+
+.grow {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 100%;
+}
+
+.comment {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  flex-grow: 1;
+  min-width: 100%;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-size: 0.75em;
+}
+
+.usernameText {
+  color: $black;
+  font-weight: 500;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.dateText {
+  color: $dark_grey;
+}
+
+.commentMessage {
+  white-space: pre-wrap;
+
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 0.5rem;
+}
+
+.commentInput {
+  flex-grow: 1;
+  resize: none;
+  height: 70px;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  font-size: inherit;
+  font-family: inherit;
+  border: 1px solid $light_grey;
+  line-height: 1.4;
+  &:focus {
+    border-color: hsl(235, 100%, 67%);
+    outline: none;
+  }
+}
+
+.voteIcon {
+  padding: 4px;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  path {
+    stroke: $darker_grey;
+  }
+  &:hover {
+    background-color: $grey_hover;
+    path {
+      stroke: $orangered;
+    }
+  }
+}
+
+.downvoteIcon {
+  transform: rotate(180deg);
+  &:hover {
+    path {
+      stroke: $blue;
+    }
+  }
+}
+
+.dot {
+  margin: 0 4px;
+}
+
+.voteContainer {
+  display: flex;
+  align-items: center;
+}
+
+.voteText {
+  font-weight: 700;
+  font-size: 12px;
+  margin: 4px 4px;
+}
+
+.errorText {
+  color: hsl(0, 100%, 67%);
+}
+
+.wrapper {
+  display: flex;
+}
+
+.editorWrapper {
+  display: flex;
+
+  flex-direction: column-reverse;
+}
+
+.collapseButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.commentButtonContainer {
+  width: 100%;
+  position: relative;
+}
+
+.expandButton {
+  padding: 4px 8px 4px 0;
+  &:hover {
+    background-color: initial;
+  }
+}
+
+.expandIcon {
+  svg,
+  path {
+    fill: $grey;
+  }
+  width: 12px;
+  height: 12px;
+  &:hover {
+    svg,
+    path {
+      fill: $dark_grey;
+    }
+  }
+}
+
+.collapseContainer {
+  display: flex;
+  margin-top: 3px;
+  flex-direction: column;
+}
+
+.unknownUserIcon {
+  cursor: pointer;
+  fill: $white;
+  background: $icon_background_grey;
+  border-radius: 4px;
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.commentButton {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+  height: 16px;
+  padding: 4px 20px;
+  margin: 4px 8px;
+}
+
+.commentWrapper {
+  display: flex;
+}
+
+.commentFormRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.commentFooter {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.mt1 {
+  margin-top: 0.25rem;
+}
+
+.ml3 {
+  margin-left: 1.5rem;
+}
+
+.nestedCommentsContainer {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+.collapseLine {
+  flex-grow: 1;
+  border: none;
+  border-left: 1px solid $light_grey;
+  background: none;
+  padding: 0;
+  width: 15px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transform: translateX(12px);
+  &:hover {
+    border-left: 1px solid $black;
+  }
+}
+
+.nestedComments {
+  padding-left: 0.5rem;
+  flex-grow: 1;
+}

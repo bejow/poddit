@@ -10,6 +10,8 @@ import {
   PROFILE_ROUTE,
 } from "../../assets/constants/strings"
 import Button from "../../components/Button/Button"
+import CommentList from "../../components/Comments/CommentList"
+import CommunityBox from "../../components/CommunityBox/CommunityBox"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Layout from "../../components/Layout/Layout"
 import PostBox from "../../components/PostBox/PostBox"
@@ -46,6 +48,20 @@ const Post = () => {
   const handlePost = async () => {
     const post = await getPost(postUrl)
     const postMeta = await getMetaPost(postId)
+    post.comments[0].childComments = [
+      {
+        text: "Ick find dit jut so",
+        creator: "https://id.inrupt.com/bejowdevv",
+        identifier: "#poddit-comment-1670930773550-fe043731-165e-423e-b97e-6e51244ea266",
+        dateModified: "2022-12-13T11:26:13.642Z",
+      },
+      {
+        text: "bitte sei authorized!!!",
+        creator: "https://id.inrupt.com/bejow",
+        identifier: "#poddit-comment-1670931209457-86b48647-6137-420a-976c-e23986e4e5c6",
+        dateModified: "2022-12-13T11:33:29.687Z",
+      },
+    ]
     setPostData({ ...post, ...postMeta })
   }
 
@@ -67,7 +83,7 @@ const Post = () => {
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
 
   return (
-    <Layout>
+    <Layout infoContent={<CommunityBox community={postData?.community} />}>
       <PostBox post={postData}>
         <div className={styles.editorContainer}>
           <p className={styles.commentInfo}>
@@ -84,6 +100,7 @@ const Post = () => {
             className={styles.editor}
             toolbarCustomButtons={[renderCommentButton()]}
           />
+          <CommentList comments={postData.comments} />
         </div>
       </PostBox>
     </Layout>
