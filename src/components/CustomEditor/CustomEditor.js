@@ -48,7 +48,7 @@ const CustomEditor = ({
 }
 
 CustomEditor.propTypes = {
-  wrapperClassName: PropTypes.func,
+  wrapperClassName: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   editorState: PropTypes.object,

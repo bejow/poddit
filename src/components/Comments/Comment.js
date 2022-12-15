@@ -19,8 +19,17 @@ import { ContentState, EditorState } from "draft-js"
 import Button from "../Button/Button"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 
-const Comment = ({ comment, text, creator, likedByMe, id, dateModified, childComments }) => {
-  console.log(comment, likedByMe, id, dateModified)
+const Comment = ({
+  identifier,
+  parentIdentifier,
+  text,
+  creator,
+  likedByMe,
+  dateModified,
+  getChildCommentsById,
+  replyToComment,
+}) => {
+  console.log(identifier, text, creator, parentIdentifier, dateModified, likedByMe)
   const LOADING = false
   const ERROR = false
   const VOTECOUNT = 1
@@ -36,15 +45,18 @@ const Comment = ({ comment, text, creator, likedByMe, id, dateModified, childCom
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
   const isEditValid = editEditorState.getCurrentContent().getPlainText().length > 0 ? true : false
 
-  // const childComments // add logic to retrieve children
+  console.log(getChildCommentsById)
+  const childComments = getChildCommentsById(identifier)
 
   console.log(LOADING, ERROR)
   const onCommentUpdate = (commentText) => {
     console.log(commentText)
   }
 
-  const onCommentReply = (commentText) => {
-    console.log(commentText)
+  const onCommentReply = async () => {
+    replyToComment(identifier, editorState.getCurrentContent().getPlainText(), (comment) =>
+      console.log(comment),
+    )
   }
 
   const onDeleteComment = () => {}
@@ -193,7 +205,10 @@ Comment.propTypes = {
   likedByMe: PropTypes.bool,
   id: PropTypes.string,
   dateModified: PropTypes.string,
-  childComments: PropTypes.array,
+  getChildCommentsById: PropTypes.func,
+  replyToComment: PropTypes.func,
+  identifier: PropTypes.string,
+  parentIdentifier: PropTypes.string,
 }
 
 export default Comment

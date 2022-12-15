@@ -160,6 +160,7 @@ const getPost = async (postUrl) => {
       creator: getStringNoLocale(commentThing, SCHEMA_INRUPT.Person),
       identifier: getStringNoLocale(commentThing, SCHEMA_INRUPT.identifier),
       dateModified: getStringNoLocale(commentThing, SCHEMA_INRUPT.dateModified),
+      parentIdentifier: getStringNoLocale(commentThing, "https://schema.org/parentItem"),
     }
   })
 
@@ -167,6 +168,7 @@ const getPost = async (postUrl) => {
   const post = {
     title: getStringEnglish(postThings[0], SCHEMA_INRUPT.name),
     content: getStringEnglish(postThings[0], SCHEMA_INRUPT.text),
+    identifier: getStringNoLocale(postThings[0], SCHEMA_INRUPT.identifier),
     creator: {
       webId: creatorWebId,
       name: getNameFromWebId(creatorWebId),
@@ -177,7 +179,7 @@ const getPost = async (postUrl) => {
   return post
 }
 
-const postComment = async (user, commentUrl, comment, callback) => {
+const postComment = async (user, commentUrl, comment, parentIdentifier, callback) => {
   const uuid = uuidv4()
   const timestamp = Date.now()
   const identifier = `#poddit-comment-${timestamp}-${uuid}`
@@ -189,6 +191,7 @@ const postComment = async (user, commentUrl, comment, callback) => {
     .addStringEnglish(SCHEMA_INRUPT.text, comment)
     .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
     .addStringNoLocale(SCHEMA_INRUPT.dateModified, new Date().toISOString())
+    .addStringNoLocale("https://schema.org/parentItem", parentIdentifier)
     .addUrl(RDF.type, "https://schema.org/Comment")
     .build()
 

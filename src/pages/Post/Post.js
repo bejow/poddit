@@ -26,6 +26,7 @@ const Post = () => {
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const { user } = useAuth()
   const [postData, setPostData] = useState({
+    identifier: "",
     title: "",
     content: "",
     creator: { webId: "", name: "" },
@@ -40,28 +41,32 @@ const Post = () => {
   }, [postUrl])
 
   const onCommentSubmit = () => {
-    postComment(user, commentUrl, editorState.getCurrentContent().getPlainText(), (result) => {
-      console.log(result)
+    postComment(
+      user,
+      commentUrl,
+      editorState.getCurrentContent().getPlainText(),
+      postData.identifier,
+      (result) => {
+        console.log(result)
+      },
+    )
+  }
+
+  const getChildCommentsById = (parentIdentifier) => {
+    return postData?.comments.filter((comment) => {
+      return comment.parentIdentifier === parentIdentifier
     })
+  }
+
+  const replyToComment = async (commentIdentifier, text, callback) => {
+    const comment = await postComment(user, commentUrl, text, commentIdentifier)
+    callback(comment)
+    return comment
   }
 
   const handlePost = async () => {
     const post = await getPost(postUrl)
     const postMeta = await getMetaPost(postId)
-    post.comments[0].childComments = [
-      {
-        text: "Ick find dit jut so",
-        creator: "https://id.inrupt.com/bejowdevv",
-        identifier: "#poddit-comment-1670930773550-fe043731-165e-423e-b97e-6e51244ea266",
-        dateModified: "2022-12-13T11:26:13.642Z",
-      },
-      {
-        text: "bitte sei authorized!!!",
-        creator: "https://id.inrupt.com/bejow",
-        identifier: "#poddit-comment-1670931209457-86b48647-6137-420a-976c-e23986e4e5c6",
-        dateModified: "2022-12-13T11:33:29.687Z",
-      },
-    ]
     setPostData({ ...post, ...postMeta })
   }
 
@@ -100,7 +105,11 @@ const Post = () => {
             className={styles.editor}
             toolbarCustomButtons={[renderCommentButton()]}
           />
-          <CommentList comments={postData.comments} />
+          <CommentList
+            replyToComment={replyToComment}
+            getChildCommentsById={getChildCommentsById}
+            comments={getChildCommentsById(postData?.identifier)}
+          />
         </div>
       </PostBox>
     </Layout>
