@@ -1,17 +1,14 @@
 import { useState } from "react"
 
-export default function useIsMobile() {
+export default function useAsyncLoading() {
   const [isLoading, setIsLoading] = useState(false)
 
-  const runAsyncFunction = async (asyncFunc, callback) => {
+  const runAsyncFunction = async (asyncFunc) => {
     setIsLoading(true)
     const result = await asyncFunc()
-    callback()
     setIsLoading(false)
     return result
   }
 
-  const Spinner = <div></div>
-
-  return { runAsyncFunction, isLoading, Spinner }
+  return { runAsyncFunction, isLoading }
 }

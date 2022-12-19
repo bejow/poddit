@@ -9,6 +9,19 @@
   margin: 24px 40px 24px 48px;
 }
 
+.seperator {
+  border-top: $grey;
+  margin: 16px 8px !important;
+}
+
+.commentButtonSpinner {
+  position: absolute;
+  right: 0;
+
+  padding: 4px 20px;
+  margin: 4px 8px;
+}
+
 .commentInfo {
   font-size: 12px;
   color: $black;

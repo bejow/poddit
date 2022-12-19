@@ -77,7 +77,6 @@ const PostBox = ({ post, clickable, children }) => {
   const communityLinkText = `r/${community.title}`
   const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 
-  console.log(clickable)
   return (
     <Box
       className={styles.container}

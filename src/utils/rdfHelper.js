@@ -88,8 +88,6 @@ const postText = async (user, post, callback) => {
   //   { fetch: user.fetch }, // fetch from authenticated Session
   // )
 
-  // console.log(savedSolidCommentDataset)
-  // console.log(savedSolidCommentDataset.internal_resourceInfo)
   const accessComment = await universalAccess.setPublicAccess(
     commentContainer.internal_resourceInfo.sourceIri, // Resource
     { read: true, write: false, append: true }, // Access object

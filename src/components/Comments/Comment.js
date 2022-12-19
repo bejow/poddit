@@ -18,55 +18,59 @@ import CustomEditor from "../CustomEditor/CustomEditor"
 import { ContentState, EditorState } from "draft-js"
 import Button from "../Button/Button"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
+import MoonLoader from "react-spinners/MoonLoader"
 
 const Comment = ({
   identifier,
-  parentIdentifier,
   text,
   creator,
-  likedByMe,
   dateModified,
   getChildCommentsById,
   replyToComment,
+  setReload,
 }) => {
-  console.log(identifier, text, creator, parentIdentifier, dateModified, likedByMe)
-  const LOADING = false
-  const ERROR = false
   const VOTECOUNT = 1
   const [editEditorState, setEditEditorState] = React.useState(
     EditorState.createWithContent(ContentState.createFromText(text)),
   )
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const [isEditting, setIsEditting] = useState(false)
   const [isReplaying, setIsReplaying] = useState(false)
   const { user: currentUser } = useAuth()
-  const [areChildrenHidden, setAreChildrenHidden] = useState(true)
-  console.log(editorState.getCurrentContent().getPlainText())
+  const [areChildrenHidden, setAreChildrenHidden] = useState(false)
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
   const isEditValid = editEditorState.getCurrentContent().getPlainText().length > 0 ? true : false
 
-  console.log(getChildCommentsById)
   const childComments = getChildCommentsById(identifier)
 
-  console.log(LOADING, ERROR)
   const onCommentUpdate = (commentText) => {
     console.log(commentText)
   }
 
   const onCommentReply = async () => {
-    replyToComment(identifier, editorState.getCurrentContent().getPlainText(), (comment) =>
-      console.log(comment),
+    runAsyncFunction(() =>
+      replyToComment(identifier, editorState.getCurrentContent().getPlainText(), () => {
+        setIsReplaying(false)
+        setEditEditorState(EditorState.createEmpty())
+        setReload((prev) => !prev)
+      }),
     )
   }
 
-  const onDeleteComment = () => {}
+  // const onDeleteComment = () => {}
 
   const onCommentLike = (isLike) => {
     console.log(isLike)
   }
 
   const renderReplyButton = () => {
-    return (
+    return isLoading ? (
+      <div className={styles.commentButtonSpinner}>
+        <MoonLoader loading={true} size={15} />
+      </div>
+    ) : (
       <Button
         type={isCommentValid ? "primary" : "disabled"}
         onClick={onCommentReply}
@@ -159,10 +163,18 @@ const Comment = ({
 
             {creator === currentUser.info.webId && (
               <>
-                <IconButton onClick={() => setIsEditting((prev) => !prev)}>
+                <IconButton
+                  className={styles.deactivated}
+                  onClick={() => setIsEditting((prev) => !prev)}
+                >
                   {isEditting ? "Cancel Edit" : "Edit"}
                 </IconButton>
-                <IconButton onClick={onDeleteComment}>DEL</IconButton>
+                <IconButton
+                  className={styles.deactivated}
+                  /* onClick={onDeleteComment} */
+                >
+                  DEL
+                </IconButton>
               </>
             )}
           </div>
@@ -187,7 +199,11 @@ const Comment = ({
               })}
             >
               <div className={styles.nestedComments}>
-                <CommentList comments={childComments} />
+                <CommentList
+                  replyToComment={replyToComment}
+                  getChildCommentsById={getChildCommentsById}
+                  comments={childComments}
+                />
               </div>
             </div>
           </>
@@ -209,6 +225,7 @@ Comment.propTypes = {
   replyToComment: PropTypes.func,
   identifier: PropTypes.string,
   parentIdentifier: PropTypes.string,
+  setReload: PropTypes.func,
 }
 
 export default Comment

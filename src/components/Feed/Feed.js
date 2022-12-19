@@ -4,7 +4,6 @@ import PostBox from "../PostBox/PostBox"
 import styles from "./Feed.module.scss"
 
 const Feed = ({ posts }) => {
-  console.log(posts)
   return (
     <div className={styles.feedWrapper}>
       {posts.map((post) => {

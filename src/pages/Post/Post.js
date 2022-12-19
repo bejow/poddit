@@ -3,6 +3,7 @@ import { EditorState } from "draft-js"
 import React, { useState, useEffect } from "react"
 
 import { Link, useParams } from "react-router-dom"
+import { MoonLoader } from "react-spinners"
 import {
   COMMENT_AS_TEXT,
   COMMENT_BUTTON_TEXT,
@@ -16,14 +17,21 @@ import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Layout from "../../components/Layout/Layout"
 import PostBox from "../../components/PostBox/PostBox"
 import { getMetaPost } from "../../utils/api"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import useAuth from "../../utils/hooks/useAuth"
 import { getPost, postComment } from "../../utils/rdfHelper"
 import { getNameFromWebId } from "../../utils/webId"
 import styles from "./Post.module.scss"
 
 const Post = () => {
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
   let { postUrl, postId } = useParams()
+  const [reload, setReload] = useState(false)
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  useEffect(() => {
+    runAsyncFunction(handlePost)
+    return () => {}
+  }, [reload])
   const { user } = useAuth()
   const [postData, setPostData] = useState({
     identifier: "",
@@ -35,20 +43,18 @@ const Post = () => {
   })
   const { creator, commentUrl } = postData
 
-  useEffect(() => {
-    handlePost()
-    return () => {}
-  }, [postUrl])
-
   const onCommentSubmit = () => {
-    postComment(
-      user,
-      commentUrl,
-      editorState.getCurrentContent().getPlainText(),
-      postData.identifier,
-      (result) => {
-        console.log(result)
-      },
+    runAsyncFunction(() =>
+      postComment(
+        user,
+        commentUrl,
+        editorState.getCurrentContent().getPlainText(),
+        postData.identifier,
+        () => {
+          setEditorState(EditorState.createEmpty())
+          setReload(!reload)
+        },
+      ),
     )
   }
 
@@ -59,8 +65,8 @@ const Post = () => {
   }
 
   const replyToComment = async (commentIdentifier, text, callback) => {
-    const comment = await postComment(user, commentUrl, text, commentIdentifier)
-    callback(comment)
+    const comment = await postComment(user, commentUrl, text, commentIdentifier, callback)
+
     return comment
   }
 
@@ -71,7 +77,11 @@ const Post = () => {
   }
 
   const renderCommentButton = () => {
-    return (
+    return isLoading ? (
+      <div className={styles.commentButtonSpinner}>
+        <MoonLoader loading={isLoading} size={15} />
+      </div>
+    ) : (
       <Button
         type={isCommentValid ? "primary" : "disabled"}
         onClick={onCommentSubmit}
@@ -82,7 +92,6 @@ const Post = () => {
     )
   }
 
-  console.log(postData)
   postUrl = decodeURIComponent(postUrl)
   const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
@@ -105,10 +114,12 @@ const Post = () => {
             className={styles.editor}
             toolbarCustomButtons={[renderCommentButton()]}
           />
+          <hr className={styles.seperator} />
           <CommentList
             replyToComment={replyToComment}
             getChildCommentsById={getChildCommentsById}
             comments={getChildCommentsById(postData?.identifier)}
+            setReload={setReload}
           />
         </div>
       </PostBox>

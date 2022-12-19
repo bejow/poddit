@@ -176,6 +176,18 @@
   margin: 4px 8px;
 }
 
+.deactivated {
+  cursor: not-allowed;
+}
+
+.commentButtonSpinner {
+  position: absolute;
+  right: 0;
+
+  padding: 4px 20px;
+  margin: 4px 8px;
+}
+
 .commentWrapper {
   display: flex;
 }

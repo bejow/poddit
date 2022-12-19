@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import styles from "./Comment.module.scss"
 
 const CommentInput = ({ onSubmit, autoFocus, loading, error }) => {
-  console.log(onSubmit)
   const [comment, setComment] = useState("")
   const handleSubmit = (e) => {
     e.preventDefault()
