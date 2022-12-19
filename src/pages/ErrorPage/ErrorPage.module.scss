@@ -1,0 +1,16 @@
+.errorText {
+  color: red;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.contentWrapper {
+  margin: 16px;
+}
+
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const SEARCHBAR_PLACEHOLDER = "Search Poddit"
 const SEARCHBAR_COMMUNITY_PLACEHOLDER = "Choose a community"
 const INPUT_TITLE_PLACEHOLDER = "Title"
@@ -16,7 +17,9 @@ const COMMENT_AS_TEXT = "Comment as"
 const COMMENT_BUTTON_TEXT = "Comment"
 const DOT_TEXT = "·"
 const JOIN_COMMUNITY_TEXT = "Join"
-
+const SOMETHING_WENT_WRONG_TEXT =
+  "Oops this seems like an Error, Poddit isn't working as expected. A report has been sent to our developer who will investigate the error ASAP."
+const REFRESH_TEXT = "Refresh"
 const TABBUTTON_POST = "Post"
 const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
 const TABBUTTON_LINK = "Link"
@@ -94,4 +97,6 @@ export {
   COMMENT_BUTTON_TEXT,
   DOT_TEXT,
   JOIN_COMMUNITY_TEXT,
+  SOMETHING_WENT_WRONG_TEXT,
+  REFRESH_TEXT,
 }

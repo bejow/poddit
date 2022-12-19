@@ -27,7 +27,7 @@ const useAuth = () => {
   const [searchParams] = useSearchParams()
   let from = searchParams.get("from")
 
-  const onLogin = () => {
+  const onLogin = async () => {
     const redirectUrl = new URL(window.location.href)
 
     // build redirect url
@@ -35,7 +35,7 @@ const useAuth = () => {
       redirectUrl.searchParams.append("from", location.state.from)
     }
 
-    login({
+    await login({
       oidcIssuer: "https://login.inrupt.com",
       clientName: "Poddit - Decentral Reddit",
       redirectUrl,

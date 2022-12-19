@@ -16,6 +16,7 @@ import CommunityBox from "../../components/CommunityBox/CommunityBox"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Layout from "../../components/Layout/Layout"
 import PostBox from "../../components/PostBox/PostBox"
+import useErrorStore from "../../states/Error"
 import { getMetaPost } from "../../utils/api"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import useAuth from "../../utils/hooks/useAuth"
@@ -28,8 +29,14 @@ const Post = () => {
   let { postUrl, postId } = useParams()
   const [reload, setReload] = useState(false)
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const { setError } = useErrorStore()
+
   useEffect(() => {
-    runAsyncFunction(handlePost)
+    try {
+      runAsyncFunction(handlePost)
+    } catch (error) {
+      setError({ message: error.message })
+    }
     return () => {}
   }, [reload])
   const { user } = useAuth()
@@ -79,7 +86,7 @@ const Post = () => {
   const renderCommentButton = () => {
     return isLoading ? (
       <div className={styles.commentButtonSpinner}>
-        <MoonLoader loading={isLoading} size={15} />
+        <MoonLoader loading={true} size={15} />
       </div>
     ) : (
       <Button

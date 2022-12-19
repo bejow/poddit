@@ -20,34 +20,39 @@ import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import MoonLoader from "react-spinners/MoonLoader"
 import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import useErrorStore from "../../states/Error"
 
 const TextPost = ({ community }) => {
   const { user } = useAuth()
-  console.log("User:", user)
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
   const [postState, setPostState] = useState({ title: "" })
   const navigate = useNavigate()
   const { runAsyncFunction, isLoading } = useAsyncLoading()
+  const { setError } = useErrorStore()
 
   const onSubmit = () => {
-    runAsyncFunction(() =>
-      postText(
-        user,
-        {
-          community,
-          title: postState.title,
-          content: editorState.getCurrentContent().getPlainText(),
-        },
-        (result) => {
-          const createdSolidPostDataset = result[0]
-          publishPostToCommunity(
-            createdSolidPostDataset.internal_resourceInfo.sourceIri,
-            community.id,
-          )
-          navigate(paths.main)
-        },
-      ),
-    )
+    try {
+      runAsyncFunction(() =>
+        postText(
+          user,
+          {
+            community,
+            title: postState.title,
+            content: editorState.getCurrentContent().getPlainText(),
+          },
+          (result) => {
+            const createdSolidPostDataset = result[0]
+            publishPostToCommunity(
+              createdSolidPostDataset.internal_resourceInfo.sourceIri,
+              community.id,
+            )
+            navigate(paths.main)
+          },
+        ),
+      )
+    } catch (error) {
+      setError({ message: error.message })
+    }
   }
 
   return (
@@ -75,7 +80,7 @@ const TextPost = ({ community }) => {
           {CREATE_POST_DRAFT_BUTTON_TEXT}
         </Button>
         {isLoading ? (
-          <MoonLoader className={styles.spinner} loading={isLoading} size={23} />
+          <MoonLoader className={styles.spinner} loading={true} size={23} />
         ) : (
           <Button
             className={styles.submitButton}

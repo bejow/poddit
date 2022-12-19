@@ -20,6 +20,7 @@ import Button from "../Button/Button"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import MoonLoader from "react-spinners/MoonLoader"
+import useErrorStore from "../../states/Error"
 
 const Comment = ({
   identifier,
@@ -42,6 +43,7 @@ const Comment = ({
   const [areChildrenHidden, setAreChildrenHidden] = useState(false)
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
   const isEditValid = editEditorState.getCurrentContent().getPlainText().length > 0 ? true : false
+  const { setError } = useErrorStore()
 
   const childComments = getChildCommentsById(identifier)
 
@@ -50,13 +52,17 @@ const Comment = ({
   }
 
   const onCommentReply = async () => {
-    runAsyncFunction(() =>
-      replyToComment(identifier, editorState.getCurrentContent().getPlainText(), () => {
-        setIsReplaying(false)
-        setEditEditorState(EditorState.createEmpty())
-        setReload((prev) => !prev)
-      }),
-    )
+    try {
+      runAsyncFunction(() =>
+        replyToComment(identifier, editorState.getCurrentContent().getPlainText(), () => {
+          setIsReplaying(false)
+          setEditEditorState(EditorState.createEmpty())
+          setReload((prev) => !prev)
+        }),
+      )
+    } catch (error) {
+      setError({ message: error.message })
+    }
   }
 
   // const onDeleteComment = () => {}

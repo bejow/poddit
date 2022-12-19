@@ -4,12 +4,21 @@ import Box from "../../components/Box/Box"
 import Layout from "../../components/Layout/Layout"
 import Feed from "../../components/Feed/Feed"
 import { getPosts } from "../../utils/api"
+import useErrorStore from "../../states/Error"
+import MoonLoader from "react-spinners/MoonLoader"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
 const Login = () => {
   const [posts, setPosts] = useState([])
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
 
+  const { setError } = useErrorStore()
   useEffect(() => {
-    handlePosts()
+    try {
+      runAsyncFunction(handlePosts)
+    } catch (error) {
+      setError({ message: error.message })
+    }
     return () => {}
   }, [])
 
@@ -17,6 +26,7 @@ const Login = () => {
     const fetchedPosts = await getPosts()
     setPosts(fetchedPosts)
   }
+
   const renderInfo = () => {
     return (
       <div>
@@ -35,7 +45,7 @@ const Login = () => {
   }
   return (
     <Layout infoContent={renderInfo()}>
-      <Feed posts={posts} />
+      {isLoading ? <MoonLoader loading={true} size={30} /> : <Feed redirectToLogin posts={posts} />}
     </Layout>
   )
 }

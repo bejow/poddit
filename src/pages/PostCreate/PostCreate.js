@@ -23,6 +23,7 @@ import SvgMediaIcon from "../../components/icons/MediaIcon"
 import SvgLinkIcon from "../../components/icons/LinkIcon"
 import TextPost from "./TextPost"
 import { getCommunities } from "../../utils/api"
+import useErrorStore from "../../states/Error"
 
 // const options = [
 //   { value: "chocolate", label: "Chocolate" },
@@ -52,7 +53,7 @@ const PostCreate = () => {
   const [selectedOption, setSelectedOption] = useState(null)
   const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
   const [communityOptions, setCommunityOptions] = useState([])
-
+  const { setError } = useErrorStore()
   const onSelectedChange = (option) => {
     setSelectedOption(option)
   }
@@ -63,11 +64,20 @@ const PostCreate = () => {
   }, [])
 
   const getCommunityOptions = async () => {
-    const communities = await getCommunities()
-    const communityOptions = communities.map((community) => {
-      return { value: community.id, label: community.title, info: community.info, id: community.id }
-    })
-    setCommunityOptions(communityOptions)
+    try {
+      const communities = await getCommunities()
+      const communityOptions = communities.map((community) => {
+        return {
+          value: community.id,
+          label: community.title,
+          info: community.info,
+          id: community.id,
+        }
+      })
+      setCommunityOptions(communityOptions)
+    } catch (error) {
+      setError({ message: error.message })
+    }
   }
 
   const renderTabContent = () => {

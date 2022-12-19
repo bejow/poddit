@@ -5,12 +5,21 @@ import PostInputBox from "../../components/PostInputBox/PostInputBox"
 import Layout from "../../components/Layout/Layout"
 import styles from "./MainPage.module.scss"
 import { getPosts } from "../../utils/api"
+import useErrorStore from "../../states/Error"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
+import MoonLoader from "react-spinners/MoonLoader"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
+  const { setError } = useErrorStore()
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
 
   useEffect(() => {
-    handlePosts()
+    try {
+      runAsyncFunction(handlePosts)
+    } catch (error) {
+      setError({ message: error.message })
+    }
     return () => {}
   }, [])
 
@@ -22,7 +31,7 @@ const MainPage = () => {
   const renderInfo = () => {
     return (
       <div>
-        <Box>Communyties</Box>
+        <Box>Communydties</Box>
         <Box>Communities</Box>
         <Box>Communities</Box>
         <Box>Communities</Box>
@@ -39,7 +48,7 @@ const MainPage = () => {
   return (
     <Layout infoContent={renderInfo()}>
       <PostInputBox className={styles.postInputBox} />
-      <Feed posts={posts} />
+      {isLoading ? <MoonLoader loading={true} size={30} /> : <Feed posts={posts} />}
     </Layout>
   )
 }

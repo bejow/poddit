@@ -5,7 +5,10 @@ import classNames from "classnames"
 
 const Button = ({ onClick, children, type, className }) => {
   return (
-    <div className={classNames(styles.button, styles[type], className)} onClick={onClick}>
+    <div
+      className={classNames(styles.button, styles[type], className)}
+      onClick={type === "disabled" ? undefined : onClick}
+    >
       {children}
     </div>
   )
