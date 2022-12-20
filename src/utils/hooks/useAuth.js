@@ -8,6 +8,7 @@ import shallow from "zustand/shallow"
 import useUserStore from "../../states/User"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import { getPodUrl } from "../rdfHelper"
 
 const useAuth = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
@@ -26,7 +27,7 @@ const useAuth = () => {
   const [searchParams] = useSearchParams()
   let from = searchParams.get("from")
 
-  const onLogin = () => {
+  const onLogin = async () => {
     const redirectUrl = new URL(window.location.href)
 
     // build redirect url
@@ -34,7 +35,7 @@ const useAuth = () => {
       redirectUrl.searchParams.append("from", location.state.from)
     }
 
-    login({
+    await login({
       oidcIssuer: "https://login.inrupt.com",
       clientName: "Poddit - Decentral Reddit",
       redirectUrl,
@@ -49,7 +50,8 @@ const useAuth = () => {
     // check for login state
     if (session?.info?.isLoggedIn) {
       // successful Login
-      setUser(session)
+      const pods = await getPodUrl(session)
+      setUser({ ...session, pods })
       if (from) {
         // Redirect User to Page visited before Login
         navigate(from)

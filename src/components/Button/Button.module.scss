@@ -7,6 +7,7 @@
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
+  text-align: center;
 }
 
 .primary {
@@ -22,5 +23,16 @@
   background-color: $white;
   &:hover {
     background-color: $white_hover;
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  background-color: $blue;
+  filter: grayscale(1);
+  color: $text_disabled_grey;
+  fill: $text_disabled_grey;
+  &:hover {
+    opacity: 0.92;
   }
 }

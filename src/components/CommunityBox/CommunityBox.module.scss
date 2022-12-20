@@ -1,0 +1,45 @@
+@import "../../styles/constants.scss";
+
+.communityIcon {
+  width: 52px;
+  height: 52px;
+  margin-right: 8px;
+  svg,
+  path {
+    fill: $blue;
+  }
+}
+
+.seperator {
+  height: 1px;
+  background-color: $grey;
+  border: none;
+  margin: 16px 0;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.info {
+  font-size: 14px;
+}
+
+.header {
+  height: 34px;
+  width: 100%;
+  background: $blue;
+  margin-bottom: 8px;
+}
+
+.contentWrapper {
+  padding: 0px 8px 8px 8px;
+}
+
+.joinCommunityButton {
+  margin-bottom: 8px;
+}

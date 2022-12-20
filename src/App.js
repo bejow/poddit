@@ -1,13 +1,16 @@
 import { BrowserRouter } from "react-router-dom"
 import Routes from "./routing/Routes"
 import styles from "./App.module.scss"
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary"
 
 function App() {
   return (
     <BrowserRouter>
-      <div className={styles.wrapper}>
-        <Routes />
-      </div>
+      <ErrorBoundary>
+        <div className={styles.wrapper}>
+          <Routes />
+        </div>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

@@ -1,0 +1,28 @@
+@import "../../styles/constants.scss";
+.rulesContainer {
+  padding: 12px;
+  font-family: "IBM Plex Sans";
+  font-weight: 500;
+}
+
+.titleContainer {
+  display: flex;
+  height: 46px;
+  align-items: center;
+}
+
+.list {
+  font-size: 14px;
+  margin: 0;
+  line-height: 18px;
+  list-style: decimal;
+  list-style-position: inside;
+  padding-inline-start: 0;
+  & > li:first-child {
+    border-top: 1px solid $button_border_grey;
+  }
+  & > li {
+    border-bottom: 1px solid $button_border_grey;
+    padding: 10px 5px;
+  }
+}

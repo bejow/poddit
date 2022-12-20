@@ -19,8 +19,8 @@
     "spaced-comment": "error",
     "quotes": ["error", "double"],
     "no-duplicate-imports": "error",
-    "indent": ["error", 2],
-    "max-len": ["error", { "code": 100, "comments": 65, "tabWidth": 4 }]
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "max-len": ["error", { "code": 100, "comments": 75, "tabWidth": 4 }]
   },
   "ignorePatterns": ["**/icons/*.js"],
   "globals": {
@@ -29,10 +29,12 @@
     "it": true,
     "describe": true,
     "module": true,
+    "exports": true,
     "require": true,
     "test": true,
     "expect": true,
     "global": true,
-    "jest": true
+    "jest": true,
+    "process": true
   }
 }

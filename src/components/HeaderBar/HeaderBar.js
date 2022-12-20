@@ -14,11 +14,15 @@ import { getNameFromWebId } from "../../utils/webId"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
+import MoonLoader from "react-spinners/MoonLoader"
+
 export const HeaderBar = () => {
   const navigate = useNavigate()
-  const isMobile = useIsMobile()
-  const isSmallMobile = useIsSmallMobile()
+  const { isMobile } = useIsMobile()
+  const { isSmallMobile } = useIsSmallMobile()
   const { user, isUserLoggedIn, login } = useAuth()
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
 
   const renderButtons = () => {
     return (
@@ -33,9 +37,15 @@ export const HeaderBar = () => {
     isSmallMobile || isUserLoggedIn() ? undefined : (
       <>
         <Button type="secondary">{SIGN_UP_TEXT}</Button>
-        <Button type="primary" onClick={() => login()}>
-          {SIGN_IN_TEXT}
-        </Button>
+        {isLoading ? (
+          <div className={styles.spinner}>
+            <MoonLoader loading={true} size={15} />
+          </div>
+        ) : (
+          <Button type="primary" onClick={() => runAsyncFunction(login)}>
+            {SIGN_IN_TEXT}
+          </Button>
+        )}
       </>
     )
 

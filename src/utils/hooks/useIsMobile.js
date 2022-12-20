@@ -3,10 +3,12 @@ import { isSizeMobile } from "../screensize"
 
 export default function useIsMobile() {
   const [isMobile, setIsMobile] = useState(isSizeMobile(window.innerWidth))
+  const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     const onResize = () => {
       setIsMobile(isSizeMobile(window.innerWidth))
+      setWidth(window.innerWidth)
     }
 
     window.addEventListener("resize", onResize)
@@ -16,5 +18,5 @@ export default function useIsMobile() {
     }
   }, [])
 
-  return isMobile
+  return { isMobile, width }
 }

@@ -13,6 +13,7 @@
 }
 
 .editor {
+  cursor: text;
   resize: vertical;
   min-height: 150px;
   font-size: 14px;
@@ -25,6 +26,7 @@
   margin: 0 !important;
   padding: 5px !important;
   height: 32px !important;
+  position: relative;
 }
 
 .optionButton {
@@ -36,6 +38,9 @@
   width: 32px !important;
   height: 32px !important;
   background-color: transparent !important;
+  & > img {
+    opacity: 0.6;
+  }
   &:hover {
     box-shadow: none !important;
     background-color: $grey_hover !important;

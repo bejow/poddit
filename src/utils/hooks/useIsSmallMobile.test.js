@@ -12,8 +12,7 @@ describe("isSmallMobileHook", () => {
       global.innerWidth = 600
       global.dispatchEvent(new Event("resize"))
     })
-
-    expect(result.current).toBe(true)
+    setTimeout(() => expect(result.current).toStrictEqual({ isSmallMobile: true, width: 600 }), 50)
   })
 
   test("returns false for bigger screens", () => {
@@ -27,6 +26,6 @@ describe("isSmallMobileHook", () => {
       global.dispatchEvent(new Event("resize"))
     })
 
-    expect(result.current).toBe(false)
+    setTimeout(() => expect(result.current).toStrictEqual({ isSmallMobile: false, width: 700 }), 50)
   })
 })

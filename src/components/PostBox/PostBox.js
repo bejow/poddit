@@ -1,18 +1,21 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Box from "../Box/Box"
 import SvgArrowUp from "../icons/ArrowUp"
 import styles from "./PostBox.module.scss"
 import classNames from "classnames"
+import PropTypes from "prop-types"
 import {
   COMMENTS_TEXT,
   COMMUNITY_ROUTE,
   POSTED_BY_TEXT,
+  POST_ROUTE,
   PROFILE_ROUTE,
   VOTE_CONTAINER_TEXT,
 } from "../../assets/constants/strings"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { TimeSinceDisplay } from "../TimeSinceDisplay/TimeSinceDisplay"
 import { IconButton } from "../IconButton/IconButton"
+import { getPost } from "../../utils/rdfHelper"
 
 /* eslint-disable */
 
@@ -50,54 +53,95 @@ const postData = {
     },
   ],
 }
-const { community, creator, votes, tags, content, title, createdAt, comments } = postData
+const { community, votes, tags, comments } = postData
 
-const PostBox = () => {
-  const userLinkText = `u/${creator.name}`
-  const userLink = `${PROFILE_ROUTE}/${creator.webId}`
-  const communityLinkText = `r/${community}`
-  const communityLink = `${COMMUNITY_ROUTE}/${community}`
+const PostBox = ({ post, clickable, children }) => {
+  const { community } = post
+  const [postInfo, setPostInfo] = useState({ content: "", title: "" })
+  const { content, title, creator, comments } = postInfo
+  const createdAt = new Date(post.createdAt)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    handlePost()
+    return () => {}
+  }, [post])
+
+  const handlePost = async () => {
+    const fetchedPost = await getPost(post.url)
+    setPostInfo(fetchedPost)
+  }
+
+  const userLinkText = `u/${creator?.name}`
+  const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
+  const communityLinkText = `r/${community.title}`
+  const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 
   return (
-    <Box className={styles.container}>
-      <div className={styles.voteContainer}>
-        <SvgArrowUp viewBox="0 0 28 28" width="20px" height="20px" className={styles.voteIcon} />
-        <div className={styles.voteText}>{votes !== 0 ? votes : VOTE_CONTAINER_TEXT}</div>
-        <SvgArrowUp
-          viewBox="0 0 28 28"
-          width="20px"
-          height="20px"
-          className={classNames(styles.downvoteIcon, styles.voteIcon)}
-        />
-      </div>
-      <div className={styles.contentContainer}>
-        <div className={styles.header}>
-          <Link className={styles.communityLink} to={communityLink}>
-            {communityLinkText}
-          </Link>
-          <span className={styles.dotSeperator}>•</span>
-          <div>
-            <span className={classNames(styles.smallText, styles.postedByText)}>
-              {POSTED_BY_TEXT}
-            </span>
-            <Link className={classNames(styles.smallText, styles.userLink)} to={userLink}>
-              {userLinkText}
+    <Box
+      className={styles.container}
+      onClick={
+        clickable
+          ? () => navigate(`${POST_ROUTE}/${post.id}/${encodeURIComponent(post.url)}`)
+          : undefined
+      }
+    >
+      <div className={styles.flex}>
+        <div className={classNames(styles.voteContainer, { [styles.white]: !clickable })}>
+          <SvgArrowUp viewBox="0 0 28 28" width="20px" height="20px" className={styles.voteIcon} />
+          <div className={styles.voteText}>{votes !== 0 ? votes : VOTE_CONTAINER_TEXT}</div>
+          <SvgArrowUp
+            viewBox="0 0 28 28"
+            width="20px"
+            height="20px"
+            className={classNames(styles.downvoteIcon, styles.voteIcon)}
+          />
+        </div>
+        <div className={styles.contentContainer}>
+          <div className={styles.header}>
+            <Link className={styles.communityLink} to={communityLink}>
+              {communityLinkText}
             </Link>
-            <TimeSinceDisplay className={styles.smallText} date={createdAt} />
+            <span className={styles.dotSeperator}>•</span>
+            <div>
+              <span className={classNames(styles.smallText, styles.postedByText)}>
+                {POSTED_BY_TEXT}
+              </span>
+              <Link className={classNames(styles.smallText, styles.userLink)} to={userLink}>
+                {userLinkText}
+              </Link>
+              <TimeSinceDisplay className={styles.smallText} date={createdAt} />
+            </div>
+          </div>
+          <div className={styles.content}>
+            <h3 className={styles.postTitle}>{title}</h3>
+            <p className={styles.postText}>{content}</p>
+          </div>
+          <div className={styles.footer}>
+            <IconButton className={classNames({ [styles.cursorNormal]: !clickable })}>
+              {comments?.length} {COMMENTS_TEXT}
+            </IconButton>
           </div>
         </div>
-        <div className={styles.content}>
-          <h3 className={styles.postTitle}>{title}</h3>
-          <p className={styles.postText}>{content}</p>
-        </div>
-        <div className={styles.footer}>
-          <IconButton>
-            {comments.length} {COMMENTS_TEXT}
-          </IconButton>
-        </div>
       </div>
+      {children}
     </Box>
   )
+}
+
+PostBox.propTypes = {
+  children: PropTypes.node,
+  posts: PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+    createdAt: PropTypes.string,
+    clickable: PropTypes.bool,
+    community: PropTypes.shape({
+      id: PropTypes.number,
+      info: PropTypes.string,
+      title: PropTypes.string,
+    }),
+  }),
 }
 
 export default PostBox
