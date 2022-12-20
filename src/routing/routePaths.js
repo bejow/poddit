@@ -7,6 +7,7 @@ const paths = {
   main: "/",
   postCreate: "/post/create",
   post: "/post",
+  community: "/community",
 }
 
 export default paths
