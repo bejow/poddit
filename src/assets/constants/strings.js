@@ -25,6 +25,7 @@ const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
 const TABBUTTON_LINK = "Link"
 const TABBUTTON_POLL = "Poll"
 const TABBUTTON_TALK = "Talk"
+const POPULAR_COMMUNITY_TEXT = "Popular Communities"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -99,4 +100,5 @@ export {
   JOIN_COMMUNITY_TEXT,
   SOMETHING_WENT_WRONG_TEXT,
   REFRESH_TEXT,
+  POPULAR_COMMUNITY_TEXT,
 }
