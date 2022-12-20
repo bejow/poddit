@@ -12,7 +12,7 @@ const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
-const RULES_TITLE_TEXT = "Posting to Reddit"
+const RULES_TITLE_TEXT = "Posting to Poddit"
 const COMMENT_AS_TEXT = "Comment as"
 const COMMENT_BUTTON_TEXT = "Comment"
 const DOT_TEXT = "·"
@@ -25,6 +25,7 @@ const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
 const TABBUTTON_LINK = "Link"
 const TABBUTTON_POLL = "Poll"
 const TABBUTTON_TALK = "Talk"
+const POPULAR_COMMUNITY_TEXT = "Popular Communities"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -99,4 +100,5 @@ export {
   JOIN_COMMUNITY_TEXT,
   SOMETHING_WENT_WRONG_TEXT,
   REFRESH_TEXT,
+  POPULAR_COMMUNITY_TEXT,
 }
