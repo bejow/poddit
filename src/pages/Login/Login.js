@@ -55,9 +55,9 @@ const Login = () => {
         <p className={styles.title}>{POPULAR_COMMUNITY_TEXT}</p>
         {communities.map((community, index) => (
           <div className={styles.boxContainer} key={`community-info-${community.id}`}>
-            <div className={styles.collapseHeader}>
+            <div onClick={() => toggleOpen(index)} className={styles.collapseHeader}>
               <p className={styles.communityTitle}>{community.title}</p>
-              <div onClick={() => toggleOpen(index)} className={styles.arrowContainer}>
+              <div className={styles.arrowContainer}>
                 <i className={classNames(styles.arrow, styles.down)}></i>
               </div>
             </div>
