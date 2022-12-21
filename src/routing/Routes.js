@@ -1,6 +1,7 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
+import Community from "../pages/Community/Community"
 import Login from "../pages/Login/Login"
 import MainPage from "../pages/MainPage/MainPage"
 import Post from "../pages/Post/Post"
@@ -38,8 +39,16 @@ const MyRoutes = () => {
       <Route
         path={`${paths.post}/:postId/:postUrl`}
         element={
-          <ProtectedRoute redirectTo={paths.login} from={paths.postCreate}>
+          <ProtectedRoute redirectTo={paths.login} from={paths.main}>
             <Post />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={`${paths.community}/:communityId`}
+        element={
+          <ProtectedRoute redirectTo={paths.login} from={paths.main}>
+            <Community />
           </ProtectedRoute>
         }
       />

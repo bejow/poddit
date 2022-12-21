@@ -1,8 +1,13 @@
-import { API_ENDPOINT, COMMUNITY_ENDPOINT, POST_ENDPOINT } from "../assets/constants/strings"
+import {
+  API_ENDPOINT,
+  COMMUNITIES_ENDPOINT,
+  COMMUNITY_ENDPOINT,
+  POST_ENDPOINT,
+} from "../assets/constants/strings"
 const { REACT_APP_API_URL } = process.env
 
 const getCommunities = async () => {
-  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${COMMUNITY_ENDPOINT}`)
+  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${COMMUNITIES_ENDPOINT}`)
   const communities = await response.json()
   return communities
 }
@@ -11,6 +16,22 @@ const getPosts = async () => {
   const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}`)
   const posts = await response.json()
   return posts
+}
+
+const getPostsFromCommunity = async (communityId) => {
+  const response = await fetch(
+    `${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}${COMMUNITY_ENDPOINT}/${communityId}`,
+  )
+  const communityPosts = await response.json()
+  return communityPosts
+}
+
+const getCommunity = async (communityId) => {
+  const response = await fetch(
+    `${REACT_APP_API_URL}${API_ENDPOINT}${COMMUNITIES_ENDPOINT}/${communityId})`,
+  )
+  const community = await response.json()
+  return community
 }
 
 // MetaPost = Post references in the database
@@ -35,4 +56,11 @@ const publishPostToCommunity = async (postUrl, communityId) => {
   return response
 }
 
-export { getCommunities, publishPostToCommunity, getPosts, getMetaPost }
+export {
+  getCommunities,
+  publishPostToCommunity,
+  getPosts,
+  getMetaPost,
+  getCommunity,
+  getPostsFromCommunity,
+}

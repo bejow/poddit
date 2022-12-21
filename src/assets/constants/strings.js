@@ -38,7 +38,9 @@ const PROFILE_ROUTE = "/profile"
 const POST_ROUTE = "/post"
 
 const API_ENDPOINT = "/api"
-const COMMUNITY_ENDPOINT = "/communities"
+const COMMUNITIES_ENDPOINT = "/communities"
+const COMMUNITY_ENDPOINT = "/community"
+
 const POST_ENDPOINT = "/posts"
 
 const JUST_NOW_TEXT = "just now"
@@ -112,4 +114,5 @@ export {
   ERROR_TYPE_MISSING_WEBID,
   CREATE_WEBID_TEXT,
   ERROR_MESSAGE_TEXT,
+  COMMUNITIES_ENDPOINT,
 }

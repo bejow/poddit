@@ -7,7 +7,7 @@ import classNames from "classnames"
 const Layout = ({ children, infoContent, contentSize, hideSearchBar }) => {
   return (
     <div className={styles.layoutWrapper}>
-      <HeaderBar hideSearchBar />
+      <HeaderBar hideSearchBar={hideSearchBar} />
       <div className={styles.childrenWrapper}>
         <div className={classNames(styles.pageWrapper, styles[contentSize])}>
           <div className={styles.feedWrapper}>{children}</div>

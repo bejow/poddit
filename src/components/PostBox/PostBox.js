@@ -99,7 +99,11 @@ const PostBox = ({ post, clickable, children }) => {
         </div>
         <div className={styles.contentContainer}>
           <div className={styles.header}>
-            <Link className={styles.communityLink} to={communityLink}>
+            <Link
+              onClick={(e) => e.stopPropagation()}
+              className={styles.communityLink}
+              to={communityLink}
+            >
               {communityLinkText}
             </Link>
             <span className={styles.dotSeperator}>•</span>
