@@ -26,6 +26,7 @@ import { universalAccess } from "@inrupt/solid-client"
 import { PUBLIC_CONTAINER } from "../assets/constants/pod"
 import { v4 as uuidv4 } from "uuid"
 import { getNameFromWebId } from "./webId"
+import { ERROR_TYPE_MISSING_WEBID, INRUPT_SIGNUP_URL } from "../assets/constants/strings"
 
 const postText = async (user, post, callback) => {
   const profileURL = new URL(user.info.webId)
@@ -136,8 +137,15 @@ const getProfile = async (webId, callback) => {
   return profileObject
 }
 
-const getPodUrl = async (user) => {
-  const myPods = await getPodUrlAll(user.info.webId, { fetch: user.fetch })
+const getPodUrl = async (user, setError) => {
+  console.log(user)
+  var myPods
+  try {
+    myPods = await getPodUrlAll(user.info.webId, { fetch: fetch })
+  } catch (error) {
+    setError({ message: "Seems like your webid is missing", type: ERROR_TYPE_MISSING_WEBID })
+  }
+
   return myPods
 }
 

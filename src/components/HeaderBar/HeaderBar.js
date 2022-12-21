@@ -9,15 +9,16 @@ import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
 import SvgUserIcon from "../icons/UserIcon"
 import SvgCaretDown from "../icons/CaretDown"
 import useAuth from "../../utils/hooks/useAuth"
-import { SIGN_IN_TEXT, SIGN_UP_TEXT } from "../../assets/constants/strings"
+import { INRUPT_SIGNUP_URL, SIGN_IN_TEXT, SIGN_UP_TEXT } from "../../assets/constants/strings"
 import { getNameFromWebId } from "../../utils/webId"
 import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import MoonLoader from "react-spinners/MoonLoader"
+import PropTypes from "prop-types"
 
-export const HeaderBar = () => {
+export const HeaderBar = ({ hideSearchBar }) => {
   const navigate = useNavigate()
   const { isMobile } = useIsMobile()
   const { isSmallMobile } = useIsSmallMobile()
@@ -36,7 +37,9 @@ export const HeaderBar = () => {
   const renderAuthButtons = () =>
     isSmallMobile || isUserLoggedIn() ? undefined : (
       <>
-        <Button type="secondary">{SIGN_UP_TEXT}</Button>
+        <Button onClick={() => (window.location.href = INRUPT_SIGNUP_URL)} type="secondary">
+          {SIGN_UP_TEXT}
+        </Button>
         {isLoading ? (
           <div className={styles.spinner}>
             <MoonLoader loading={true} size={15} />
@@ -81,9 +84,13 @@ export const HeaderBar = () => {
             viewBox="0 0 140 38"
           />
         )}
-        <SearchBar />
+        {hideSearchBar ? null : <SearchBar />}
         {renderButtons()}
       </div>
     </div>
   )
+}
+
+HeaderBar.propTypes = {
+  hideSearchBar: PropTypes.bool,
 }

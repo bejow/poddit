@@ -9,12 +9,14 @@ import useUserStore from "../../states/User"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import paths from "../../routing/routePaths"
 import { getPodUrl } from "../rdfHelper"
+import useErrorStore from "../../states/Error"
 
 const useAuth = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
     (state) => [state.user, state.isUserLoggedIn, state.setUser],
     shallow,
   )
+  const { setError } = useErrorStore()
 
   useEffect(() => {
     if (!isUserLoggedIn()) {
@@ -44,13 +46,16 @@ const useAuth = () => {
 
   const onRedirectAfterLogin = async () => {
     // handle oauth callback
-    await handleIncomingRedirect()
+    console.log("0")
+    await handleIncomingRedirect({ restorePreviousSession: true })
     const session = getDefaultSession()
 
     // check for login state
     if (session?.info?.isLoggedIn) {
       // successful Login
-      const pods = await getPodUrl(session)
+      console.log("test1")
+      const pods = await getPodUrl(session, setError)
+      console.log("test2")
       setUser({ ...session, pods })
       if (from) {
         // Redirect User to Page visited before Login

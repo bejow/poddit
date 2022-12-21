@@ -4,10 +4,10 @@ import PropTypes from "prop-types"
 import styles from "./Layout.module.scss"
 import classNames from "classnames"
 
-const Layout = ({ children, infoContent, contentSize }) => {
+const Layout = ({ children, infoContent, contentSize, hideSearchBar }) => {
   return (
     <div className={styles.layoutWrapper}>
-      <HeaderBar />
+      <HeaderBar hideSearchBar />
       <div className={styles.childrenWrapper}>
         <div className={classNames(styles.pageWrapper, styles[contentSize])}>
           <div className={styles.feedWrapper}>{children}</div>
@@ -22,6 +22,7 @@ Layout.propTypes = {
   contentSize: PropTypes.oneOf(["s", "m", "l"]),
   children: PropTypes.node.isRequired,
   infoContent: PropTypes.node,
+  hideSearchBar: PropTypes.bool,
 }
 
 export default Layout
