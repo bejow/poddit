@@ -10,6 +10,7 @@ $darker_grey: #878a8c;
 $black: #1c1c1c;
 
 $blue: #0079d3;
+$light_blue: #33a8ff;
 $orangered: #ff4500;
 
 $icon_background_grey: #d7dfe2;
@@ -26,3 +27,7 @@ $white_hover_oppacity: 0.96;
 $blue_hover_opacity: 0.92;
 
 $color_medium_border: rgba(0, 0, 0, 0.2);
+
+:export {
+  blue: $blue;
+}

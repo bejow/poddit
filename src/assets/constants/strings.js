@@ -11,6 +11,8 @@ const CREATE_POST_HEADING = "Create a post"
 const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
+const POSTS_TEXT = "Posts"
+const POST_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
 const RULES_TITLE_TEXT = "Posting to Poddit"
 const COMMENT_AS_TEXT = "Comment as"
@@ -32,6 +34,8 @@ const INRUPT_SIGNUP_URL = "https://start.inrupt.com/profile"
 const ERROR_TYPE_MISSING_WEBID = "MissingWebId"
 const CREATE_WEBID_TEXT = "Create WebId"
 const ERROR_MESSAGE_TEXT = "Error Message:"
+const ABOUT_COMMUNITY_TEXT = "About Community"
+const CREATED_TEXT = "Created"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -115,4 +119,8 @@ export {
   CREATE_WEBID_TEXT,
   ERROR_MESSAGE_TEXT,
   COMMUNITIES_ENDPOINT,
+  ABOUT_COMMUNITY_TEXT,
+  CREATED_TEXT,
+  POSTS_TEXT,
+  POST_TEXT,
 }
