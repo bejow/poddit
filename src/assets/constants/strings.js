@@ -11,6 +11,8 @@ const CREATE_POST_HEADING = "Create a post"
 const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
+const POSTS_TEXT = "Posts"
+const POST_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
 const RULES_TITLE_TEXT = "Posting to Poddit"
 const COMMENT_AS_TEXT = "Comment as"
@@ -19,6 +21,8 @@ const DOT_TEXT = "·"
 const JOIN_COMMUNITY_TEXT = "Join"
 const SOMETHING_WENT_WRONG_TEXT =
   "Oops this seems like an Error, Poddit isn't working as expected. A report has been sent to our developer who will investigate the error ASAP."
+const MISSING_WEBID_INFO_TEXT =
+  "This is not a problem you can create one by clicking the button below. After finishing this process come back to poddit and log in again."
 const REFRESH_TEXT = "Refresh"
 const TABBUTTON_POST = "Post"
 const TABBUTTON_IMAGES_VIDEOS = "Images & Videos"
@@ -26,13 +30,21 @@ const TABBUTTON_LINK = "Link"
 const TABBUTTON_POLL = "Poll"
 const TABBUTTON_TALK = "Talk"
 const POPULAR_COMMUNITY_TEXT = "Popular Communities"
+const INRUPT_SIGNUP_URL = "https://start.inrupt.com/profile"
+const ERROR_TYPE_MISSING_WEBID = "MissingWebId"
+const CREATE_WEBID_TEXT = "Create WebId"
+const ERROR_MESSAGE_TEXT = "Error Message:"
+const ABOUT_COMMUNITY_TEXT = "About Community"
+const CREATED_TEXT = "Created"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
 const POST_ROUTE = "/post"
 
 const API_ENDPOINT = "/api"
-const COMMUNITY_ENDPOINT = "/communities"
+const COMMUNITIES_ENDPOINT = "/communities"
+const COMMUNITY_ENDPOINT = "/community"
+
 const POST_ENDPOINT = "/posts"
 
 const JUST_NOW_TEXT = "just now"
@@ -101,4 +113,14 @@ export {
   SOMETHING_WENT_WRONG_TEXT,
   REFRESH_TEXT,
   POPULAR_COMMUNITY_TEXT,
+  INRUPT_SIGNUP_URL,
+  MISSING_WEBID_INFO_TEXT,
+  ERROR_TYPE_MISSING_WEBID,
+  CREATE_WEBID_TEXT,
+  ERROR_MESSAGE_TEXT,
+  COMMUNITIES_ENDPOINT,
+  ABOUT_COMMUNITY_TEXT,
+  CREATED_TEXT,
+  POSTS_TEXT,
+  POST_TEXT,
 }

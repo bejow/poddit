@@ -1,4 +1,5 @@
 export { default as ArrowUp } from "./ArrowUp"
+export { default as Cake } from "./Cake"
 export { default as CaretDown } from "./CaretDown"
 export { default as DefaultCommunity } from "./DefaultCommunity"
 export { default as DottedCircle } from "./DottedCircle"

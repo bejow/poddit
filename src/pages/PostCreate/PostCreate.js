@@ -24,6 +24,7 @@ import SvgLinkIcon from "../../components/icons/LinkIcon"
 import TextPost from "./TextPost"
 import { getCommunities } from "../../utils/api"
 import useErrorStore from "../../states/Error"
+import { useParams } from "react-router-dom"
 
 // const options = [
 //   { value: "chocolate", label: "Chocolate" },
@@ -50,10 +51,13 @@ const customComponents = {
 }
 
 const PostCreate = () => {
+  const { communityId } = useParams()
   const [selectedOption, setSelectedOption] = useState(null)
   const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
   const [communityOptions, setCommunityOptions] = useState([])
   const { setError } = useErrorStore()
+  console.log(selectedOption)
+  console.log(communityId)
   const onSelectedChange = (option) => {
     setSelectedOption(option)
   }
@@ -75,6 +79,13 @@ const PostCreate = () => {
         }
       })
       setCommunityOptions(communityOptions)
+      console.log(communityId)
+      if (communityId) {
+        console.log("in if")
+        console.log(communityOptions)
+        console.log(setSelectedOption(communityOptions.find((option) => option.id == communityId)))
+        setSelectedOption(communityOptions.find((option) => option.id == communityId))
+      }
     } catch (error) {
       setError({ message: error.message })
     }

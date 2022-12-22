@@ -11,11 +11,14 @@ import classNames from "classnames"
 import { Link, useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
 
-const PostInputBox = ({ className }) => {
+const PostInputBox = ({ className, communityId }) => {
   const navigate = useNavigate()
 
   return (
-    <Box className={classNames(styles.postInputContainer, className)}>
+    <Box
+      onClick={() => navigate(`${paths.postCreate}${communityId ? `/${communityId}` : ""}`)}
+      className={classNames(styles.postInputContainer, className)}
+    >
       <Link to={paths.ownProfile}>
         <SVGUnknownUserIcon className={styles.unknownUserIcon} />
       </Link>
@@ -44,6 +47,7 @@ const PostInputBox = ({ className }) => {
 
 PostInputBox.propTypes = {
   className: PropTypes.string,
+  communityId: PropTypes.number,
 }
 
 export default PostInputBox

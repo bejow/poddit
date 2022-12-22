@@ -1,0 +1,137 @@
+@import "../../styles/constants.scss";
+
+.headWrapper {
+  width: 100%;
+  background-color: $blue;
+}
+
+.communityIcon {
+  width: 52px;
+  height: 52px;
+  margin-right: 16px;
+  margin-top: -16px;
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid $white;
+}
+
+.postAmountValue {
+  font-size: 16px;
+  font-weight: 500;
+  color: $darker_grey;
+}
+
+.postAmountDescription {
+  font-size: 12px;
+  color: $grey;
+  font-weight: 400;
+}
+
+.communityDate {
+  font-size: 14px;
+  color: $grey;
+  font-weight: 400;
+}
+
+.cakeIcon {
+  width: 20px;
+  height: 20px;
+  svg,
+  path {
+    fill: $darker_grey;
+  }
+  margin-right: 8px;
+}
+
+.horizontalLine {
+  height: 1px;
+  border: none;
+  margin: 16px 0;
+  background-color: $grey;
+}
+
+.statEntryContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  & p {
+    margin: 0;
+  }
+}
+
+.button {
+  margin-left: 16px;
+}
+
+.bottomColor {
+  background-color: $white;
+  height: 100px;
+}
+.bottomColorContainer {
+  align-items: flex-start;
+  display: flex;
+  width: calc(100% - 64px);
+  padding: 8px 32px 24px 32px;
+  justify-content: center;
+}
+
+.communityHeadContainer {
+  max-width: 974px;
+  display: flex;
+  flex-grow: 1;
+}
+
+.infoPadding {
+  padding: 16px;
+}
+
+.infoTitle {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 16px 16px;
+}
+
+.createdAtContainer {
+  display: flex;
+  align-items: center;
+}
+
+.infoText {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.topColorContainer {
+  color: $light_blue;
+  height: 64px;
+}
+
+.communitySubTitle {
+  color: $grey;
+  font-size: 14px;
+}
+
+.postInput {
+  margin-bottom: 16px;
+}
+
+.communityTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: $black;
+  padding-bottom: 4px;
+}
+
+.headInfoContainer {
+  margin-top: -4px;
+}
+
+@media (min-width: $screen_mobile) {
+}
