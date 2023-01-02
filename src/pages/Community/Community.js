@@ -38,7 +38,7 @@ const Community = () => {
       setError({ message: error.message })
     }
     return () => {}
-  }, [])
+  }, [communityId])
 
   const handleCommunityPosts = async () => {
     const posts = await getPostsFromCommunity(communityId)
