@@ -9,7 +9,6 @@ import {
   COMMUNITY_ROUTE,
   POSTED_BY_TEXT,
   POST_ROUTE,
-  PROFILE_ROUTE,
   VOTE_CONTAINER_TEXT,
 } from "../../assets/constants/strings"
 import { Link, useNavigate } from "react-router-dom"
@@ -73,7 +72,7 @@ const PostBox = ({ post, clickable, children }) => {
   }
 
   const userLinkText = `u/${creator?.name}`
-  const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
+  const userLink = `${creator?.webId}`
   const communityLinkText = `r/${community.title}`
   const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 

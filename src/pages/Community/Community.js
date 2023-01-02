@@ -22,6 +22,8 @@ import styleConstants from "../../styles/constants.scss"
 import Box from "../../components/Box/Box"
 import SVGCake from "../../components/icons/Cake"
 import PostInputBox from "../../components/PostInputBox/PostInputBox"
+import { subscribeToCommunity } from "../../utils/rdfHelper"
+import useAuth from "../../utils/hooks/useAuth"
 const Community = () => {
   let { communityId } = useParams()
   const { setError } = useErrorStore()
@@ -29,6 +31,7 @@ const Community = () => {
   const [communityPosts, setCommunityPosts] = useState([])
   const [community, setCommunity] = useState({})
   const communityTitle = `r/${community?.title}`
+  const { user } = useAuth()
   const [baseColorForCommunity, setBaseColorForCommunity] = useState(styleConstants.blue)
   useEffect(() => {
     try {
@@ -104,6 +107,7 @@ const Community = () => {
                 <div className={styles.titleWrapper}>
                   <h1 className={styles.communityTitle}>{community.title}</h1>
                   <Button
+                    onClick={() => subscribeToCommunity(user, communityId)}
                     style={{
                       backgroundColor: baseColorForCommunity,
                       borderColor: baseColorForCommunity,

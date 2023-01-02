@@ -40,9 +40,9 @@ const TextPost = ({ community }) => {
             title: postState.title,
             content: editorState.getCurrentContent().getPlainText(),
           },
-          (result) => {
+          async (result) => {
             const createdSolidPostDataset = result[0]
-            publishPostToCommunity(
+            await publishPostToCommunity(
               createdSolidPostDataset.internal_resourceInfo.sourceIri,
               community.id,
             )
