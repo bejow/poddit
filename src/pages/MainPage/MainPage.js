@@ -13,18 +13,21 @@ import classNames from "classnames"
 import { Collapse } from "react-collapse"
 import Button from "../../components/Button/Button"
 import useAuth from "../../utils/hooks/useAuth"
+import { getSubscribedCommunities } from "../../utils/rdfHelper"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
   const { setError } = useErrorStore()
   const [communities, setCommunities] = useState([])
+  const [subscribedCommunities, setSubscribedCommunities] = useState([])
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-  const { login } = useAuth()
+  const { login, user } = useAuth()
 
   useEffect(() => {
     try {
       runAsyncFunction(handlePosts)
       runAsyncFunction(handleCommunities)
+      runAsyncFunction(handleSubscriptions)
     } catch (error) {
       setError({ message: error.message })
     }
@@ -34,6 +37,11 @@ const MainPage = () => {
   const handlePosts = async () => {
     const fetchedPosts = await getPosts()
     setPosts(fetchedPosts)
+  }
+
+  const handleSubscriptions = async () => {
+    const subscriptions = await getSubscribedCommunities(user)
+    setSubscribedCommunities(subscriptions)
   }
 
   const handleCommunities = async () => {
@@ -86,7 +94,15 @@ const MainPage = () => {
   return (
     <Layout infoContent={renderInfo()}>
       <PostInputBox className={styles.postInputBox} />
-      {isLoading ? <MoonLoader loading={true} size={30} /> : <Feed posts={posts} />}
+      {isLoading ? (
+        <MoonLoader loading={true} size={30} />
+      ) : (
+        <Feed
+          posts={posts.filter(
+            (post) => subscribedCommunities.indexOf(post.community.id.toString()) > -1,
+          )}
+        />
+      )}
     </Layout>
   )
 }

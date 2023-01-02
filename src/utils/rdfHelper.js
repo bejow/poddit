@@ -200,9 +200,6 @@ const subscribeToCommunity = async (user, communityId) => {
     subscriptionList = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
     // Clear the list to override the whole list
     let items = getThingAll(subscriptionList)
-    // items.forEach((item) => {
-    //   subscriptionList = removeThing(subscriptionList, item)
-    // })
     console.log(items)
   } catch (error) {
     if (typeof error.statusCode === "number" && error.statusCode === 404) {
@@ -223,6 +220,14 @@ const subscribeToCommunity = async (user, communityId) => {
     fetch: user.fetch,
   })
   console.log(savedSubscriptionList)
+}
+
+const getSubscribedCommunities = async (user) => {
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+  let subscriptions = getThingAll(subscriptionsDataset)
+  subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
+  return subscriptions
 }
 
 const postComment = async (user, commentUrl, comment, parentIdentifier, callback) => {
@@ -250,4 +255,12 @@ const postComment = async (user, commentUrl, comment, parentIdentifier, callback
   callback(savedSolidCommentDataset)
 }
 
-export { getProfile, postText, getPodUrl, getPost, postComment, subscribeToCommunity }
+export {
+  getProfile,
+  postText,
+  getPodUrl,
+  getPost,
+  postComment,
+  subscribeToCommunity,
+  getSubscribedCommunities,
+}
