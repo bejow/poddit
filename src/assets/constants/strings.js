@@ -19,6 +19,7 @@ const COMMENT_AS_TEXT = "Comment as"
 const COMMENT_BUTTON_TEXT = "Comment"
 const DOT_TEXT = "·"
 const JOIN_COMMUNITY_TEXT = "Join"
+const JOINED_COMMUNITY_TEXT = "Joined"
 const SOMETHING_WENT_WRONG_TEXT =
   "Oops this seems like an Error, Poddit isn't working as expected. A report has been sent to our developer who will investigate the error ASAP."
 const MISSING_WEBID_INFO_TEXT =
@@ -110,6 +111,7 @@ export {
   COMMENT_BUTTON_TEXT,
   DOT_TEXT,
   JOIN_COMMUNITY_TEXT,
+  JOINED_COMMUNITY_TEXT,
   SOMETHING_WENT_WRONG_TEXT,
   REFRESH_TEXT,
   POPULAR_COMMUNITY_TEXT,

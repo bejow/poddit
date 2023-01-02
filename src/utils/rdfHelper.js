@@ -20,10 +20,18 @@ import {
   getThingAll,
   getStringEnglish,
   getUrl,
+  addUrl,
+  addStringNoLocale,
+  removeThing,
 } from "@inrupt/solid-client"
-import { FOAF, RDF, RDFS, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf"
+import { FOAF, RDF, RDFS, SCHEMA_INRUPT, AS } from "@inrupt/vocab-common-rdf"
 import { universalAccess } from "@inrupt/solid-client"
-import { PUBLIC_CONTAINER } from "../assets/constants/pod"
+import {
+  PUBLIC_CONTAINER,
+  PRIVATE_CONTAINER,
+  COMMUNITY_SUBSCRIPTIONS_FILENAME,
+  SUBSCRIPTION_THINGNAME,
+} from "../assets/constants/pod"
 import { v4 as uuidv4 } from "uuid"
 import { getNameFromWebId } from "./webId"
 import { ERROR_TYPE_MISSING_WEBID, INRUPT_SIGNUP_URL } from "../assets/constants/strings"
@@ -185,6 +193,64 @@ const getPost = async (postUrl) => {
   return post
 }
 
+const subscribeToCommunity = async (user, communityId) => {
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  let subscriptionList
+  try {
+    // Attempt to retrieve the reading list in case it already exists.
+    subscriptionList = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+    // Clear the list to override the whole list
+    let items = getThingAll(subscriptionList)
+    console.log(items)
+  } catch (error) {
+    if (typeof error.statusCode === "number" && error.statusCode === 404) {
+      // if not found, create a new SolidDataset (i.e., the reading list)
+      console.log("Create new subscription file")
+      subscriptionList = createSolidDataset()
+    } else {
+      console.error(error.message)
+    }
+  }
+
+  let subscription = createThing({ name: `${SUBSCRIPTION_THINGNAME}${communityId}` })
+  subscription = addUrl(subscription, RDF.type, AS.Join)
+  subscription = addStringNoLocale(subscription, AS.Group, communityId)
+  subscriptionList = setThing(subscriptionList, subscription)
+
+  let savedSubscriptionList = await saveSolidDatasetAt(subscriptionDatasetUrl, subscriptionList, {
+    fetch: user.fetch,
+  })
+  return savedSubscriptionList
+}
+
+const getSubscribedCommunities = async (user) => {
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+  let subscriptions = getThingAll(subscriptionsDataset)
+  subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
+  return subscriptions
+}
+
+const unsubscribeFromCommunity = async (user, communityId) => {
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+  let subscriptions = getThingAll(subscriptionsDataset)
+  subscriptions.forEach((subscription) => {
+    if (getStringNoLocale(subscription, AS.Group) === communityId.toString()) {
+      console.log("infif")
+      subscriptionsDataset = removeThing(subscriptionsDataset, subscription)
+    }
+  })
+  const savedSubscriptionDataset = await saveSolidDatasetAt(
+    subscriptionDatasetUrl,
+    subscriptionsDataset,
+    {
+      fetch: user.fetch,
+    },
+  )
+  return savedSubscriptionDataset
+}
+
 const postComment = async (user, commentUrl, comment, parentIdentifier, callback) => {
   const uuid = uuidv4()
   const timestamp = Date.now()
@@ -210,4 +276,13 @@ const postComment = async (user, commentUrl, comment, parentIdentifier, callback
   callback(savedSolidCommentDataset)
 }
 
-export { getProfile, postText, getPodUrl, getPost, postComment }
+export {
+  getProfile,
+  postText,
+  getPodUrl,
+  getPost,
+  postComment,
+  subscribeToCommunity,
+  unsubscribeFromCommunity,
+  getSubscribedCommunities,
+}

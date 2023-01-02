@@ -29,6 +29,14 @@ const MyRoutes = () => {
         }
       />
       <Route
+        path={`${paths.postCreate}`}
+        element={
+          <ProtectedRoute redirectTo={paths.login} from={paths.postCreate}>
+            <PostCreate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path={`${paths.postCreate}/:communityId`}
         element={
           <ProtectedRoute redirectTo={paths.login} from={paths.postCreate}>

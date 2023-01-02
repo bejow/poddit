@@ -1,3 +1,11 @@
 const PUBLIC_CONTAINER = "public/"
+const PRIVATE_CONTAINER = "private/"
+const COMMUNITY_SUBSCRIPTIONS_FILENAME = "poddit-community-subscriptions"
+const SUBSCRIPTION_THINGNAME = "poddit-subscription-community-"
 
-export { PUBLIC_CONTAINER }
+export {
+  PUBLIC_CONTAINER,
+  PRIVATE_CONTAINER,
+  COMMUNITY_SUBSCRIPTIONS_FILENAME,
+  SUBSCRIPTION_THINGNAME,
+}
