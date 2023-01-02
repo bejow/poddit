@@ -13,6 +13,7 @@ import Button from "../../components/Button/Button"
 import {
   ABOUT_COMMUNITY_TEXT,
   CREATED_TEXT,
+  JOINED_COMMUNITY_TEXT,
   JOIN_COMMUNITY_TEXT,
   POSTS_TEXT,
   POST_TEXT,
@@ -22,8 +23,8 @@ import styleConstants from "../../styles/constants.scss"
 import Box from "../../components/Box/Box"
 import SVGCake from "../../components/icons/Cake"
 import PostInputBox from "../../components/PostInputBox/PostInputBox"
-import { subscribeToCommunity } from "../../utils/rdfHelper"
 import useAuth from "../../utils/hooks/useAuth"
+import useSubscriptions from "../../utils/hooks/useSubscriptions"
 const Community = () => {
   let { communityId } = useParams()
   const { setError } = useErrorStore()
@@ -33,6 +34,9 @@ const Community = () => {
   const communityTitle = `r/${community?.title}`
   const { user } = useAuth()
   const [baseColorForCommunity, setBaseColorForCommunity] = useState(styleConstants.blue)
+  const { fetchSubscriptions, isSubscribedTo, subscriptions, subscribeTo, unsubscribeFrom } =
+    useSubscriptions(user)
+  console.log(subscriptions)
   useEffect(() => {
     try {
       runAsyncFunction(handleCommunityPosts)
@@ -52,6 +56,16 @@ const Community = () => {
     const community = await getCommunity(communityId)
     setCommunity(community)
     setBaseColorForCommunity(hashStringToColor(community.title))
+  }
+
+  const handleCommunitySubscribe = async () => {
+    await runAsyncFunction(async () => await subscribeTo(communityId))
+    runAsyncFunction(fetchSubscriptions)
+  }
+
+  const handleCommunityUnsubscribe = async () => {
+    await runAsyncFunction(async () => await unsubscribeFrom(communityId))
+    runAsyncFunction(fetchSubscriptions)
   }
 
   const displayDate = (dateISOString) => {
@@ -107,7 +121,11 @@ const Community = () => {
                 <div className={styles.titleWrapper}>
                   <h1 className={styles.communityTitle}>{community.title}</h1>
                   <Button
-                    onClick={() => subscribeToCommunity(user, communityId)}
+                    onClick={
+                      isSubscribedTo(communityId)
+                        ? handleCommunityUnsubscribe
+                        : handleCommunitySubscribe
+                    }
                     style={{
                       backgroundColor: baseColorForCommunity,
                       borderColor: baseColorForCommunity,
@@ -115,7 +133,7 @@ const Community = () => {
                     className={styles.button}
                     type="primary"
                   >
-                    {JOIN_COMMUNITY_TEXT}
+                    {isSubscribedTo(communityId) ? JOINED_COMMUNITY_TEXT : JOIN_COMMUNITY_TEXT}
                   </Button>
                 </div>
                 <h2 className={styles.communitySubTitle}>{communityTitle}</h2>

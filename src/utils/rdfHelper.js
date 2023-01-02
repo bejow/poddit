@@ -22,6 +22,7 @@ import {
   getUrl,
   addUrl,
   addStringNoLocale,
+  removeThing,
 } from "@inrupt/solid-client"
 import { FOAF, RDF, RDFS, SCHEMA_INRUPT, AS } from "@inrupt/vocab-common-rdf"
 import { universalAccess } from "@inrupt/solid-client"
@@ -219,7 +220,7 @@ const subscribeToCommunity = async (user, communityId) => {
   let savedSubscriptionList = await saveSolidDatasetAt(subscriptionDatasetUrl, subscriptionList, {
     fetch: user.fetch,
   })
-  console.log(savedSubscriptionList)
+  return savedSubscriptionList
 }
 
 const getSubscribedCommunities = async (user) => {
@@ -228,6 +229,26 @@ const getSubscribedCommunities = async (user) => {
   let subscriptions = getThingAll(subscriptionsDataset)
   subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
   return subscriptions
+}
+
+const unsubscribeFromCommunity = async (user, communityId) => {
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+  let subscriptions = getThingAll(subscriptionsDataset)
+  subscriptions.forEach((subscription) => {
+    if (getStringNoLocale(subscription, AS.Group) === communityId.toString()) {
+      console.log("infif")
+      subscriptionsDataset = removeThing(subscriptionsDataset, subscription)
+    }
+  })
+  const savedSubscriptionDataset = await saveSolidDatasetAt(
+    subscriptionDatasetUrl,
+    subscriptionsDataset,
+    {
+      fetch: user.fetch,
+    },
+  )
+  return savedSubscriptionDataset
 }
 
 const postComment = async (user, commentUrl, comment, parentIdentifier, callback) => {
@@ -262,5 +283,6 @@ export {
   getPost,
   postComment,
   subscribeToCommunity,
+  unsubscribeFromCommunity,
   getSubscribedCommunities,
 }
