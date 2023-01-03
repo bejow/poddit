@@ -39,6 +39,7 @@ const Post = () => {
     }
     return () => {}
   }, [reload])
+
   const { user } = useAuth()
   const [postData, setPostData] = useState({
     identifier: "",
@@ -46,12 +47,12 @@ const Post = () => {
     content: "",
     creator: { webId: "", name: "" },
     comments: [],
-    community: { title: "", info: "" },
+    community: { title: "", info: "", id: "" },
   })
   const { creator, commentUrl } = postData
 
   const onCommentSubmit = () => {
-    runAsyncFunction(() =>
+    runAsyncFunction(async () =>
       postComment(
         user,
         commentUrl,
@@ -73,7 +74,6 @@ const Post = () => {
 
   const replyToComment = async (commentIdentifier, text, callback) => {
     const comment = await postComment(user, commentUrl, text, commentIdentifier, callback)
-
     return comment
   }
 
@@ -102,9 +102,8 @@ const Post = () => {
   postUrl = decodeURIComponent(postUrl)
   const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
-
   return (
-    <Layout infoContent={<CommunityBox community={postData?.community} />}>
+    <Layout infoContent={isLoading ? null : <CommunityBox community={postData?.community} />}>
       <PostBox post={postData}>
         <div className={styles.editorContainer}>
           <p className={styles.commentInfo}>
