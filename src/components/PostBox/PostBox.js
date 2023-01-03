@@ -112,9 +112,14 @@ const PostBox = ({ post, clickable, children }) => {
               <span className={classNames(styles.smallText, styles.postedByText)}>
                 {POSTED_BY_TEXT}
               </span>
-              <Link className={classNames(styles.smallText, styles.userLink)} to={userLink}>
+              <a
+                target="_blank"
+                className={classNames(styles.smallText, styles.userLink)}
+                href={userLink}
+                onClick={(e) => e.stopPropagation()}
+              >
                 {userLinkText}
-              </Link>
+              </a>
               <TimeSinceDisplay className={styles.smallText} date={createdAt} />
             </div>
           </div>
