@@ -15,6 +15,7 @@
 
 .tabBar {
   margin-bottom: 10px;
+  background-color: $white;
 }
 
 .tabButton {
@@ -67,6 +68,9 @@
   font-size: 12px;
   font-weight: 500;
   color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .joinButton {

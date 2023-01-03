@@ -21,6 +21,8 @@ import Button from "../../components/Button/Button"
 import useSubscriptions from "../../utils/hooks/useSubscriptions"
 import TabBar from "../../components/TabBar/TabBar"
 import TabButton from "../../components/TabButton/TabButton"
+import { useNavigate } from "react-router-dom"
+import paths from "../../routing/routePaths"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
@@ -28,7 +30,7 @@ const MainPage = () => {
   const [communities, setCommunities] = useState([])
   const [applyPostFilter, setApplyPostFilter] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-
+  const navigate = useNavigate()
   const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
     useSubscriptions()
 
@@ -79,6 +81,11 @@ const MainPage = () => {
     })
   }
 
+  const handleCommunityClick = (e, communityId) => {
+    e.stopPropagation()
+    navigate(`${paths.community}/${communityId}`)
+  }
+
   console.log(applyPostFilter)
 
   const renderInfo = () => {
@@ -88,7 +95,12 @@ const MainPage = () => {
         {communities.map((community, index) => (
           <div className={styles.boxContainer} key={`community-info-${community.id}`}>
             <div onClick={() => toggleOpen(index)} className={styles.collapseHeader}>
-              <p className={styles.communityTitle}>{community.title}</p>
+              <p
+                className={styles.communityTitle}
+                onClick={(e) => handleCommunityClick(e, community.id)}
+              >
+                {community.title}
+              </p>
               <div className={styles.arrowContainer}>
                 <i className={classNames(styles.arrow, styles.down)}></i>
               </div>
