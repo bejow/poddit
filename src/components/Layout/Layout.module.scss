@@ -54,3 +54,8 @@
     margin-right: 28px;
   }
 }
+@media (max-width: $screen_mobile_s) {
+  .childrenWrapper {
+    width: calc(101%);
+  }
+}

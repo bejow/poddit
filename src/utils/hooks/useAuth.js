@@ -44,6 +44,11 @@ const useAuth = () => {
     })
   }
 
+  const onLogout = async () => {
+    await user.logout()
+    window.location.reload()
+  }
+
   const onRedirectAfterLogin = async () => {
     // handle oauth callback
     console.log("0")
@@ -66,7 +71,7 @@ const useAuth = () => {
     }
   }
 
-  return { user, isUserLoggedIn, login: onLogin }
+  return { user, isUserLoggedIn, login: onLogin, logout: onLogout }
 }
 
 export default useAuth

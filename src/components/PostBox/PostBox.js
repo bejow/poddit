@@ -15,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { TimeSinceDisplay } from "../TimeSinceDisplay/TimeSinceDisplay"
 import { IconButton } from "../IconButton/IconButton"
 import { getPost } from "../../utils/rdfHelper"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
 /* eslint-disable */
 
@@ -59,10 +60,11 @@ const PostBox = ({ post, clickable, children }) => {
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
   const { content, title, creator, comments } = postInfo
   const createdAt = new Date(post.createdAt)
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
 
   useEffect(() => {
-    handlePost()
+    runAsyncFunction(handlePost)
     return () => {}
   }, [post])
 
@@ -76,7 +78,7 @@ const PostBox = ({ post, clickable, children }) => {
   const communityLinkText = `r/${community.title}`
   const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 
-  return (
+  return isLoading ? null : (
     <Box
       className={styles.container}
       onClick={

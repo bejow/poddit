@@ -16,24 +16,23 @@ import {
 import classNames from "classnames"
 import { Collapse } from "react-collapse"
 import Button from "../../components/Button/Button"
-import useAuth from "../../utils/hooks/useAuth"
-import { getSubscribedCommunities } from "../../utils/rdfHelper"
 import useSubscriptions from "../../utils/hooks/useSubscriptions"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
   const { setError } = useErrorStore()
   const [communities, setCommunities] = useState([])
-  const [subscribedCommunities, setSubscribedCommunities] = useState([])
+
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-  const { user } = useAuth()
-  const { subscribeTo, unsubscribeFrom, isSubscribedTo, fetchSubscriptions } = useSubscriptions()
+
+  const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
+    useSubscriptions()
 
   useEffect(() => {
     try {
       runAsyncFunction(handlePosts)
       runAsyncFunction(handleCommunities)
-      runAsyncFunction(handleSubscriptions)
+      runAsyncFunction(fetchSubscriptions)
     } catch (error) {
       setError({ message: error.message })
     }
@@ -45,11 +44,6 @@ const MainPage = () => {
     setPosts(fetchedPosts)
   }
 
-  const handleSubscriptions = async () => {
-    const subscriptions = await getSubscribedCommunities(user)
-    setSubscribedCommunities(subscriptions)
-  }
-
   const handleCommunities = async () => {
     const fetchedCommunities = await getCommunities()
     setCommunities(fetchedCommunities.map((community) => ({ ...community, isOpen: false })))
@@ -57,12 +51,20 @@ const MainPage = () => {
 
   const handleCommunitySubscribe = async (communityId) => {
     await runAsyncFunction(async () => await subscribeTo(communityId))
-    runAsyncFunction(fetchSubscriptions)
+    await runAsyncFunction(fetchSubscriptions)
   }
 
   const handleCommunityUnsubscribe = async (communityId) => {
     await runAsyncFunction(async () => await unsubscribeFrom(communityId))
-    runAsyncFunction(fetchSubscriptions)
+    await runAsyncFunction(fetchSubscriptions)
+  }
+
+  const filterPostsToDisplay = (posts) => {
+    if (subscriptions.length < 1) {
+      return posts
+    } else {
+      return posts.filter((post) => subscriptions.indexOf(post.community.id.toString()) > -1)
+    }
   }
 
   const toggleOpen = (index) => {
@@ -99,7 +101,7 @@ const MainPage = () => {
                       : runAsyncFunction(async () => await handleCommunitySubscribe(community.id))
                   }
                   className={styles.joinButton}
-                  type="primary"
+                  type={isSubscribedTo(community.id) ? "secondary" : "primary"}
                 >
                   {isSubscribedTo(community.id) ? JOINED_COMMUNITY_TEXT : JOIN_COMMUNITY_TEXT}
                 </Button>
@@ -117,11 +119,7 @@ const MainPage = () => {
       {isLoading ? (
         <MoonLoader loading={true} size={30} />
       ) : (
-        <Feed
-          posts={posts.filter(
-            (post) => subscribedCommunities.indexOf(post.community.id.toString()) > -1,
-          )}
-        />
+        <Feed posts={filterPostsToDisplay(posts)} />
       )}
     </Layout>
   )

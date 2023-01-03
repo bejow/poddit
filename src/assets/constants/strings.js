@@ -4,6 +4,7 @@ const SEARCHBAR_COMMUNITY_PLACEHOLDER = "Choose a community"
 const INPUT_TITLE_PLACEHOLDER = "Title"
 const SIGN_UP_TEXT = "SignUp"
 const SIGN_IN_TEXT = "SignIn"
+const LOG_OUT_TEXT = "Log Out"
 const VOTE_CONTAINER_TEXT = "Vote"
 const POSTED_BY_TEXT = "Posted by"
 const CREATE_POST_PLACEHOLDER = "Create Post"
@@ -125,4 +126,5 @@ export {
   CREATED_TEXT,
   POSTS_TEXT,
   POST_TEXT,
+  LOG_OUT_TEXT,
 }
