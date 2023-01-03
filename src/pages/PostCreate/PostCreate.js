@@ -56,6 +56,7 @@ const PostCreate = () => {
   const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
   const [communityOptions, setCommunityOptions] = useState([])
   const { setError } = useErrorStore()
+
   console.log(selectedOption)
   console.log(communityId)
   const onSelectedChange = (option) => {

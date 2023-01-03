@@ -38,6 +38,8 @@ const CREATE_WEBID_TEXT = "Create WebId"
 const ERROR_MESSAGE_TEXT = "Error Message:"
 const ABOUT_COMMUNITY_TEXT = "About Community"
 const CREATED_TEXT = "Created"
+const DISCOVER_FILTER_TEXT = "Discover"
+const HOME_FILTER_TEXT = "Home"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -127,4 +129,6 @@ export {
   POSTS_TEXT,
   POST_TEXT,
   LOG_OUT_TEXT,
+  DISCOVER_FILTER_TEXT,
+  HOME_FILTER_TEXT,
 }

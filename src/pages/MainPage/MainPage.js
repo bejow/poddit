@@ -9,6 +9,8 @@ import useErrorStore from "../../states/Error"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import MoonLoader from "react-spinners/MoonLoader"
 import {
+  DISCOVER_FILTER_TEXT,
+  HOME_FILTER_TEXT,
   JOINED_COMMUNITY_TEXT,
   JOIN_COMMUNITY_TEXT,
   POPULAR_COMMUNITY_TEXT,
@@ -17,12 +19,14 @@ import classNames from "classnames"
 import { Collapse } from "react-collapse"
 import Button from "../../components/Button/Button"
 import useSubscriptions from "../../utils/hooks/useSubscriptions"
+import TabBar from "../../components/TabBar/TabBar"
+import TabButton from "../../components/TabButton/TabButton"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
   const { setError } = useErrorStore()
   const [communities, setCommunities] = useState([])
-
+  const [applyPostFilter, setApplyPostFilter] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
 
   const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
@@ -60,10 +64,10 @@ const MainPage = () => {
   }
 
   const filterPostsToDisplay = (posts) => {
-    if (subscriptions.length < 1) {
-      return posts
-    } else {
+    if (applyPostFilter) {
       return posts.filter((post) => subscriptions.indexOf(post.community.id.toString()) > -1)
+    } else {
+      return posts
     }
   }
 
@@ -74,6 +78,8 @@ const MainPage = () => {
       return [...newCommunities]
     })
   }
+
+  console.log(applyPostFilter)
 
   const renderInfo = () => {
     return (
@@ -119,7 +125,25 @@ const MainPage = () => {
       {isLoading ? (
         <MoonLoader loading={true} size={30} />
       ) : (
-        <Feed posts={filterPostsToDisplay(posts)} />
+        <div>
+          <TabBar className={styles.tabBar}>
+            <TabButton
+              className={styles.tabButton}
+              onClick={() => setApplyPostFilter(true)}
+              active={applyPostFilter}
+            >
+              {HOME_FILTER_TEXT}
+            </TabButton>
+            <TabButton
+              className={styles.tabButton}
+              onClick={() => setApplyPostFilter(false)}
+              active={!applyPostFilter}
+            >
+              {DISCOVER_FILTER_TEXT}
+            </TabButton>
+          </TabBar>
+          <Feed posts={filterPostsToDisplay(posts)} />
+        </div>
       )}
     </Layout>
   )
