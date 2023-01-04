@@ -26,11 +26,11 @@ jobs:
           repository: bejow/poddit-backend
           token: ${{ secrets.PODDIT_BACKEND }}
           ref: main
-
       - run: npm install
-      - run: npm run prod
+      - run: npm run prod &
 
   cypress-run:
+    needs: api
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
