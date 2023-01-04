@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: https://github.com/bejow/poddit-backend
+          repository: bejow/poddit-backend
           token: ${{ secrets.GITHUB_TOKEN }}
           path: main
       - uses: actions/setup-node@v3
