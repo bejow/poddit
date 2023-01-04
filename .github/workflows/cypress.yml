@@ -18,6 +18,8 @@ jobs:
           token: ${{ secrets.PODDIT_BACKEND }}
           ref: main
           path: backend
+      - run: ls
+      - run: cd backend
       - run: npm install
       - run: npm run prod
 
