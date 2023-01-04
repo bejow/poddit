@@ -14,6 +14,8 @@ jobs:
       DB_USER: ${{ secrets.DB_USER }}
       SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
       PORT: ${{ secrets.PORT }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     name: Prepare Backend
     runs-on: ubuntu-latest
@@ -28,11 +30,6 @@ jobs:
           ref: main
       - run: npm install
       - run: npm run prod &
-
-  cypress-run:
-    needs: api
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress run
@@ -41,6 +38,3 @@ jobs:
           build: npm run build
           start: npm start
           record: true
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
