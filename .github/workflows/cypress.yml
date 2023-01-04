@@ -9,15 +9,15 @@ jobs:
     name: Prepare Backend
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.15
       - uses: actions/checkout@v3
         with:
           repository: bejow/poddit-backend
           token: ${{ secrets.PODDIT_BACKEND }}
           ref: main
           path: backend
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.15
       - run: npm install
       - run: npm run prod
 
