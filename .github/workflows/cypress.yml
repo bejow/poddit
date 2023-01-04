@@ -14,8 +14,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: bejow/poddit-backend
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PODDIT_BACKEND }}
           ref: main
+          path: backend
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15
@@ -26,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
