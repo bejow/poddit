@@ -21,7 +21,8 @@ jobs:
       - run: ls
       - run: cd backend
       - run: ls
-      - run: cd poddit-backend
+      - run: cd backend
+      - run: ls
       - run: npm install
       - run: npm run prod
 
