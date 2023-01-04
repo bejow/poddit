@@ -3,8 +3,6 @@ name: Cypress E2E Tests
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [dev]
 
 jobs:
   api:
@@ -20,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15
-      - run: npm ci
+      - run: npm install
       - run: npm run prod
 
   cypress-run:
