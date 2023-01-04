@@ -3,8 +3,25 @@ name: Cypress E2E Tests
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [dev]
 
 jobs:
+  api:
+    name: Prepare Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: https://github.com/bejow/poddit-backend
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: main
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.15
+      - run: npm ci
+      - run: npm run prod
+
   cypress-run:
     runs-on: ubuntu-latest
     steps:
