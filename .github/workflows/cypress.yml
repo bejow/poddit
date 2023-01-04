@@ -15,7 +15,7 @@ jobs:
         with:
           repository: bejow/poddit-backend
           token: ${{ secrets.GITHUB_TOKEN }}
-          path: main
+          ref: main
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15
