@@ -42,9 +42,21 @@ npm test
 
 ### Manual End to End tests:
 
+A Inrupt Pod is required to run the local E2E tests:
+
+1. Create a Inrupt Pod at `https://start.inrupt.com/profile`
+2. Create a `cypress.env.json` file at the root of the project
+3. Add the following code to `cypress.env.json` and insert your credentials from 1.:
+
 ```
-npm run cypress:open
+{
+  "INRUPT_TESTING_USERNAME": "YOUR_CREATED_INRUPT_USERNAME",
+  "INRUPT_TESTING_PASSWORD": "YOUR_CREATED_INRUPT_PASSWORD"
+}
 ```
+
+4. Start interactive E2E Testing:
+   `npm run cypress:open`
 
 ## Linter / Prettier
 

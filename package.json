@@ -32,6 +32,7 @@
     "clear:jest:cache": "jest --clearCache",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "prettier:check": "prettier --check ./{src,cypress}/**/*.js",
     "prettier:fix": "prettier --write ./src/**/*.js",
     "lint:github-actions": "node ./node_modules/eslint/bin/eslint ./{src,cypress}/**/*.js --max-warnings 0",
@@ -67,7 +68,6 @@
     "@testing-library/cypress": "^8.0.3",
     "cypress": "^10.10.0",
     "eslint": "^8.25.0",
-    "react-scripts": "^5.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.10",
@@ -75,7 +75,8 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "netlify-plugin-cypress": "^2.2.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-scripts": "^5.0.1"
   },
   "jest": {
     "moduleNameMapper": {

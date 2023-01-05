@@ -25,6 +25,7 @@ import MoonLoader from "react-spinners/MoonLoader"
 import PropTypes from "prop-types"
 import useClickOutside from "../../utils/hooks/useClickOutside"
 import classNames from "classnames"
+import { SIGN_IN_BUTTON_TEST_ID, SIGN_UP_BUTTON_TEST_ID } from "../../assets/constants/testIds"
 
 export const HeaderBar = ({ hideSearchBar }) => {
   const navigate = useNavigate()
@@ -55,7 +56,7 @@ export const HeaderBar = ({ hideSearchBar }) => {
   const renderAuthButtons = () =>
     isSmallMobile || isUserLoggedIn() ? undefined : (
       <>
-        <Button onClick={handleSignUp} type="secondary">
+        <Button data-test-id={SIGN_UP_BUTTON_TEST_ID} onClick={handleSignUp} type="secondary">
           {SIGN_UP_TEXT}
         </Button>
         {isLoading ? (
@@ -63,7 +64,11 @@ export const HeaderBar = ({ hideSearchBar }) => {
             <MoonLoader loading={true} size={15} />
           </div>
         ) : (
-          <Button type="primary" onClick={() => runAsyncFunction(login)}>
+          <Button
+            type="primary"
+            data-test-id={SIGN_IN_BUTTON_TEST_ID}
+            onClick={() => runAsyncFunction(login)}
+          >
             {SIGN_IN_TEXT}
           </Button>
         )}

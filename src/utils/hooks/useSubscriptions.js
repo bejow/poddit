@@ -7,16 +7,27 @@ import {
   unsubscribeFromCommunity,
 } from "../rdfHelper"
 import useAuth from "./useAuth"
+import useErrorStore from "../../states/Error"
 
 export default function useSubscriptions() {
   const { user } = useAuth()
+  const { setError } = useErrorStore()
   const [subscriptions, setSubscriptions, isSubscribedTo] = useSubscriptionStore(
     (state) => [state.subscriptions, state.setSubscriptions, state.isSubscribedTo],
     shallow,
   )
 
   const fetchSubscriptions = async () => {
-    const subscriptions = await getSubscribedCommunities(user)
+    let subscriptions = []
+    try {
+      subscriptions = await getSubscribedCommunities(user)
+    } catch (error) {
+      if (error.message.includes("Not Found")) {
+        // subscriptions not initialized yet
+      } else {
+        setError({ message: error.message })
+      }
+    }
     setSubscriptions(subscriptions)
   }
 
