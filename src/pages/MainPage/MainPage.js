@@ -23,6 +23,7 @@ import TabBar from "../../components/TabBar/TabBar"
 import TabButton from "../../components/TabButton/TabButton"
 import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import useAuth from "../../utils/hooks/useAuth"
 
 const MainPage = () => {
   const [posts, setPosts] = useState([])
@@ -31,14 +32,16 @@ const MainPage = () => {
   const [applyPostFilter, setApplyPostFilter] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
+  const { isUserLoggedIn } = useAuth()
   const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
     useSubscriptions()
-
   useEffect(() => {
     try {
-      runAsyncFunction(handlePosts)
-      runAsyncFunction(handleCommunities)
-      runAsyncFunction(fetchSubscriptions)
+      if (isUserLoggedIn) {
+        runAsyncFunction(handlePosts)
+        runAsyncFunction(handleCommunities)
+        runAsyncFunction(fetchSubscriptions)
+      }
     } catch (error) {
       setError({ message: error.message })
     }
@@ -85,9 +88,6 @@ const MainPage = () => {
     e.stopPropagation()
     navigate(`${paths.community}/${communityId}`)
   }
-
-  console.log(applyPostFilter)
-
   const renderInfo = () => {
     return (
       <Box className={styles.wrapper}>

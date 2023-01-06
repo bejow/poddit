@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, memo } from "react"
 import Box from "../Box/Box"
 import SvgArrowUp from "../icons/ArrowUp"
 import styles from "./PostBox.module.scss"
@@ -154,4 +154,4 @@ PostBox.propTypes = {
   }),
 }
 
-export default PostBox
+export default memo(PostBox)
