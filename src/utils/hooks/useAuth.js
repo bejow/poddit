@@ -51,16 +51,13 @@ const useAuth = () => {
 
   const onRedirectAfterLogin = async () => {
     // handle oauth callback
-    console.log("0")
     await handleIncomingRedirect({ restorePreviousSession: true })
     const session = getDefaultSession()
 
     // check for login state
     if (session?.info?.isLoggedIn) {
       // successful Login
-      console.log("test1")
       const pods = await getPodUrl(session, setError)
-      console.log("test2")
       setUser({ ...session, pods })
       if (from) {
         // Redirect User to Page visited before Login

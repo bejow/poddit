@@ -48,7 +48,6 @@ const Login = () => {
       return [...newCommunities]
     })
   }
-  console.log("login")
   const renderInfo = () => {
     return (
       <Box className={styles.wrapper}>
