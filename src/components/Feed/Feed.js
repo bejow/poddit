@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import PropTypes from "prop-types"
 import PostBox from "../PostBox/PostBox"
 import styles from "./Feed.module.scss"
@@ -20,4 +20,4 @@ Feed.propTypes = {
   redirectToLogin: PropTypes.bool,
 }
 
-export default Feed
+export default memo(Feed)
