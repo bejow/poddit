@@ -48,7 +48,7 @@ const Login = () => {
       return [...newCommunities]
     })
   }
-
+  console.log("login")
   const renderInfo = () => {
     return (
       <Box className={styles.wrapper}>
@@ -56,7 +56,9 @@ const Login = () => {
         {communities.map((community, index) => (
           <div className={styles.boxContainer} key={`community-info-${community.id}`}>
             <div onClick={() => toggleOpen(index)} className={styles.collapseHeader}>
-              <p className={styles.communityTitle}>{community.title}</p>
+              <p onClick={() => login()} className={styles.communityTitle}>
+                {community.title}
+              </p>
               <div className={styles.arrowContainer}>
                 <i className={classNames(styles.arrow, styles.down)}></i>
               </div>

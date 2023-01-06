@@ -49,9 +49,14 @@
 
 .communityTitle {
   max-width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  font-family: "IBM Plex Sans";
+
   color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .joinButton {
