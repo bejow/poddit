@@ -40,6 +40,8 @@ const ABOUT_COMMUNITY_TEXT = "About Community"
 const CREATED_TEXT = "Created"
 const DISCOVER_FILTER_TEXT = "Discover"
 const HOME_FILTER_TEXT = "Home"
+const INRUPT_APP_NAME_DEV = "Poddit (DEV) - Decentral Reddit"
+const INRUPT_APP_NAME = "Poddit - Decentral Reddit"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -48,7 +50,6 @@ const POST_ROUTE = "/post"
 const API_ENDPOINT = "/api"
 const COMMUNITIES_ENDPOINT = "/communities"
 const COMMUNITY_ENDPOINT = "/community"
-
 const POST_ENDPOINT = "/posts"
 
 const JUST_NOW_TEXT = "just now"
@@ -70,6 +71,8 @@ const AGO_TEXT = "ago"
 const COMMENTS_TEXT = "Comments"
 
 export {
+  INRUPT_APP_NAME,
+  INRUPT_APP_NAME_DEV,
   SEARCHBAR_PLACEHOLDER,
   SIGN_UP_TEXT,
   SIGN_IN_TEXT,

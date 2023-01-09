@@ -24,15 +24,16 @@ import TabButton from "../../components/TabButton/TabButton"
 import { useNavigate } from "react-router-dom"
 import paths from "../../routing/routePaths"
 import useAuth from "../../utils/hooks/useAuth"
+import { onSessionRestore } from "@inrupt/solid-client-authn-browser"
 
 const MainPage = () => {
+  const { isUserLoggedIn } = useAuth()
   const [posts, setPosts] = useState([])
   const { setError } = useErrorStore()
   const [communities, setCommunities] = useState([])
   const [applyPostFilter, setApplyPostFilter] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
-  const { isUserLoggedIn } = useAuth()
   const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
     useSubscriptions()
   useEffect(() => {
@@ -47,6 +48,10 @@ const MainPage = () => {
     }
     return () => {}
   }, [])
+
+  onSessionRestore((url) => {
+    console.log(url)
+  })
 
   const handlePosts = async () => {
     const fetchedPosts = await getPosts()

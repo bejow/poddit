@@ -6,10 +6,11 @@ import {
 } from "@inrupt/solid-client-authn-browser"
 import shallow from "zustand/shallow"
 import useUserStore from "../../states/User"
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
-import paths from "../../routing/routePaths"
+// import { useLocation, useSearchParams } from "react-router-dom"
+// import paths from "../../routing/routePaths"
 import { getPodUrl } from "../rdfHelper"
 import useErrorStore from "../../states/Error"
+import { INRUPT_APP_NAME, INRUPT_APP_NAME_DEV } from "../../assets/constants/strings"
 
 const useAuth = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
@@ -19,29 +20,29 @@ const useAuth = () => {
   const { setError } = useErrorStore()
 
   useEffect(() => {
-    if (!isUserLoggedIn()) {
-      onRedirectAfterLogin()
-    }
+    onRedirectAfterLogin()
   }, [])
 
-  const location = useLocation()
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  let from = searchParams.get("from")
+  // const location = useLocation()
+  // const navigate = useNavigate()
+  // const [searchParams] = useSearchParams()
+  // let from = searchParams.get("from")
 
   const onLogin = async () => {
-    const redirectUrl = new URL(window.location.href)
+    if (!getDefaultSession().info.isLoggedIn) {
+      const redirectUrl = new URL(window.location.href)
 
-    // build redirect url
-    if (location?.state?.from) {
-      redirectUrl.searchParams.append("from", location.state.from)
+      // build redirect url
+      // if (location?.state?.from) {
+      //   redirectUrl.searchParams.append("from", location.state.from)
+      // }
+
+      await login({
+        oidcIssuer: "https://login.inrupt.com",
+        clientName: process.env.NODE_ENV === "development" ? INRUPT_APP_NAME_DEV : INRUPT_APP_NAME,
+        redirectUrl,
+      })
     }
-
-    await login({
-      oidcIssuer: "https://login.inrupt.com",
-      clientName: "Poddit - Decentral Reddit",
-      redirectUrl,
-    })
   }
 
   const onLogout = async () => {
@@ -51,20 +52,23 @@ const useAuth = () => {
 
   const onRedirectAfterLogin = async () => {
     // handle oauth callback
-    await handleIncomingRedirect({ restorePreviousSession: true })
-    const session = getDefaultSession()
+    const redirectUrl = new URL(window.location.href)
 
+    await handleIncomingRedirect({ restorePreviousSession: true, url: redirectUrl })
+    const session = getDefaultSession()
+    console.log(session)
     // check for login state
     if (session?.info?.isLoggedIn) {
       // successful Login
       const pods = await getPodUrl(session, setError)
       setUser({ ...session, pods })
-      if (from) {
-        // Redirect User to Page visited before Login
-        navigate(from)
-      } else {
-        navigate(paths.main)
-      }
+
+      // if (from) {
+      //   // Redirect User to Page visited before Login
+      //   // navigate(from)
+      // } else {
+      // navigate(paths.main)
+      // }
     }
   }
 

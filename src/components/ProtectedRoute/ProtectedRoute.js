@@ -5,6 +5,7 @@ import useAuth from "../../utils/hooks/useAuth"
 
 const ProtectedRoute = ({ children, redirectTo, from }) => {
   const { isUserLoggedIn } = useAuth()
+  console.log(isUserLoggedIn())
   return isUserLoggedIn() ? children : <Navigate to={redirectTo} state={{ from }} />
 }
 
