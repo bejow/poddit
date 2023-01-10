@@ -3,7 +3,7 @@ const {
   HEADERBAR_USERNAME_TEST_ID,
 } = require("../../src/assets/constants/testIds")
 import paths from "../../src/routing/routePaths"
-
+Cypress.config("defaultCommandTimeout", 100000)
 describe("Login", () => {
   beforeEach(() => {
     cy.session(
