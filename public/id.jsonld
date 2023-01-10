@@ -1,0 +1,20 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/solid/oidc-context.jsonld"
+  ],
+  "client_id": "https://poddit.netlify.app/id",
+  "client_name": "Poddit",
+  "redirect_uris": [
+    "https://poddit.netlify.app/",
+    "https://poddit.netlify.app/home",
+    "http://localhost:3000/",
+    "http://localhost:3000/home"
+  ],
+  "client_uri": "https://poddit.netlify.app/",
+  "logo_uri": "https://poddit.netlify.app/icon-192x192.png",
+  "scope": "openid profile offline_access webid",
+  "grant_types": [
+    "refresh_token",
+    "authorization_code"
+  ]
+}
