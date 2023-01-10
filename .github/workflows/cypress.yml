@@ -35,8 +35,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         env:
-          CYPRESS_PORT: 3003
+          CYPRESS_PORT: 3000
         with:
-          build: npm run build
           start: npm start
           record: true
