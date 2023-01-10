@@ -9,7 +9,7 @@ module.exports = defineConfig({
     experimentalSessionAndOrigin: true,
     baseUrl: "http://127.0.0.1:3000",
     experimentalInteractiveRunEvents: true,
-    setupNodeEvents(on, config) {
+    setupNodeEvents(on) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.name === "chrome" || browser.name === "edge") {
           // To receive cookies from inrupt

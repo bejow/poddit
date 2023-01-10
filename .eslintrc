@@ -36,6 +36,8 @@
     "global": true,
     "jest": true,
     "process": true,
-    "before": true
+    "before": true,
+    "Cypress": true,
+    "beforeEach": true
   }
 }

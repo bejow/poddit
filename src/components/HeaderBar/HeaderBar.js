@@ -25,7 +25,11 @@ import MoonLoader from "react-spinners/MoonLoader"
 import PropTypes from "prop-types"
 import useClickOutside from "../../utils/hooks/useClickOutside"
 import classNames from "classnames"
-import { SIGN_IN_BUTTON_TEST_ID, SIGN_UP_BUTTON_TEST_ID } from "../../assets/constants/testIds"
+import {
+  HEADERBAR_USERNAME_TEST_ID,
+  SIGN_IN_BUTTON_TEST_ID,
+  SIGN_UP_BUTTON_TEST_ID,
+} from "../../assets/constants/testIds"
 
 export const HeaderBar = ({ hideSearchBar }) => {
   const navigate = useNavigate()
@@ -79,7 +83,9 @@ export const HeaderBar = ({ hideSearchBar }) => {
     isUserLoggedIn() ? (
       <div ref={dropdownRef} onClick={handleUserMenuToggle} className={styles.profileButton}>
         <SvgUnknownUserIcon className={styles.unknownUserIcon} />
-        <span className={styles.usernameText}>{getNameFromWebId(user.info.webId)}</span>
+        <span data-test-id={HEADERBAR_USERNAME_TEST_ID} className={styles.usernameText}>
+          {getNameFromWebId(user.info.webId)}
+        </span>
         <SvgCaretDown className={styles.carretIcon} width="16" height="16" viewBox="0 0 250 250" />
         {isUserMenuOpen ? (
           <div className={styles.dropdown}>

@@ -2,7 +2,7 @@
   "@context": [
     "https://www.w3.org/ns/solid/oidc-context.jsonld"
   ],
-  "client_id": "https://poddit.netlify.app/id",
+  "client_id": "https://poddit.netlify.app/id.jsonld",
   "client_name": "Poddit",
   "redirect_uris": [
     "https://poddit.netlify.app/",
