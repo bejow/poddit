@@ -25,7 +25,7 @@ describe("Login", () => {
           },
         )
         cy.get("div .visible-md").find("input[name='signInSubmitButton']").click()
-        cy.get('[form="approve"]').click()
+        cy.get("[form='approve']").click()
         cy.get(`[data-test-id="${HEADERBAR_USERNAME_TEST_ID}"]`, { timeout: 30000 }).should(
           (item) => {
             expect(item).to.have.text(Cypress.env("INRUPT_TESTING_USERNAME"))
