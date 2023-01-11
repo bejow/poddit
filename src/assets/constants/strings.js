@@ -12,6 +12,10 @@ const CREATE_POST_HEADING = "Create a post"
 const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
+const COMMENT_REPLY_TEXT = "Reply"
+const COMMENT_DELETE_TEXT = "DEL"
+const COMMENT_EDIT_TEXT = "Edit"
+const COMMENT_CANCEL_EDIT_TEXT = "Cancel Edit"
 const POSTS_TEXT = "Posts"
 const POST_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
@@ -70,7 +74,20 @@ const AGO_TEXT = "ago"
 
 const COMMENTS_TEXT = "Comments"
 
+const COMMUNITY_RULES = [
+  "Remember the human",
+  "Behave like you would in real life",
+  "Look for the original source of content",
+  "Search for duplicates before posting",
+  "Read the community's rules",
+]
+
 export {
+  COMMENT_EDIT_TEXT,
+  COMMENT_CANCEL_EDIT_TEXT,
+  COMMENT_REPLY_TEXT,
+  COMMENT_DELETE_TEXT,
+  COMMUNITY_RULES,
   INRUPT_APP_NAME,
   INRUPT_APP_NAME_DEV,
   SEARCHBAR_PLACEHOLDER,

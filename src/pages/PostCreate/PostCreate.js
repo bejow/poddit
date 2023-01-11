@@ -13,12 +13,13 @@ import {
   TABBUTTON_POLL,
   TABBUTTON_POST,
   TABBUTTON_TALK,
+  COMMUNITY_RULES,
 } from "../../assets/constants/strings"
 import SvgDottedCircle from "../../components/icons/DottedCircle"
 import TabButton from "../../components/TabButton/TabButton"
 import TabBar from "../../components/TabBar/TabBar"
 import RuleBox from "../../components/RuleBox/RuleBox"
-import { RULES } from "../../assets/constants/rules"
+
 import SvgMediaIcon from "../../components/icons/MediaIcon"
 import SvgLinkIcon from "../../components/icons/LinkIcon"
 import TextPost from "./TextPost"
@@ -105,7 +106,11 @@ const PostCreate = () => {
     <Layout
       contentSize="l"
       infoContent={
-        <RuleBox className={styles.rulesContainer} title={RULES_TITLE_TEXT} rules={RULES} />
+        <RuleBox
+          className={styles.rulesContainer}
+          title={RULES_TITLE_TEXT}
+          rules={COMMUNITY_RULES}
+        />
       }
     >
       <div className={styles.headingContainer}>
