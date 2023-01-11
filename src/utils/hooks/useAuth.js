@@ -11,6 +11,8 @@ import useUserStore from "../../states/User"
 import { getPodUrl } from "../rdfHelper"
 import useErrorStore from "../../states/Error"
 import { INRUPT_APP_NAME, INRUPT_APP_NAME_DEV } from "../../assets/constants/strings"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import paths from "../../routing/routePaths"
 
 const useAuth = () => {
   const [user, isUserLoggedIn, setUser] = useUserStore(
@@ -18,24 +20,26 @@ const useAuth = () => {
     shallow,
   )
   const { setError } = useErrorStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    onRedirectAfterLogin()
+    // catch redirect from inrupt login
+    if (!isUserLoggedIn()) {
+      onRedirectAfterLogin()
+    }
   }, [])
 
-  // const location = useLocation()
-  // const navigate = useNavigate()
-  // const [searchParams] = useSearchParams()
-  // let from = searchParams.get("from")
+  const [searchParams] = useSearchParams()
+  let from = searchParams.get("from")
 
   const onLogin = async () => {
     if (!getDefaultSession().info.isLoggedIn) {
       const redirectUrl = new URL(window.location.href)
 
       // build redirect url
-      // if (location?.state?.from) {
-      //   redirectUrl.searchParams.append("from", location.state.from)
-      // }
+      if (location?.state?.from) {
+        redirectUrl.searchParams.append("from", location.state.from)
+      }
 
       await login({
         oidcIssuer: "https://login.inrupt.com",
@@ -52,9 +56,7 @@ const useAuth = () => {
 
   const onRedirectAfterLogin = async () => {
     // handle oauth callback
-    const redirectUrl = new URL(window.location.href)
-
-    await handleIncomingRedirect({ restorePreviousSession: true, url: redirectUrl })
+    await handleIncomingRedirect({ restorePreviousSession: true })
     const session = getDefaultSession()
     console.log(session)
     // check for login state
@@ -63,12 +65,12 @@ const useAuth = () => {
       const pods = await getPodUrl(session, setError)
       setUser({ ...session, pods })
 
-      // if (from) {
-      //   // Redirect User to Page visited before Login
-      //   // navigate(from)
-      // } else {
-      // navigate(paths.main)
-      // }
+      if (from) {
+        // Redirect User to Page visited before Login
+        navigate(from)
+      } else {
+        navigate(paths.main)
+      }
     }
   }
 
