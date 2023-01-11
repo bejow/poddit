@@ -1,41 +1,41 @@
-name: Cypress E2E Tests
+# name: Cypress E2E Tests
 
-on:
-  pull_request:
-    branches: [main]
+# on:
+#   pull_request:
+#     branches: [main]
 
-jobs:
-  api:
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DB_DATABASE: ${{ secrets.DB_DATABASE }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_USER: ${{ secrets.DB_USER }}
-      SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
-      PORT: ${{ secrets.PORT }}
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# jobs:
+#   api:
+#     env:
+#       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#       DB_DATABASE: ${{ secrets.DB_DATABASE }}
+#       DB_HOST: ${{ secrets.DB_HOST }}
+#       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+#       DB_USER: ${{ secrets.DB_USER }}
+#       SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+#       PORT: ${{ secrets.PORT }}
+#       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    name: Prepare Backend
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.15
-      - uses: actions/checkout@v3
-        with:
-          repository: bejow/poddit-backend
-          token: ${{ secrets.PODDIT_BACKEND }}
-          ref: main
-      - run: npm install
-      - run: npm run prod &
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        env:
-          CYPRESS_PORT: 3000
-        with:
-          start: npm start
-          record: true
+#     name: Prepare Backend
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: 16.15
+#       - uses: actions/checkout@v3
+#         with:
+#           repository: bejow/poddit-backend
+#           token: ${{ secrets.PODDIT_BACKEND }}
+#           ref: main
+#       - run: npm install
+#       - run: npm run prod &
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Cypress run
+#         uses: cypress-io/github-action@v5
+#         env:
+#           CYPRESS_PORT: 3000
+#         with:
+#           start: npm start
+#           record: true

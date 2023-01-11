@@ -11,5 +11,5 @@ CYPRESS_CACHE_FOLDER = "./node_modules/CypressBinary"
 TERM = "xterm"
 
 [[plugins]]
-# local Cypress plugin will test our site after it is built
+# local Cypress plugin
 package = "netlify-plugin-cypress"
