@@ -1,6 +1,6 @@
-import React, { memo } from "react"
-import PropTypes from "prop-types"
 import PostBox from "../PostBox/PostBox"
+import PropTypes from "prop-types"
+import React, { memo } from "react"
 import styles from "./Feed.module.scss"
 import useAuth from "../../utils/hooks/useAuth"
 

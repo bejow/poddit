@@ -1,15 +1,8 @@
-import React, { useState, useRef } from "react"
-import SvgPodditLogoS from "../icons/PodditLogoS"
-import SvgPodditLogoOnly from "../icons/PodditLogoOnly"
-import styles from "./HeaderBar.module.scss"
-import SearchBar from "../SearchBar/SearchBar"
-import Button from "../Button/Button"
-import useIsMobile from "../../utils/hooks/useIsMobile"
-import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
-import SvgUserIcon from "../icons/UserIcon"
-import SvgLogout from "../icons/Logout"
-import SvgCaretDown from "../icons/CaretDown"
-import useAuth from "../../utils/hooks/useAuth"
+import {
+  HEADERBAR_USERNAME_TEST_ID,
+  SIGN_IN_BUTTON_TEST_ID,
+  SIGN_UP_BUTTON_TEST_ID,
+} from "../../assets/constants/testIds"
 import {
   INRUPT_SIGNUP_URL,
   LOG_OUT_TEXT,
@@ -17,29 +10,37 @@ import {
   SIGN_UP_TEXT,
 } from "../../assets/constants/strings"
 import { getNameFromWebId } from "../../utils/webId"
-import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
 import { useNavigate } from "react-router-dom"
-import paths from "../../routing/routePaths"
-import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
-import MoonLoader from "react-spinners/MoonLoader"
-import PropTypes from "prop-types"
-import useClickOutside from "../../utils/hooks/useClickOutside"
+import Button from "../Button/Button"
 import classNames from "classnames"
-import {
-  HEADERBAR_USERNAME_TEST_ID,
-  SIGN_IN_BUTTON_TEST_ID,
-  SIGN_UP_BUTTON_TEST_ID,
-} from "../../assets/constants/testIds"
+import MoonLoader from "react-spinners/MoonLoader"
+import paths from "../../routing/routePaths"
+import PropTypes from "prop-types"
+import React, { useState, useRef } from "react"
+import SearchBar from "../SearchBar/SearchBar"
+import styles from "./HeaderBar.module.scss"
+import SvgCaretDown from "../icons/CaretDown"
+import SvgLogout from "../icons/Logout"
+import SvgPodditLogoOnly from "../icons/PodditLogoOnly"
+import SvgPodditLogoS from "../icons/PodditLogoS"
+import SvgUnknownUserIcon from "../icons/UnknownUserIcon"
+import SvgUserIcon from "../icons/UserIcon"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
+import useAuth from "../../utils/hooks/useAuth"
+import useClickOutside from "../../utils/hooks/useClickOutside"
+import useIsMobile from "../../utils/hooks/useIsMobile"
+import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
 
 export const HeaderBar = ({ hideSearchBar }) => {
-  const navigate = useNavigate()
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const { isMobile } = useIsMobile()
   const { isSmallMobile } = useIsSmallMobile()
-  const { user, isUserLoggedIn, login, logout } = useAuth()
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const { user, isUserLoggedIn, login, logout } = useAuth()
   const dropdownRef = useRef()
+  const navigate = useNavigate()
   useClickOutside(dropdownRef, () => setIsUserMenuOpen(false))
+
   const renderButtons = () => {
     return (
       <div className={styles.buttonWrapper}>
@@ -55,6 +56,28 @@ export const HeaderBar = ({ hideSearchBar }) => {
 
   const handleSignUp = () => {
     window.open(INRUPT_SIGNUP_URL, "_blank")
+  }
+
+  const renderLogo = () => {
+    if (isMobile) {
+      return (
+        <SvgPodditLogoOnly
+          onClick={() => navigate(paths.main)}
+          className={styles.logo}
+          viewBox="0 0 500 500"
+          height="30"
+          width="30"
+        />
+      )
+    } else {
+      return (
+        <SvgPodditLogoS
+          onClick={() => navigate(paths.main)}
+          className={styles.logo}
+          viewBox="0 0 140 38"
+        />
+      )
+    }
   }
 
   const renderAuthButtons = () =>
@@ -124,21 +147,7 @@ export const HeaderBar = ({ hideSearchBar }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        {isMobile ? (
-          <SvgPodditLogoOnly
-            onClick={() => navigate(paths.main)}
-            className={styles.logo}
-            viewBox="0 0 500 500"
-            height="30"
-            width="30"
-          />
-        ) : (
-          <SvgPodditLogoS
-            onClick={() => navigate(paths.main)}
-            className={styles.logo}
-            viewBox="0 0 140 38"
-          />
-        )}
+        {renderLogo()}
         {hideSearchBar ? null : <SearchBar />}
         {renderButtons()}
       </div>

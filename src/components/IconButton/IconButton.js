@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styles from "./IconButton.module.scss"
 import classNames from "classnames"
+import PropTypes from "prop-types"
+import React from "react"
+import styles from "./IconButton.module.scss"
 
 export const IconButton = ({ className, children, onClick }) => {
   return (

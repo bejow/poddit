@@ -1,6 +1,6 @@
-import React from "react"
 import { Navigate } from "react-router-dom"
 import PropTypes from "prop-types"
+import React from "react"
 import useAuth from "../../utils/hooks/useAuth"
 
 const ProtectedRoute = ({ children, redirectTo, from }) => {
