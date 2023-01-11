@@ -35,6 +35,7 @@ import {
 import { v4 as uuidv4 } from "uuid"
 import { getNameFromWebId } from "./webId"
 import { ERROR_TYPE_MISSING_WEBID, INRUPT_SIGNUP_URL } from "../assets/constants/strings"
+import { publishPostToCommunity } from "./api"
 
 const postText = async (user, post, callback) => {
   const profileURL = new URL(user.info.webId)
@@ -123,6 +124,26 @@ const postText = async (user, post, callback) => {
 
   callback([savedSolidPostDataset, commentContainer])
   return [savedSolidPostDataset, commentContainer]
+}
+
+const postTextToCommunity = async (user, community, title, content, callback) => {
+  await postText(
+    user,
+    {
+      community,
+      title,
+      content,
+    },
+    async (result) => {
+      const createdSolidPostDataset = result[0]
+      await publishPostToCommunity(
+        createdSolidPostDataset.internal_resourceInfo.sourceIri,
+        community.id,
+      )
+      callback(createdSolidPostDataset)
+      return createdSolidPostDataset
+    },
+  )
 }
 
 const getProfile = async (webId, callback) => {
@@ -285,4 +306,5 @@ export {
   subscribeToCommunity,
   unsubscribeFromCommunity,
   getSubscribedCommunities,
+  postTextToCommunity,
 }

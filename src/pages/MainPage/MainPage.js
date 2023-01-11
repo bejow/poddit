@@ -9,6 +9,8 @@ import useErrorStore from "../../states/Error"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import MoonLoader from "react-spinners/MoonLoader"
 import {
+  DISCOVER_FILTER_TEXT,
+  HOME_FILTER_TEXT,
   JOINED_COMMUNITY_TEXT,
   JOIN_COMMUNITY_TEXT,
   POPULAR_COMMUNITY_TEXT,
@@ -16,38 +18,44 @@ import {
 import classNames from "classnames"
 import { Collapse } from "react-collapse"
 import Button from "../../components/Button/Button"
-import useAuth from "../../utils/hooks/useAuth"
-import { getSubscribedCommunities } from "../../utils/rdfHelper"
 import useSubscriptions from "../../utils/hooks/useSubscriptions"
+import TabBar from "../../components/TabBar/TabBar"
+import TabButton from "../../components/TabButton/TabButton"
+import { useNavigate } from "react-router-dom"
+import paths from "../../routing/routePaths"
+import useAuth from "../../utils/hooks/useAuth"
+import { onSessionRestore } from "@inrupt/solid-client-authn-browser"
 
 const MainPage = () => {
+  const { isUserLoggedIn } = useAuth()
   const [posts, setPosts] = useState([])
   const { setError } = useErrorStore()
   const [communities, setCommunities] = useState([])
-  const [subscribedCommunities, setSubscribedCommunities] = useState([])
+  const [applyPostFilter, setApplyPostFilter] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-  const { user } = useAuth()
-  const { subscribeTo, unsubscribeFrom, isSubscribedTo, fetchSubscriptions } = useSubscriptions()
-
+  const navigate = useNavigate()
+  const { subscribeTo, unsubscribeFrom, subscriptions, isSubscribedTo, fetchSubscriptions } =
+    useSubscriptions()
   useEffect(() => {
     try {
-      runAsyncFunction(handlePosts)
-      runAsyncFunction(handleCommunities)
-      runAsyncFunction(handleSubscriptions)
+      if (isUserLoggedIn) {
+        runAsyncFunction(handlePosts)
+        runAsyncFunction(handleCommunities)
+        runAsyncFunction(fetchSubscriptions)
+      }
     } catch (error) {
       setError({ message: error.message })
     }
     return () => {}
   }, [])
 
+  onSessionRestore((url) => {
+    console.log(url)
+  })
+
   const handlePosts = async () => {
     const fetchedPosts = await getPosts()
     setPosts(fetchedPosts)
-  }
-
-  const handleSubscriptions = async () => {
-    const subscriptions = await getSubscribedCommunities(user)
-    setSubscribedCommunities(subscriptions)
   }
 
   const handleCommunities = async () => {
@@ -57,12 +65,20 @@ const MainPage = () => {
 
   const handleCommunitySubscribe = async (communityId) => {
     await runAsyncFunction(async () => await subscribeTo(communityId))
-    runAsyncFunction(fetchSubscriptions)
+    await runAsyncFunction(fetchSubscriptions)
   }
 
   const handleCommunityUnsubscribe = async (communityId) => {
     await runAsyncFunction(async () => await unsubscribeFrom(communityId))
-    runAsyncFunction(fetchSubscriptions)
+    await runAsyncFunction(fetchSubscriptions)
+  }
+
+  const filterPostsToDisplay = (posts) => {
+    if (applyPostFilter) {
+      return posts.filter((post) => subscriptions.indexOf(post.community.id.toString()) > -1)
+    } else {
+      return posts
+    }
   }
 
   const toggleOpen = (index) => {
@@ -73,6 +89,10 @@ const MainPage = () => {
     })
   }
 
+  const handleCommunityClick = (e, communityId) => {
+    e.stopPropagation()
+    navigate(`${paths.community}/${communityId}`)
+  }
   const renderInfo = () => {
     return (
       <Box className={styles.wrapper}>
@@ -80,7 +100,12 @@ const MainPage = () => {
         {communities.map((community, index) => (
           <div className={styles.boxContainer} key={`community-info-${community.id}`}>
             <div onClick={() => toggleOpen(index)} className={styles.collapseHeader}>
-              <p className={styles.communityTitle}>{community.title}</p>
+              <p
+                className={styles.communityTitle}
+                onClick={(e) => handleCommunityClick(e, community.id)}
+              >
+                {community.title}
+              </p>
               <div className={styles.arrowContainer}>
                 <i className={classNames(styles.arrow, styles.down)}></i>
               </div>
@@ -99,7 +124,7 @@ const MainPage = () => {
                       : runAsyncFunction(async () => await handleCommunitySubscribe(community.id))
                   }
                   className={styles.joinButton}
-                  type="primary"
+                  type={isSubscribedTo(community.id) ? "secondary" : "primary"}
                 >
                   {isSubscribedTo(community.id) ? JOINED_COMMUNITY_TEXT : JOIN_COMMUNITY_TEXT}
                 </Button>
@@ -117,11 +142,25 @@ const MainPage = () => {
       {isLoading ? (
         <MoonLoader loading={true} size={30} />
       ) : (
-        <Feed
-          posts={posts.filter(
-            (post) => subscribedCommunities.indexOf(post.community.id.toString()) > -1,
-          )}
-        />
+        <div>
+          <TabBar className={styles.tabBar}>
+            <TabButton
+              className={styles.tabButton}
+              onClick={() => setApplyPostFilter(true)}
+              active={applyPostFilter}
+            >
+              {HOME_FILTER_TEXT}
+            </TabButton>
+            <TabButton
+              className={styles.tabButton}
+              onClick={() => setApplyPostFilter(false)}
+              active={!applyPostFilter}
+            >
+              {DISCOVER_FILTER_TEXT}
+            </TabButton>
+          </TabBar>
+          <Feed posts={filterPostsToDisplay(posts)} />
+        </div>
       )}
     </Layout>
   )

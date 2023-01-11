@@ -67,7 +67,7 @@ const ErrorPage = ({ error, hasError, setError }) => {
 
 ErrorPage.propTypes = {
   error: PropTypes.object,
-  hasError: PropTypes.bool,
+  hasError: PropTypes.func,
   setError: PropTypes.func,
 }
 

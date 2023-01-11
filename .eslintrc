@@ -35,6 +35,9 @@
     "expect": true,
     "global": true,
     "jest": true,
-    "process": true
+    "process": true,
+    "before": true,
+    "Cypress": true,
+    "beforeEach": true
   }
 }

@@ -1,10 +1,10 @@
 // mapping for the path names
 
 const paths = {
-  login: "/login",
+  login: "/",
   profile: "/profile",
   ownProfile: "/profile/me",
-  main: "/",
+  main: "/home",
   postCreate: "/post/create",
   post: "/post",
   community: "/community",

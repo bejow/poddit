@@ -13,6 +13,16 @@
   cursor: pointer;
 }
 
+.tabBar {
+  margin-bottom: 10px;
+  background-color: $white;
+}
+
+.tabButton {
+  background-color: $white;
+  width: 50%;
+}
+
 .wrapper {
   padding: 0 16px;
 }
@@ -55,9 +65,14 @@
 
 .communityTitle {
   max-width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  font-family: "IBM Plex Sans";
+
   color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .joinButton {

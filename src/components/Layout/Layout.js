@@ -1,8 +1,8 @@
-import React from "react"
 import { HeaderBar } from "../HeaderBar/HeaderBar"
-import PropTypes from "prop-types"
-import styles from "./Layout.module.scss"
 import classNames from "classnames"
+import PropTypes from "prop-types"
+import React from "react"
+import styles from "./Layout.module.scss"
 
 const Layout = ({ children, infoContent, contentSize, hideSearchBar, headContent }) => {
   return (

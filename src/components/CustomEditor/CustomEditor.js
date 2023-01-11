@@ -1,13 +1,13 @@
 import "./CustomEditor.scss"
-import React from "react"
-import styles from "./CustomEditor.module.scss"
-import PropTypes from "prop-types"
-import { Editor } from "react-draft-wysiwyg"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
+import { Editor } from "react-draft-wysiwyg"
 import { toolbarOptions } from "./toolbarOptions"
 import { toolbarOptionsMobile } from "./toolbarOptionsMobile"
 import { toolbarOptionsSmallMobile } from "./toolbarOptionsSmallMobile"
 import classNames from "classnames"
+import PropTypes from "prop-types"
+import React from "react"
+import styles from "./CustomEditor.module.scss"
 import useIsMobile from "../../utils/hooks/useIsMobile"
 import useIsSmallMobile from "../../utils/hooks/useIsSmallMobile"
 
@@ -21,6 +21,7 @@ const CustomEditor = ({
 }) => {
   const { isMobile } = useIsMobile()
   const { isSmallMobile } = useIsSmallMobile()
+
   const selectResponsiveToolbarOptions = () => {
     if (isSmallMobile) {
       return toolbarOptionsSmallMobile

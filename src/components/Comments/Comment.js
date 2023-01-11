@@ -11,6 +11,10 @@ import { getTimeSinceDateString } from "../../utils/date"
 import SvgArrowUp from "../icons/ArrowUp"
 import {
   COMMENT_BUTTON_TEXT,
+  COMMENT_CANCEL_EDIT_TEXT,
+  COMMENT_DELETE_TEXT,
+  COMMENT_EDIT_TEXT,
+  COMMENT_REPLY_TEXT,
   CREATE_COMMENT_PLACEHOLDER,
   DOT_TEXT,
 } from "../../assets/constants/strings"
@@ -44,7 +48,6 @@ const Comment = ({
   const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
   const isEditValid = editEditorState.getCurrentContent().getPlainText().length > 0 ? true : false
   const { setError } = useErrorStore()
-
   const childComments = getChildCommentsById(identifier)
 
   const onCommentUpdate = (commentText) => {
@@ -120,21 +123,15 @@ const Comment = ({
     <div className={styles.commentWrapper}>
       <div className={styles.collapseContainer}>
         <div className={styles.collapseButtonContainer}>
-          {
-            <IconButton
-              className={classNames(styles.expandButton, { [styles.hide]: !areChildrenHidden })}
-              onClick={() => setAreChildrenHidden(false)}
-            >
-              <SVGExpand className={styles.expandIcon} />
-            </IconButton>
-          }
+          <IconButton
+            className={classNames(styles.expandButton, { [styles.hide]: !areChildrenHidden })}
+            onClick={() => setAreChildrenHidden(false)}
+          >
+            <SVGExpand className={styles.expandIcon} />
+          </IconButton>
           <SvgUnknownUserIcon className={styles.unknownUserIcon} />
         </div>
-        <button
-          className={styles.collapseLine}
-          aria-label="Hide Replies"
-          onClick={() => setAreChildrenHidden(true)}
-        />
+        <button className={styles.collapseLine} onClick={() => setAreChildrenHidden(true)} />
       </div>
       <div className={styles.grow}>
         <div className={styles.comment}>
@@ -147,6 +144,7 @@ const Comment = ({
           </div>
 
           {renderEditContainer()}
+
           <div className={classNames(styles.commentFooter, { [styles.hide]: areChildrenHidden })}>
             <div className={styles.voteContainer}>
               <SvgArrowUp
@@ -165,7 +163,9 @@ const Comment = ({
                 onClick={() => onCommentLike(false)}
               />
             </div>
-            <IconButton onClick={() => setIsReplaying((prev) => !prev)}>Reply</IconButton>
+            <IconButton onClick={() => setIsReplaying((prev) => !prev)}>
+              {COMMENT_REPLY_TEXT}
+            </IconButton>
 
             {creator === currentUser.info.webId && (
               <>
@@ -173,20 +173,21 @@ const Comment = ({
                   className={styles.deactivated}
                   onClick={() => setIsEditting((prev) => !prev)}
                 >
-                  {isEditting ? "Cancel Edit" : "Edit"}
+                  {isEditting ? COMMENT_CANCEL_EDIT_TEXT : COMMENT_EDIT_TEXT}
                 </IconButton>
                 <IconButton
                   className={styles.deactivated}
                   /* onClick={onDeleteComment} */
                 >
-                  DEL
+                  {COMMENT_DELETE_TEXT}
                 </IconButton>
               </>
             )}
           </div>
         </div>
+
         {isReplaying && (
-          <div className={classNames(styles.mt1, styles.ml3)}>
+          <div className={classNames(styles.marginTop, styles.marginLeft)}>
             <CustomEditor
               wrapperClassName={styles.editorWrapper}
               onChange={(editorState) => setEditorState(editorState)}
@@ -197,22 +198,21 @@ const Comment = ({
             />
           </div>
         )}
+
         {childComments?.length > 0 && (
-          <>
-            <div
-              className={classNames(styles.nestedCommentsContainer, {
-                [styles.hide]: areChildrenHidden,
-              })}
-            >
-              <div className={styles.nestedComments}>
-                <CommentList
-                  replyToComment={replyToComment}
-                  getChildCommentsById={getChildCommentsById}
-                  comments={childComments}
-                />
-              </div>
+          <div
+            className={classNames(styles.nestedCommentsContainer, {
+              [styles.hide]: areChildrenHidden,
+            })}
+          >
+            <div className={styles.nestedComments}>
+              <CommentList
+                replyToComment={replyToComment}
+                getChildCommentsById={getChildCommentsById}
+                comments={childComments}
+              />
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

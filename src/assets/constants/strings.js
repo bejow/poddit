@@ -4,6 +4,7 @@ const SEARCHBAR_COMMUNITY_PLACEHOLDER = "Choose a community"
 const INPUT_TITLE_PLACEHOLDER = "Title"
 const SIGN_UP_TEXT = "SignUp"
 const SIGN_IN_TEXT = "SignIn"
+const LOG_OUT_TEXT = "Log Out"
 const VOTE_CONTAINER_TEXT = "Vote"
 const POSTED_BY_TEXT = "Posted by"
 const CREATE_POST_PLACEHOLDER = "Create Post"
@@ -11,6 +12,11 @@ const CREATE_POST_HEADING = "Create a post"
 const CREATE_COMMENT_PLACEHOLDER = "What are your thoughts?"
 const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
+const COMMENT_REPLY_TEXT = "Reply"
+const COMMUNITY_PREFIX = "r/"
+const COMMENT_DELETE_TEXT = "DEL"
+const COMMENT_EDIT_TEXT = "Edit"
+const COMMENT_CANCEL_EDIT_TEXT = "Cancel Edit"
 const POSTS_TEXT = "Posts"
 const POST_TEXT = "Post"
 const CREATE_POST_DRAFT_BUTTON_TEXT = "Save Draft"
@@ -37,6 +43,10 @@ const CREATE_WEBID_TEXT = "Create WebId"
 const ERROR_MESSAGE_TEXT = "Error Message:"
 const ABOUT_COMMUNITY_TEXT = "About Community"
 const CREATED_TEXT = "Created"
+const DISCOVER_FILTER_TEXT = "Discover"
+const HOME_FILTER_TEXT = "Home"
+const INRUPT_APP_NAME_DEV = "Poddit (DEV) - Decentral Reddit"
+const INRUPT_APP_NAME = "Poddit - Decentral Reddit"
 
 const COMMUNITY_ROUTE = "/community"
 const PROFILE_ROUTE = "/profile"
@@ -45,7 +55,6 @@ const POST_ROUTE = "/post"
 const API_ENDPOINT = "/api"
 const COMMUNITIES_ENDPOINT = "/communities"
 const COMMUNITY_ENDPOINT = "/community"
-
 const POST_ENDPOINT = "/posts"
 
 const JUST_NOW_TEXT = "just now"
@@ -66,7 +75,23 @@ const AGO_TEXT = "ago"
 
 const COMMENTS_TEXT = "Comments"
 
+const COMMUNITY_RULES = [
+  "Remember the human",
+  "Behave like you would in real life",
+  "Look for the original source of content",
+  "Search for duplicates before posting",
+  "Read the community's rules",
+]
+
 export {
+  COMMENT_EDIT_TEXT,
+  COMMUNITY_PREFIX,
+  COMMENT_CANCEL_EDIT_TEXT,
+  COMMENT_REPLY_TEXT,
+  COMMENT_DELETE_TEXT,
+  COMMUNITY_RULES,
+  INRUPT_APP_NAME,
+  INRUPT_APP_NAME_DEV,
   SEARCHBAR_PLACEHOLDER,
   SIGN_UP_TEXT,
   SIGN_IN_TEXT,
@@ -125,4 +150,7 @@ export {
   CREATED_TEXT,
   POSTS_TEXT,
   POST_TEXT,
+  LOG_OUT_TEXT,
+  DISCOVER_FILTER_TEXT,
+  HOME_FILTER_TEXT,
 }

@@ -1,11 +1,12 @@
-import React from "react"
 import { Navigate } from "react-router-dom"
-import useUserStore from "../../states/User"
 import PropTypes from "prop-types"
+import React from "react"
+import useAuth from "../../utils/hooks/useAuth"
 
 const ProtectedRoute = ({ children, redirectTo, from }) => {
-  const isUserLoggedIn = useUserStore((state) => state.isUserLoggedIn)()
-  return isUserLoggedIn ? children : <Navigate to={redirectTo} state={{ from }} />
+  const { isUserLoggedIn } = useAuth()
+  console.log(isUserLoggedIn())
+  return isUserLoggedIn() ? children : <Navigate to={redirectTo} state={{ from }} />
 }
 
 ProtectedRoute.propTypes = {

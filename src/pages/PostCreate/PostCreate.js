@@ -1,9 +1,3 @@
-import React, { useEffect, useState } from "react"
-import styles from "./PostCreate.module.scss"
-import Select, { components } from "react-select"
-import Box from "../../components/Box/Box"
-import "./PostCreate.scss"
-import Layout from "../../components/Layout/Layout"
 import {
   CREATE_POST_HEADING,
   RULES_TITLE_TEXT,
@@ -13,25 +7,26 @@ import {
   TABBUTTON_POLL,
   TABBUTTON_POST,
   TABBUTTON_TALK,
+  COMMUNITY_RULES,
 } from "../../assets/constants/strings"
-import SvgDottedCircle from "../../components/icons/DottedCircle"
-import TabButton from "../../components/TabButton/TabButton"
-import TabBar from "../../components/TabBar/TabBar"
-import RuleBox from "../../components/RuleBox/RuleBox"
-import { RULES } from "../../assets/constants/rules"
-import SvgMediaIcon from "../../components/icons/MediaIcon"
-import SvgLinkIcon from "../../components/icons/LinkIcon"
-import TextPost from "./TextPost"
+import "./PostCreate.scss"
 import { getCommunities } from "../../utils/api"
-import useErrorStore from "../../states/Error"
 import { useParams } from "react-router-dom"
+import Box from "../../components/Box/Box"
+import Layout from "../../components/Layout/Layout"
+import React, { useEffect, useState } from "react"
+import RuleBox from "../../components/RuleBox/RuleBox"
+import Select, { components } from "react-select"
+import styles from "./PostCreate.module.scss"
+import SvgDottedCircle from "../../components/icons/DottedCircle"
+import SvgLinkIcon from "../../components/icons/LinkIcon"
+import SvgMediaIcon from "../../components/icons/MediaIcon"
+import TabBar from "../../components/TabBar/TabBar"
+import TabButton from "../../components/TabButton/TabButton"
+import TextPost from "./TextPost"
+import useErrorStore from "../../states/Error"
 
-// const options = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" },
-// ]
-
+// static definition for <Select/> custom component
 const customComponents = {
   IndicatorSeperator: () => null,
   // eslint-disable-next-line react/prop-types
@@ -51,25 +46,25 @@ const customComponents = {
 }
 
 const PostCreate = () => {
-  const { communityId } = useParams()
-  const [selectedOption, setSelectedOption] = useState(null)
-  const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
   const [communityOptions, setCommunityOptions] = useState([])
+  const [currentTab, setCurrentTab] = useState(TABBUTTON_POST)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const { communityId } = useParams()
   const { setError } = useErrorStore()
-  console.log(selectedOption)
-  console.log(communityId)
-  const onSelectedChange = (option) => {
-    setSelectedOption(option)
-  }
 
   useEffect(() => {
     getCommunityOptions()
     return () => {}
   }, [])
 
+  const onSelectedChange = (option) => {
+    setSelectedOption(option)
+  }
+
   const getCommunityOptions = async () => {
     try {
       const communities = await getCommunities()
+      // prepare communities for <Select/>
       const communityOptions = communities.map((community) => {
         return {
           value: community.id,
@@ -79,11 +74,9 @@ const PostCreate = () => {
         }
       })
       setCommunityOptions(communityOptions)
-      console.log(communityId)
+
+      // preselect community if user comes from specific community
       if (communityId) {
-        console.log("in if")
-        console.log(communityOptions)
-        console.log(setSelectedOption(communityOptions.find((option) => option.id == communityId)))
         setSelectedOption(communityOptions.find((option) => option.id == communityId))
       }
     } catch (error) {
@@ -104,7 +97,11 @@ const PostCreate = () => {
     <Layout
       contentSize="l"
       infoContent={
-        <RuleBox className={styles.rulesContainer} title={RULES_TITLE_TEXT} rules={RULES} />
+        <RuleBox
+          className={styles.rulesContainer}
+          title={RULES_TITLE_TEXT}
+          rules={COMMUNITY_RULES}
+        />
       }
     >
       <div className={styles.headingContainer}>

@@ -13,12 +13,12 @@ const TextArea = ({
   rows,
   displayWordCount,
 }) => {
+  const [charCount, setCharCount] = useState(0)
+
   const matchTextareaHeightToContent = (e) => {
     e.target.style.height = "inherit"
     e.target.style.height = `${e.target.scrollHeight + 5}px`
   }
-
-  const [charCount, setCharCount] = useState(0)
 
   const handleChange = (event) => {
     setCharCount(event.target.value.length)

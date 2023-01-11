@@ -43,7 +43,6 @@
 
 .commentMessage {
   white-space: pre-wrap;
-
   font-size: 14px;
   font-weight: 400;
   margin-right: 0.5rem;
@@ -115,7 +114,6 @@
 
 .editorWrapper {
   display: flex;
-
   flex-direction: column-reverse;
 }
 
@@ -203,11 +201,11 @@
   margin-top: 0.5rem;
 }
 
-.mt1 {
+.marginTop {
   margin-top: 0.25rem;
 }
 
-.ml3 {
+.margineLeft {
   margin-left: 1.5rem;
 }
 

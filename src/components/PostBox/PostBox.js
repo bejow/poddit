@@ -1,9 +1,3 @@
-import React, { useEffect, useState } from "react"
-import Box from "../Box/Box"
-import SvgArrowUp from "../icons/ArrowUp"
-import styles from "./PostBox.module.scss"
-import classNames from "classnames"
-import PropTypes from "prop-types"
 import {
   COMMENTS_TEXT,
   COMMUNITY_ROUTE,
@@ -11,58 +5,30 @@ import {
   POST_ROUTE,
   VOTE_CONTAINER_TEXT,
 } from "../../assets/constants/strings"
+import { getPost } from "../../utils/rdfHelper"
+import { IconButton } from "../IconButton/IconButton"
 import { Link, useNavigate } from "react-router-dom"
 import { TimeSinceDisplay } from "../TimeSinceDisplay/TimeSinceDisplay"
-import { IconButton } from "../IconButton/IconButton"
-import { getPost } from "../../utils/rdfHelper"
-
-/* eslint-disable */
-
-const postData = {
-  community: "webdev",
-  creator: { webid: "webid", name: "John" },
-  createdAt: new Date(new Date().getFullYear(), 0, 1),
-  tags: ["frontend", "react"],
-  votes: 286,
-  title: "Replacing Component Logic with Hooks",
-  content:
-    "React doesn’t offer a way to “attach” reusable behavior to a component (for example, connecting it to a store). If you’ve worked with React for a while, you may be familiar with patterns like render props and higher-order components that try to solve this. But these patterns require you to restructure your components when you use them, which can be cumbersome and make code harder to follow. If you look at a typical React application in React DevTools, you will likely find a “wrapper hell” of components surrounded by layers of providers, consumers, higher-order components, render props, and other abstractions. While we could filter them out in DevTools, this points to a deeper underlying problem: React needs a better primitive for sharing stateful logic. With Hooks, you can extract stateful logic from a component so it can be tested independently and reused. Hooks allow you to reuse stateful logic without changing your component hierarchy. This makes it easy to share Hooks among many components or with the community.",
-  comments: [
-    {
-      creator: { webid: "webid2", name: "Mark" },
-      createdAt: new Date().toISOString(),
-      content: "I totally agree with you",
-      votes: 32,
-      comments: [
-        {
-          creator: { webid: "webid3", name: "Jim" },
-          createdAt: new Date().toISOString(),
-          content: "THIS",
-          votes: 108,
-          comments: [],
-        },
-      ],
-    },
-    {
-      creator: { webid: "webid4", name: "Cindy" },
-      createdAt: new Date().toISOString(),
-      content: "I totally not agree with you",
-      votes: -87,
-      comments: [],
-    },
-  ],
-}
-const { community, votes, tags, comments } = postData
+import Box from "../Box/Box"
+import classNames from "classnames"
+import PropTypes from "prop-types"
+import React, { useEffect, useState, memo } from "react"
+import styles from "./PostBox.module.scss"
+import SvgArrowUp from "../icons/ArrowUp"
+import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
 const PostBox = ({ post, clickable, children }) => {
   const { community } = post
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
   const { content, title, creator, comments } = postInfo
   const createdAt = new Date(post.createdAt)
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
+  // no real vote count yet
+  const votes = Math.floor(Math.random() * 1000)
 
   useEffect(() => {
-    handlePost()
+    runAsyncFunction(handlePost)
     return () => {}
   }, [post])
 
@@ -76,7 +42,7 @@ const PostBox = ({ post, clickable, children }) => {
   const communityLinkText = `r/${community.title}`
   const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 
-  return (
+  return isLoading ? null : (
     <Box
       className={styles.container}
       onClick={
@@ -110,9 +76,15 @@ const PostBox = ({ post, clickable, children }) => {
               <span className={classNames(styles.smallText, styles.postedByText)}>
                 {POSTED_BY_TEXT}
               </span>
-              <Link className={classNames(styles.smallText, styles.userLink)} to={userLink}>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                className={classNames(styles.smallText, styles.userLink)}
+                href={userLink}
+                onClick={(e) => e.stopPropagation()}
+              >
                 {userLinkText}
-              </Link>
+              </a>
               <TimeSinceDisplay className={styles.smallText} date={createdAt} />
             </div>
           </div>
@@ -134,7 +106,8 @@ const PostBox = ({ post, clickable, children }) => {
 
 PostBox.propTypes = {
   children: PropTypes.node,
-  posts: PropTypes.shape({
+  clickable: PropTypes.bool,
+  post: PropTypes.shape({
     id: PropTypes.number,
     url: PropTypes.string,
     createdAt: PropTypes.string,
@@ -147,4 +120,4 @@ PostBox.propTypes = {
   }),
 }
 
-export default PostBox
+export default memo(PostBox)
