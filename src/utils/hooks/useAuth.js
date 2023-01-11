@@ -6,8 +6,6 @@ import {
 } from "@inrupt/solid-client-authn-browser"
 import shallow from "zustand/shallow"
 import useUserStore from "../../states/User"
-// import { useLocation, useSearchParams } from "react-router-dom"
-// import paths from "../../routing/routePaths"
 import { getPodUrl } from "../rdfHelper"
 import useErrorStore from "../../states/Error"
 import { INRUPT_APP_NAME, INRUPT_APP_NAME_DEV } from "../../assets/constants/strings"
