@@ -25,6 +25,16 @@
   font-weight: 500;
 }
 
+.title {
+  font-weight: 500;
+  font-family: "IBM Plex Sans";
+  cursor: pointer;
+  color: $black;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .info {
   font-size: 14px;
 }

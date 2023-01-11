@@ -4,18 +4,23 @@ import Box from "../Box/Box"
 import styles from "./CommunityBox.module.scss"
 import Button from "../Button/Button"
 import SVGDefaultCommunity from "../icons/DefaultCommunity"
-import { JOINED_COMMUNITY_TEXT, JOIN_COMMUNITY_TEXT } from "../../assets/constants/strings"
+import {
+  COMMUNITY_PREFIX,
+  JOINED_COMMUNITY_TEXT,
+  JOIN_COMMUNITY_TEXT,
+} from "../../assets/constants/strings"
 import useSubscriptions from "../../utils/hooks/useSubscriptions"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import { MoonLoader } from "react-spinners"
+import { useNavigate } from "react-router-dom"
+import paths from "../../routing/routePaths"
 
 const CommunityBox = ({ community }) => {
   const { info, title, id: communityId } = community
   const { fetchSubscriptions, isSubscribedTo, subscribeTo, unsubscribeFrom } = useSubscriptions()
   const { runAsyncFunction, isLoading } = useAsyncLoading()
-  const communityTitle = `r/${title}`
-  console.log("community", community)
-  console.log(isLoading)
+  const navigate = useNavigate()
+  const communityTitle = `${COMMUNITY_PREFIX}${title}`
 
   const handleCommunitySubscribe = async () => {
     await runAsyncFunction(async () => await subscribeTo(communityId))
@@ -25,6 +30,10 @@ const CommunityBox = ({ community }) => {
   const handleCommunityUnsubscribe = async () => {
     await runAsyncFunction(async () => await unsubscribeFrom(communityId))
     await runAsyncFunction(fetchSubscriptions)
+  }
+
+  const handleCommunityClick = () => {
+    navigate(`${paths.community}/${communityId}`)
   }
 
   const renderSubscribeButton = () => {
@@ -57,7 +66,9 @@ const CommunityBox = ({ community }) => {
       <div className={styles.contentWrapper}>
         <div className={styles.titleContainer}>
           <SVGDefaultCommunity className={styles.communityIcon} />
-          <div className={styles.title}>{communityTitle}</div>
+          <div className={styles.title} onClick={handleCommunityClick}>
+            {communityTitle}
+          </div>
         </div>
         <p className={styles.info}>{info}</p>
         <hr className={styles.seperator} />
