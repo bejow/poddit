@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import Error from "../../pages/ErrorPage/ErrorPage"
 import useErrorStore from "../../states/Error"
+import * as Sentry from "@sentry/react"
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -10,23 +11,21 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
+    // trigger fallback UI.
     this.props.setError(error)
   }
 
   componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service
-    console.log(error, errorInfo)
+    // send error to sentry service
+    Sentry.captureException(error, errorInfo)
   }
 
   render() {
-    console.log(this.props)
     const { error, hasError, setError } = this.props
+
     if (this.props.hasError()) {
-      // You can render any custom fallback UI
       return <Error error={error} hasError={hasError} setError={setError} />
     }
-
     return this.props.children
   }
 }
