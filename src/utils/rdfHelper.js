@@ -199,10 +199,20 @@ const subscribeToCommunity = async (user, communityId) => {
 const getSubscribedCommunities = async (user) => {
   // returns subscribed communities retrieved from users solid pod
   const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}` // eslint-disable-line
-  let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
-  let subscriptions = getThingAll(subscriptionsDataset)
-  subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
-  return subscriptions
+  try {
+    let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
+    let subscriptions = getThingAll(subscriptionsDataset)
+    subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
+    return subscriptions
+  } catch (error) {
+    if (typeof error.statusCode === "number" && error.statusCode === 404) {
+      // not found --> no subscriptions yet --> returning empty arrry
+      // file will be created when subscribing to the first community
+      return []
+    } else {
+      throw error
+    }
+  }
 }
 
 const unsubscribeFromCommunity = async (user, communityId) => {
