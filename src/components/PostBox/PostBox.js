@@ -38,8 +38,10 @@ const PostBox = ({ post, clickable, children }) => {
   const handlePost = async () => {
     // decentral data could be not reachable
     try {
-      const fetchedPost = await getPost(post.url)
-      setPostInfo(fetchedPost)
+      if (post?.url) {
+        const fetchedPost = await getPost(post.url)
+        setPostInfo(fetchedPost)
+      }
     } catch (error) {
       setFetchError(true)
     }

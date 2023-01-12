@@ -82,7 +82,7 @@ CommunityBox.propTypes = {
   community: PropTypes.shape({
     info: PropTypes.string,
     title: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
   }),
 }
 

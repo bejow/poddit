@@ -14,6 +14,7 @@ const CREATE_POST_TEXT_PLACEHOLDER = "Text (optional)"
 const CREATE_POST_BUTTON_TEXT = "Post"
 const COMMENT_REPLY_TEXT = "Reply"
 const COMMUNITY_PREFIX = "r/"
+const USER_PREFIX = "u/"
 const COMMENT_DELETE_TEXT = "DEL"
 const COMMENT_EDIT_TEXT = "Edit"
 const COMMENT_CANCEL_EDIT_TEXT = "Cancel Edit"
@@ -153,4 +154,5 @@ export {
   LOG_OUT_TEXT,
   DISCOVER_FILTER_TEXT,
   HOME_FILTER_TEXT,
+  USER_PREFIX,
 }

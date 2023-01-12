@@ -1,5 +1,6 @@
 import create from "zustand"
 
+// Stores user auth informations
 const useUserStore = create((set, get) => ({
   user: {},
   setUser: (newUser) => set(() => ({ user: newUser })),

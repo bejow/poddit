@@ -6,7 +6,6 @@ import Login from "../pages/Login/Login"
 import MainPage from "../pages/MainPage/MainPage"
 import Post from "../pages/Post/Post"
 import PostCreate from "../pages/PostCreate/PostCreate"
-import Profile from "../pages/Profile/Profile"
 import paths from "./routePaths"
 
 const MyRoutes = () => {
@@ -17,14 +16,6 @@ const MyRoutes = () => {
         element={
           <ProtectedRoute redirectTo={paths.login} from={paths.main}>
             <MainPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path={paths.profile}
-        element={
-          <ProtectedRoute redirectTo={paths.login} from={paths.profile}>
-            <Profile />
           </ProtectedRoute>
         }
       />

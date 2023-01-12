@@ -1,18 +1,19 @@
-import { useEffect } from "react"
 import {
   login,
   handleIncomingRedirect,
   getDefaultSession,
 } from "@inrupt/solid-client-authn-browser"
-import shallow from "zustand/shallow"
-import useUserStore from "../../states/User"
 import { getPodUrl } from "../rdfHelper"
-import useErrorStore from "../../states/Error"
 import { INRUPT_APP_NAME, INRUPT_APP_NAME_DEV } from "../../assets/constants/strings"
+import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import paths from "../../routing/routePaths"
+import shallow from "zustand/shallow"
+import useErrorStore from "../../states/Error"
+import useUserStore from "../../states/User"
 
 const useAuth = () => {
+  // used to log the user in and save session informations in zustand store
   const [user, isUserLoggedIn, setUser] = useUserStore(
     (state) => [state.user, state.isUserLoggedIn, state.setUser],
     shallow,
@@ -57,12 +58,9 @@ const useAuth = () => {
     await handleIncomingRedirect({ restorePreviousSession: true })
     const session = getDefaultSession()
     console.log(session)
-    // check for login state
     if (session?.info?.isLoggedIn) {
-      // successful Login
       const pods = await getPodUrl(session, setError)
       setUser({ ...session, pods })
-
       if (from) {
         // Redirect User to Page visited before Login
         navigate(from)

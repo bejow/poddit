@@ -8,11 +8,9 @@ $grey: #cccccc;
 $dark_grey: #787c7e;
 $darker_grey: #878a8c;
 $black: #1c1c1c;
-
 $blue: #0079d3;
 $light_blue: #33a8ff;
 $orangered: #ff4500;
-
 $icon_background_grey: #d7dfe2;
 $button_border_grey: #edeff1;
 
@@ -22,12 +20,12 @@ $dark_hover: rgba(26, 26, 27, 0.1);
 $white_hover: rgba(0, 120, 211, 0.04);
 $grey_hover: rgba(26, 26, 27, 0.1);
 $text_disabled_grey: rgba(255, 255, 255, 0.5);
+$color_medium_border: rgba(0, 0, 0, 0.2);
 
 $white_hover_oppacity: 0.96;
 $blue_hover_opacity: 0.92;
 
-$color_medium_border: rgba(0, 0, 0, 0.2);
-
+// use style constants in JS
 :export {
   blue: $blue;
 }

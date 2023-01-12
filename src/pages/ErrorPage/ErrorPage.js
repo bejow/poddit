@@ -1,9 +1,3 @@
-import React from "react"
-import Box from "../../components/Box/Box"
-import Layout from "../../components/Layout/Layout"
-import styles from "./ErrorPage.module.scss"
-import PropTypes from "prop-types"
-import { useNavigate } from "react-router-dom"
 import {
   CREATE_WEBID_TEXT,
   ERROR_MESSAGE_TEXT,
@@ -13,12 +7,17 @@ import {
   REFRESH_TEXT,
   SOMETHING_WENT_WRONG_TEXT,
 } from "../../assets/constants/strings"
+import { useNavigate } from "react-router-dom"
+import Box from "../../components/Box/Box"
 import Button from "../../components/Button/Button"
+import Layout from "../../components/Layout/Layout"
 import paths from "../../routing/routePaths"
+import PropTypes from "prop-types"
+import React from "react"
+import styles from "./ErrorPage.module.scss"
 
-const ErrorPage = ({ error, hasError, setError }) => {
+const ErrorPage = ({ error, setError }) => {
   const navigate = useNavigate()
-  console.log(error, hasError(), setError)
 
   const renderAdditionalInfo = () => {
     switch (error?.type) {
@@ -34,6 +33,8 @@ const ErrorPage = ({ error, hasError, setError }) => {
             {REFRESH_TEXT}
           </Button>
         )
+      // user can be logged in without having a webId
+      // --> redirect them to inrupt service to create one
       case ERROR_TYPE_MISSING_WEBID:
         return (
           <div>

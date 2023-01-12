@@ -1,15 +1,16 @@
-import { useEffect } from "react"
-import useSubscriptionStore from "../../states/Subscriptions"
-import shallow from "zustand/shallow"
 import {
   getSubscribedCommunities,
   subscribeToCommunity,
   unsubscribeFromCommunity,
 } from "../rdfHelper"
+import { useEffect } from "react"
+import shallow from "zustand/shallow"
 import useAuth from "./useAuth"
 import useErrorStore from "../../states/Error"
+import useSubscriptionStore from "../../states/Subscriptions"
 
 export default function useSubscriptions() {
+  // Used to uniformly interact with users community subscriptions
   const { user } = useAuth()
   const { setError } = useErrorStore()
   const [subscriptions, setSubscriptions, isSubscribedTo] = useSubscriptionStore(
@@ -23,7 +24,8 @@ export default function useSubscriptions() {
       subscriptions = await getSubscribedCommunities(user)
     } catch (error) {
       if (error.message.includes("Not Found")) {
-        // subscriptions not initialized yet
+        // subscriptions may not be initialized in the solid pod yet
+        // todo: add explicit subscription initialization here
       } else {
         setError({ message: error.message })
       }
