@@ -3,7 +3,7 @@ import {
   handleIncomingRedirect,
   getDefaultSession,
 } from "@inrupt/solid-client-authn-browser"
-import { getPodUrl } from "../rdfHelper"
+import { getPodUrls } from "../rdfHelper"
 import { INRUPT_APP_NAME, INRUPT_APP_NAME_DEV } from "../../assets/constants/strings"
 import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -59,7 +59,7 @@ const useAuth = () => {
     const session = getDefaultSession()
     console.log(session)
     if (session?.info?.isLoggedIn) {
-      const pods = await getPodUrl(session, setError)
+      const pods = await getPodUrls(session, setError)
       setUser({ ...session, pods })
       if (from) {
         // Redirect User to Page visited before Login

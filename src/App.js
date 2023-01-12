@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary"
 import Routes from "./routing/Routes"
 import styles from "./App.module.scss"
-import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary"
 
 function App() {
   return (
