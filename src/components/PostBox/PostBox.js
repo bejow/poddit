@@ -19,6 +19,8 @@ import styles from "./PostBox.module.scss"
 import SvgArrowUp from "../icons/ArrowUp"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
+const votes = Math.floor(Math.random() * 1000)
+
 const PostBox = ({ post, clickable, children }) => {
   const { community } = post
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
@@ -28,7 +30,6 @@ const PostBox = ({ post, clickable, children }) => {
   const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
   // no real vote count yet
-  const votes = Math.floor(Math.random() * 1000)
 
   useEffect(() => {
     runAsyncFunction(handlePost)
