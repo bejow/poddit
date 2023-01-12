@@ -33,6 +33,7 @@ describe("Date Utils", () => {
 
     expect(results).toMatchObject(assertions)
   })
+
   test("getTimeSinceDateString returns undefined for invalid dates / formats", () => {
     const results = {
       undefinedInput: getTimeSinceDateString(undefined),

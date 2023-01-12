@@ -1,3 +1,8 @@
+// helper function mapping strings to colors by hashing
+// used to give communities a personal touch
+
+// DISCLAIMER: THIS IS NOT WRITTEN BY ME (BEN JOEL WETZEL)
+
 function djb2(str) {
   var hash = 5381
   for (var i = 0; i < str.length; i++) {

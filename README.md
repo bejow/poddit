@@ -1,19 +1,24 @@
 # Getting Started with [Poddit](https://poddit.netlify.app/)
 
-## Setup
+## Setup Local
 
-- Clone Repository
-- Run:
+1. Setup [Backend](https://github.com/bejow/poddit-backend) (Follow instructions in the [README](https://github.com/bejow/poddit-backend#readme))
+2. Clone Repository
+3. Install Dependencies:
 
 ```
 npm install
 ```
 
-- Start Dev-Server:
+4. Setup .env
+    - Adjust `REACT_APP_API_URL` so that it matches the URL of your local Backend Server
+
+5. Start Dev-Server:
 
 ```
 npm start
 ```
+
 
 ## Folder Structure
 
@@ -23,24 +28,28 @@ src
 ├── routing --> Routing Options (Routes)
 ├── components --> JSX Components
 ├── styles --> Styling related (Constants, Mixins, Animations)
+├── utils --> Helper Functions / Hooks
+├── assets --> Icons / Constants
 └── states --> Zustand State Management Files
 .husky
 └── --> Commit Hooks
 cypress
 └── --> E2E Tests (Tests, Mocks)
+.github
+└── --> Github Actions Workflow
 ```
 
 ## Testing (local)
 
 Unit tests run automatically before commiting
 
-### Manual Unit+Integration Tests:
+### Unit Tests:
 
 ```
 npm test
 ```
 
-### Manual End to End tests:
+### End to End Tests:
 
 A Inrupt Pod is required to run the local E2E tests:
 

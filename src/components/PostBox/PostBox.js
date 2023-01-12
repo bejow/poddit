@@ -1,8 +1,10 @@
 import {
   COMMENTS_TEXT,
+  COMMUNITY_PREFIX,
   COMMUNITY_ROUTE,
   POSTED_BY_TEXT,
   POST_ROUTE,
+  USER_PREFIX,
   VOTE_CONTAINER_TEXT,
 } from "../../assets/constants/strings"
 import { getPost } from "../../utils/rdfHelper"
@@ -17,15 +19,17 @@ import styles from "./PostBox.module.scss"
 import SvgArrowUp from "../icons/ArrowUp"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
+const votes = Math.floor(Math.random() * 1000)
+
 const PostBox = ({ post, clickable, children }) => {
   const { community } = post
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
   const { content, title, creator, comments } = postInfo
   const createdAt = new Date(post.createdAt)
+  const [fetchError, setFetchError] = useState(false)
   const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
   // no real vote count yet
-  const votes = Math.floor(Math.random() * 1000)
 
   useEffect(() => {
     runAsyncFunction(handlePost)
@@ -33,16 +37,23 @@ const PostBox = ({ post, clickable, children }) => {
   }, [post])
 
   const handlePost = async () => {
-    const fetchedPost = await getPost(post.url)
-    setPostInfo(fetchedPost)
+    // decentral data could be not reachable
+    try {
+      if (post?.url) {
+        const fetchedPost = await getPost(post.url)
+        setPostInfo(fetchedPost)
+      }
+    } catch (error) {
+      setFetchError(true)
+    }
   }
 
-  const userLinkText = `u/${creator?.name}`
+  const userLinkText = `${USER_PREFIX}${creator?.name}`
   const userLink = `${creator?.webId}`
-  const communityLinkText = `r/${community.title}`
+  const communityLinkText = `${COMMUNITY_PREFIX}${community.title}`
   const communityLink = `${COMMUNITY_ROUTE}/${community.id}`
 
-  return isLoading ? null : (
+  const renderPostBox = () => (
     <Box
       className={styles.container}
       onClick={
@@ -102,6 +113,9 @@ const PostBox = ({ post, clickable, children }) => {
       {children}
     </Box>
   )
+
+  // PostBox dont render unfetchable posts
+  return isLoading | fetchError ? null : renderPostBox()
 }
 
 PostBox.propTypes = {

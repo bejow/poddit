@@ -6,25 +6,10 @@ import {
 } from "../assets/constants/strings"
 const { REACT_APP_API_URL } = process.env
 
-const getCommunities = async () => {
-  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${COMMUNITIES_ENDPOINT}`)
-  const communities = await response.json()
-  return communities
-}
+// helper functions to interact with the poddit-backend
 
-const getPosts = async () => {
-  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}`)
-  const posts = await response.json()
-  return posts
-}
-
-const getPostsFromCommunity = async (communityId) => {
-  const response = await fetch(
-    `${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}${COMMUNITY_ENDPOINT}/${communityId}`,
-  )
-  const communityPosts = await response.json()
-  return communityPosts
-}
+// MetaPost = Post references in the database
+// Post = Actual Post (with content) saved in solid pods
 
 const getCommunity = async (communityId) => {
   const response = await fetch(
@@ -34,15 +19,14 @@ const getCommunity = async (communityId) => {
   return community
 }
 
-// MetaPost = Post references in the database
-// Post = Actual Post (with content) saved in solid pods
-const getMetaPost = async (postId) => {
-  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}/${postId}`)
-  const post = await response.json()
-  return post
+const getCommunities = async () => {
+  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${COMMUNITIES_ENDPOINT}`)
+  const communities = await response.json()
+  return communities
 }
 
 const publishPostToCommunity = async (postUrl, communityId) => {
+  // save post reference
   let response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}`, {
     method: "POST",
     headers: {
@@ -56,11 +40,31 @@ const publishPostToCommunity = async (postUrl, communityId) => {
   return response
 }
 
+const getMetaPost = async (postId) => {
+  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}/${postId}`)
+  const post = await response.json()
+  return post
+}
+
+const getMetaPosts = async () => {
+  const response = await fetch(`${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}`)
+  const posts = await response.json()
+  return posts
+}
+
+const getMetaPostsFromCommunity = async (communityId) => {
+  const response = await fetch(
+    `${REACT_APP_API_URL}${API_ENDPOINT}${POST_ENDPOINT}${COMMUNITY_ENDPOINT}/${communityId}`,
+  )
+  const communityPosts = await response.json()
+  return communityPosts
+}
+
 export {
   getCommunities,
   publishPostToCommunity,
-  getPosts,
+  getMetaPosts,
   getMetaPost,
   getCommunity,
-  getPostsFromCommunity,
+  getMetaPostsFromCommunity,
 }

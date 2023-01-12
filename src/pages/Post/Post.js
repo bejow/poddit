@@ -1,35 +1,47 @@
-import classNames from "classnames"
-import { EditorState } from "draft-js"
-import React, { useState, useEffect } from "react"
-
-import { Link, useParams } from "react-router-dom"
-import { MoonLoader } from "react-spinners"
 import {
   COMMENT_AS_TEXT,
   COMMENT_BUTTON_TEXT,
   CREATE_COMMENT_PLACEHOLDER,
   PROFILE_ROUTE,
 } from "../../assets/constants/strings"
+import { EditorState } from "draft-js"
+import { getMetaPost } from "../../utils/api"
+import { getNameFromWebId } from "../../utils/webId"
+import { getPost, postComment } from "../../utils/rdfHelper"
+import { Link, useParams } from "react-router-dom"
+import { MoonLoader } from "react-spinners"
 import Button from "../../components/Button/Button"
+import classNames from "classnames"
 import CommentList from "../../components/Comments/CommentList"
 import CommunityBox from "../../components/CommunityBox/CommunityBox"
 import CustomEditor from "../../components/CustomEditor/CustomEditor"
 import Layout from "../../components/Layout/Layout"
 import PostBox from "../../components/PostBox/PostBox"
-import useErrorStore from "../../states/Error"
-import { getMetaPost } from "../../utils/api"
+import React, { useState, useEffect } from "react"
+import styles from "./Post.module.scss"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 import useAuth from "../../utils/hooks/useAuth"
-import { getPost, postComment } from "../../utils/rdfHelper"
-import { getNameFromWebId } from "../../utils/webId"
-import styles from "./Post.module.scss"
+import useErrorStore from "../../states/Error"
 
 const Post = () => {
-  const { runAsyncFunction, isLoading } = useAsyncLoading()
-  let { postUrl, postId } = useParams()
-  const [reload, setReload] = useState(false)
+  const [postData, setPostData] = useState({
+    identifier: "",
+    title: "",
+    content: "",
+    creator: { webId: "", name: "" },
+    comments: [],
+    community: { title: "", info: "", id: "" },
+  })
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty())
+  const [reload, setReload] = useState(false)
+  const { creator, commentUrl } = postData
+  const { runAsyncFunction, isLoading } = useAsyncLoading()
   const { setError } = useErrorStore()
+  const { user } = useAuth()
+  const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
+  const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
+  let { postUrl, postId } = useParams()
+  postUrl = decodeURIComponent(postUrl)
 
   useEffect(() => {
     try {
@@ -39,17 +51,6 @@ const Post = () => {
     }
     return () => {}
   }, [reload])
-
-  const { user } = useAuth()
-  const [postData, setPostData] = useState({
-    identifier: "",
-    title: "",
-    content: "",
-    creator: { webId: "", name: "" },
-    comments: [],
-    community: { title: "", info: "", id: "" },
-  })
-  const { creator, commentUrl } = postData
 
   const onCommentSubmit = () => {
     runAsyncFunction(async () =>
@@ -99,9 +100,6 @@ const Post = () => {
     )
   }
 
-  postUrl = decodeURIComponent(postUrl)
-  const userLink = `${PROFILE_ROUTE}/${creator?.webId}`
-  const isCommentValid = editorState.getCurrentContent().getPlainText().length > 0 ? true : false
   return (
     <Layout infoContent={isLoading ? null : <CommunityBox community={postData?.community} />}>
       <PostBox post={postData}>
@@ -132,7 +130,5 @@ const Post = () => {
     </Layout>
   )
 }
-
-Post.propTypes = {}
 
 export default Post

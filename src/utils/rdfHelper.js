@@ -1,67 +1,50 @@
-/* eslint-disable */
 import {
   getSolidDataset,
-  getThing,
   getStringNoLocale,
   getPodUrlAll,
-  saveFileInContainer,
   buildThing,
   createSolidDataset,
   createThing,
   setThing,
   saveSolidDatasetAt,
   saveSolidDatasetInContainer,
-  createAcl,
-  getResourceAcl,
-  getSolidDatasetWithAcl,
-  saveAclFor,
   createContainerAt,
-  getPublicAccess,
   getThingAll,
   getStringEnglish,
   getUrl,
   addUrl,
   addStringNoLocale,
+  universalAccess,
   removeThing,
 } from "@inrupt/solid-client"
-import { FOAF, RDF, RDFS, SCHEMA_INRUPT, AS } from "@inrupt/vocab-common-rdf"
-import { universalAccess } from "@inrupt/solid-client"
 import {
   PUBLIC_CONTAINER,
   PRIVATE_CONTAINER,
   COMMUNITY_SUBSCRIPTIONS_FILENAME,
   SUBSCRIPTION_THINGNAME,
+  COMMENTS_SCHEMA,
+  PARENT_ITEM_SCHEMA,
+  COMMENT_INDENTIFIER_PREFIX,
+  POST_SCHEMA,
 } from "../assets/constants/pod"
-import { v4 as uuidv4 } from "uuid"
+import { ERROR_TYPE_MISSING_WEBID } from "../assets/constants/strings"
 import { getNameFromWebId } from "./webId"
-import { ERROR_TYPE_MISSING_WEBID, INRUPT_SIGNUP_URL } from "../assets/constants/strings"
 import { publishPostToCommunity } from "./api"
+import { RDF, SCHEMA_INRUPT, AS } from "@inrupt/vocab-common-rdf"
+import { v4 as uuidv4 } from "uuid"
+
+// DISCLAIMER: This file has more comments than usual
+// This is because I think it's easier for people that are unfamiliar
+// with solid to understand what's going on here
 
 const postText = async (user, post, callback) => {
-  const profileURL = new URL(user.info.webId)
-  // remove hash
-  profileURL.hash = ""
-
-  // const savedFile = await saveFileInContainer(user.pods[0] + PUBLIC_CONTAINER, postThing.build(), {
-  //   slug: `poddit-post-${Date.now()}`,
-  //   contentType: "text/turtle",
-  //   fetch: user.fetch,
-  // })
-
+  // save post in users solid pod
   const uuid = uuidv4()
   const timestamp = Date.now()
   const identifier = `poddit-${timestamp}-${uuid}`
   var postSolidDataset = createSolidDataset()
-  var commentSolidDataset = createSolidDataset()
-  const commentsThing = buildThing(
-    createThing({
-      name: `poddit-comments-${timestamp}-${uuid}`,
-    }),
-  )
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
-    .addUrl(RDF.type, "https://schema.org/comment")
-    .build()
 
+  // create container structure in pod
   const postContainer = await createContainerAt(user.pods[0] + PUBLIC_CONTAINER + identifier, {
     fetch: user.fetch,
   })
@@ -73,60 +56,47 @@ const postText = async (user, post, callback) => {
     },
   )
 
+  // create post thing
   const postThing = buildThing(createThing({ name: identifier }))
     .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
     .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
     .addStringEnglish(SCHEMA_INRUPT.name, post.title)
     .addStringEnglish(SCHEMA_INRUPT.text, post.content)
     .addStringNoLocale(SCHEMA_INRUPT.image, "insert link to image HERE <---")
-    .addUrl(RDF.type, "https://schema.org/SocialMediaPosting")
-    .addUrl("https://schema.org/comment", commentContainer.internal_resourceInfo.sourceIri)
+    .addUrl(RDF.type, POST_SCHEMA)
+    .addUrl(COMMENTS_SCHEMA, commentContainer.internal_resourceInfo.sourceIri)
     .build()
 
+  // Add things to Solid Dataset
   postSolidDataset = setThing(postSolidDataset, postThing)
-  commentSolidDataset = setThing(commentSolidDataset, commentsThing)
 
+  // Persist changes
   const savedSolidPostDataset = await saveSolidDatasetInContainer(
     postContainer.internal_resourceInfo.sourceIri,
     postSolidDataset,
-    { fetch: user.fetch }, // fetch from authenticated Session
+    { fetch: user.fetch },
   )
 
-  // const savedSolidCommentDataset = await saveSolidDatasetInContainer(
-  //   commentContainer.internal_resourceInfo.sourceIri,
-  //   commentSolidDataset,
-  //   { fetch: user.fetch }, // fetch from authenticated Session
-  // )
-
-  const accessComment = await universalAccess.setPublicAccess(
-    commentContainer.internal_resourceInfo.sourceIri, // Resource
-    { read: true, write: false, append: true }, // Access object
-    { fetch: user.fetch }, // fetch function from authenticated session
-  )
-
-  const accessPost = await universalAccess.setPublicAccess(
-    savedSolidPostDataset.internal_resourceInfo.sourceIri, // Resource
-    { read: true, write: false, append: false }, // Access object
-    { fetch: user.fetch }, // fetch function from authenticated session
-  )
-
-  const fetchedAccessComment = await universalAccess.getPublicAccess(
+  // make post/comments available for other users
+  await universalAccess.setPublicAccess(
     commentContainer.internal_resourceInfo.sourceIri,
+    { read: true, write: false, append: true },
     { fetch: user.fetch },
   )
 
-  const fetchedAccessPost = await universalAccess.getPublicAccess(
+  await universalAccess.setPublicAccess(
     savedSolidPostDataset.internal_resourceInfo.sourceIri,
+    { read: true, write: false, append: false },
     { fetch: user.fetch },
   )
-
-  // await saveAclFor(savedSolidCommentDataset, access, { fetch: user.fetch })
 
   callback([savedSolidPostDataset, commentContainer])
   return [savedSolidPostDataset, commentContainer]
 }
 
 const postTextToCommunity = async (user, community, title, content, callback) => {
+  // creates a post in the users solid pod and
+  // stores a reference to that post in the backend
   await postText(
     user,
     {
@@ -136,6 +106,7 @@ const postTextToCommunity = async (user, community, title, content, callback) =>
     },
     async (result) => {
       const createdSolidPostDataset = result[0]
+      // store post reference in backend
       await publishPostToCommunity(
         createdSolidPostDataset.internal_resourceInfo.sourceIri,
         community.id,
@@ -146,48 +117,29 @@ const postTextToCommunity = async (user, community, title, content, callback) =>
   )
 }
 
-const getProfile = async (webId, callback) => {
-  const profileURL = new URL(webId)
-  // remove hash
-  profileURL.hash = ""
-
-  // get solid dataset
-  let profileData = await getSolidDataset(profileURL.href)
-
-  // get profile data
-  let profile = getThing(profileData, webId)
-
-  // create profile object
-  const name = getStringNoLocale(profile, FOAF.name)
-
-  const profileObject = { name }
-
-  callback(profileObject)
-  return profileObject
-}
-
-const getPodUrl = async (user, setError) => {
-  console.log(user)
+const getPodUrls = async (user, setError) => {
+  // a user can have multiple pods associated to their account
+  // get pods that are used by the authed user
   var myPods
   try {
     myPods = await getPodUrlAll(user.info.webId, { fetch: fetch })
   } catch (error) {
     setError({ message: "Seems like your webid is missing", type: ERROR_TYPE_MISSING_WEBID })
   }
-
   return myPods
 }
 
 const getPost = async (postUrl) => {
+  // fetches the content of a post
+
+  // fetch datasets & get things from those datasets
   const postSolidDataset = await getSolidDataset(postUrl)
-
   const postThings = await getThingAll(postSolidDataset)
-
-  const commentSolidDataset = await getSolidDataset(
-    getUrl(postThings[0], "https://schema.org/comment"),
-  )
-
+  const commentSolidDataset = await getSolidDataset(getUrl(postThings[0], COMMENTS_SCHEMA))
   const commentThings = await getThingAll(commentSolidDataset)
+
+  // convert thing properties back into strings
+  const creatorWebId = await getStringNoLocale(postThings[0], SCHEMA_INRUPT.Person)
 
   let comments = commentThings.map((commentThing) => {
     return {
@@ -195,11 +147,11 @@ const getPost = async (postUrl) => {
       creator: getStringNoLocale(commentThing, SCHEMA_INRUPT.Person),
       identifier: getStringNoLocale(commentThing, SCHEMA_INRUPT.identifier),
       dateModified: getStringNoLocale(commentThing, SCHEMA_INRUPT.dateModified),
-      parentIdentifier: getStringNoLocale(commentThing, "https://schema.org/parentItem"),
+      parentIdentifier: getStringNoLocale(commentThing, PARENT_ITEM_SCHEMA),
     }
   })
 
-  const creatorWebId = await getStringNoLocale(postThings[0], SCHEMA_INRUPT.Person)
+  // combine all retrieved values
   const post = {
     title: getStringEnglish(postThings[0], SCHEMA_INRUPT.name),
     content: getStringEnglish(postThings[0], SCHEMA_INRUPT.text),
@@ -211,33 +163,33 @@ const getPost = async (postUrl) => {
     comments,
     commentUrl: commentSolidDataset.internal_resourceInfo.sourceIri,
   }
+
   return post
 }
 
 const subscribeToCommunity = async (user, communityId) => {
-  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  // saves user community subscription into their solid pods
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}` // eslint-disable-line
   let subscriptionList
   try {
-    // Attempt to retrieve the reading list in case it already exists.
+    // Attempt to retrieve subscriptions in case it already exists.
     subscriptionList = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
-    // Clear the list to override the whole list
-    let items = getThingAll(subscriptionList)
-    console.log(items)
   } catch (error) {
     if (typeof error.statusCode === "number" && error.statusCode === 404) {
-      // if not found, create a new SolidDataset (i.e., the reading list)
-      console.log("Create new subscription file")
+      // if not found, create a new SolidDataset for subscriptions
       subscriptionList = createSolidDataset()
     } else {
-      console.error(error.message)
+      throw error
     }
   }
 
+  // add new subscription thing
   let subscription = createThing({ name: `${SUBSCRIPTION_THINGNAME}${communityId}` })
   subscription = addUrl(subscription, RDF.type, AS.Join)
   subscription = addStringNoLocale(subscription, AS.Group, communityId)
   subscriptionList = setThing(subscriptionList, subscription)
 
+  // persist subscriptions
   let savedSubscriptionList = await saveSolidDatasetAt(subscriptionDatasetUrl, subscriptionList, {
     fetch: user.fetch,
   })
@@ -245,7 +197,8 @@ const subscribeToCommunity = async (user, communityId) => {
 }
 
 const getSubscribedCommunities = async (user) => {
-  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  // returns subscribed communities retrieved from users solid pod
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}` // eslint-disable-line
   let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
   let subscriptions = getThingAll(subscriptionsDataset)
   subscriptions = subscriptions.map((subscription) => getStringNoLocale(subscription, AS.Group))
@@ -253,15 +206,19 @@ const getSubscribedCommunities = async (user) => {
 }
 
 const unsubscribeFromCommunity = async (user, communityId) => {
-  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}`
+  // deletes user community subscription from their solid pods
+  const subscriptionDatasetUrl = `${user.pods[0]}${PRIVATE_CONTAINER}${COMMUNITY_SUBSCRIPTIONS_FILENAME}` // eslint-disable-line
   let subscriptionsDataset = await getSolidDataset(subscriptionDatasetUrl, { fetch: user.fetch })
   let subscriptions = getThingAll(subscriptionsDataset)
+
+  // find and remove subscription
   subscriptions.forEach((subscription) => {
     if (getStringNoLocale(subscription, AS.Group) === communityId.toString()) {
-      console.log("infif")
       subscriptionsDataset = removeThing(subscriptionsDataset, subscription)
     }
   })
+
+  // persist change
   const savedSubscriptionDataset = await saveSolidDatasetAt(
     subscriptionDatasetUrl,
     subscriptionsDataset,
@@ -273,34 +230,37 @@ const unsubscribeFromCommunity = async (user, communityId) => {
 }
 
 const postComment = async (user, commentUrl, comment, parentIdentifier, callback) => {
+  // add a comment to an existing post
   const uuid = uuidv4()
   const timestamp = Date.now()
-  const identifier = `#poddit-comment-${timestamp}-${uuid}`
+  const identifier = `${COMMENT_INDENTIFIER_PREFIX}${timestamp}-${uuid}`
 
+  // get existing comments
   let commentSolidDataset = await getSolidDataset(commentUrl, { fetch: user.fetch })
 
+  // create new comment
   var commentThing = buildThing(createThing({ name: identifier }))
     .addStringNoLocale(SCHEMA_INRUPT.identifier, identifier)
     .addStringEnglish(SCHEMA_INRUPT.text, comment)
     .addStringNoLocale(SCHEMA_INRUPT.Person, user.info.webId)
     .addStringNoLocale(SCHEMA_INRUPT.dateModified, new Date().toISOString())
-    .addStringNoLocale("https://schema.org/parentItem", parentIdentifier)
-    .addUrl(RDF.type, "https://schema.org/Comment")
+    .addStringNoLocale(PARENT_ITEM_SCHEMA, parentIdentifier)
+    .addUrl(RDF.type, COMMENTS_SCHEMA)
     .build()
 
+  // add comment to solid  dataset
   commentSolidDataset = setThing(commentSolidDataset, commentThing)
 
+  // persist
   const savedSolidCommentDataset = await saveSolidDatasetAt(commentUrl, commentSolidDataset, {
     fetch: user.fetch,
   })
-
   callback(savedSolidCommentDataset)
 }
 
 export {
-  getProfile,
   postText,
-  getPodUrl,
+  getPodUrls,
   getPost,
   postComment,
   subscribeToCommunity,

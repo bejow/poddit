@@ -24,7 +24,7 @@
   },
   "ignorePatterns": ["**/icons/*.js"],
   "globals": {
-    // Fix testing "undefined" linting errors
+    // define globals to prevent linter "undefined" error
     "cy": true,
     "it": true,
     "describe": true,

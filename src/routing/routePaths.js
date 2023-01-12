@@ -2,7 +2,6 @@
 
 const paths = {
   login: "/",
-  profile: "/profile",
   ownProfile: "/profile/me",
   main: "/home",
   postCreate: "/post/create",

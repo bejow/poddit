@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 export default function useAsyncLoading() {
+  // returns a loading state for running async functions
   const [isLoading, setIsLoading] = useState(false)
 
   const runAsyncFunction = async (asyncFunc) => {
