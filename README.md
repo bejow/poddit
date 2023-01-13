@@ -1,5 +1,21 @@
 # Getting Started with [Poddit](https://poddit.netlify.app/)
 
+## Technologies Used:
+
+- React - Framework
+- Prop Types - Type Checking
+- React Router - Routing
+- Zustand - State Management
+- SCSS Modules - styling
+- Inrupt Solid Client - Solid Auth / Pod interactions
+- Cypress - End to End Tests
+- Jest - Unit Tests
+- Linter / Prettier - Code Style
+- Github Actions - CI/CD Pipeline
+- Husky - Precommit Hooks
+- Netlify - Hosting
+- SVGR - Handling SVG Icons
+
 ## Setup Local
 
 1. Setup [Backend](https://github.com/bejow/poddit-backend) (Follow instructions in the [README](https://github.com/bejow/poddit-backend#readme))
@@ -11,14 +27,14 @@ npm install
 ```
 
 4. Setup .env
-    - Adjust `REACT_APP_API_URL` so that it matches the URL of your local Backend Server
+
+   - Adjust `REACT_APP_API_URL` so that it matches the URL of your local Backend Server
 
 5. Start Dev-Server:
 
 ```
 npm start
 ```
-
 
 ## Folder Structure
 
@@ -38,6 +54,18 @@ cypress
 .github
 └── --> Github Actions Workflow
 ```
+
+## Available commands
+
+- `npm start` - Start development server
+- `npm build` - Build Application
+- `npm test` - Run unit tests
+- `npm run cypress:open` - Start interactive local E2E Tests
+- `npm run cypress:run` - Run local E2E Tests,
+- `npm run prettier:fix` - Fix linting errors
+- `npm run lint:github-actions` - Lint command that runs in the pipeline
+- `npm run linter` - Local Lint command
+- `npm run svgr:convert` - Convert SVG Icons from `src/assets/icons/` into Components in `src/components/icons/`
 
 ## Testing (local)
 
@@ -64,7 +92,8 @@ A Inrupt Pod is required to run the local E2E tests:
 }
 ```
 
-4. Start interactive E2E Testing:
+4. Start Local Frontend & Backend
+5. Start interactive E2E Testing:
    `npm run cypress:open`
 
 ## Linter / Prettier
@@ -74,7 +103,7 @@ Linter Check runs automatically before committing
 ### Check for linting errors:
 
 ```
-npm run lint:github-actions
+npm run linter
 ```
 
 ### Fix linting errors:
@@ -82,6 +111,43 @@ npm run lint:github-actions
 ```
 npm run prettier:fix
 ```
+
+## Components
+
+- Every Component should have an own folder structured like this:
+
+```
+ComponentName
+├── ComponentName.js
+└── ComponentName.module.scss
+```
+
+- The component should be structured like (including proptypes):
+
+```js
+import React from "react"
+import PropTypes from "prop-types"
+
+const index = (props) => {
+  return <div>index</div>
+}
+
+index.propTypes = {}
+
+export default index
+```
+
+### Component Styling
+
+- Use SCSS modules to style your components
+- Every component should have it's own `.module.scss` file
+
+## Adding SVG'S
+
+- To have a better control over SVG'S this project uses `SVGR` if you want to add a SVG:
+  1. Copy svg into `/src/assets/icons`
+  2. Run `npm run svgr:convert`
+  3. This will create a SVG Component that you can use under `src/components/icons`
 
 ## Contributing to this Project
 
