@@ -3,6 +3,11 @@
     "browser": true,
     "es2021": true
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
@@ -22,6 +27,7 @@
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "max-len": ["error", { "code": 100, "comments": 75, "tabWidth": 4 }]
   },
+
   "ignorePatterns": ["**/icons/*.js"],
   "globals": {
     // define globals to prevent linter "undefined" error
