@@ -39,9 +39,8 @@
     "prettier:fix": "prettier --write ./src/**/*.js",
     "lint:github-actions": "node ./node_modules/eslint/bin/eslint ./{src,cypress}/**/*.js --max-warnings 0",
     "prepare": "husky install",
-    "linter": "node ./node_modules/eslint/bin/eslint --max-warnings 0",
-    "svgr:convert": "npx @svgr/cli --out-dir ./src/components/icons/ --ignore-existing -- ./src/assets/icons/",
-    "generate:shex": "shex-codegen generate && eslint --fix src/generated"
+    "linter": "eslint \"src/**/*.{js,jsx}\"",
+    "svgr:convert": "npx @svgr/cli --out-dir ./src/components/icons/ --ignore-existing -- ./src/assets/icons/"
   },
   "lint-staged": {
     "*": "lint:github-actions"
