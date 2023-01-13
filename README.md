@@ -1,8 +1,13 @@
 # Getting Started with [Poddit](https://poddit.netlify.app/)
 
+Poddit is a Decentral Social Network inspired by Reddit.
+
 ## Technologies Used:
 
 - React - Framework
+- NPM - Package Manager
+- Solid Pods - Data Storage
+- RDF - Linked Data Format
 - Prop Types - Type Checking
 - React Router - Routing
 - Zustand - State Management
@@ -127,20 +132,25 @@ ComponentName
 ```js
 import React from "react"
 import PropTypes from "prop-types"
+import styles from "./ComponentName.module.scss"
 
-const index = (props) => {
-  return <div>index</div>
+const ComponentName = ({ prop1, prop2 }) => {
+  return <div className={styles.containerStyle}>Container</div>
 }
 
-index.propTypes = {}
+ComponentName.propTypes = {
+  prop1: PropTypes.string,
+  prop2: PropTypes.bool,
+}
 
-export default index
+export default ComponentName
 ```
 
 ### Component Styling
 
 - Use SCSS modules to style your components
 - Every component should have it's own `.module.scss` file
+- use src/styles/constants.scss values when possible
 
 ## Adding SVG'S
 
@@ -169,3 +179,12 @@ This Project makes use of Continues Deployment, every code change on the "main" 
 ### Preview Deployment
 
 If you want to deploy your feature branch in a production like environment you can create a pullrequest to main with the label prefix "WIP:". The Pullrequest will trigger a preview deployment on Netlify which can be found on github within the pullrequest.
+
+## Poddits Decentral Dataflow
+
+![poddit dataflow](./documentation/poddit-architecture.png "Dataflow")
+
+## License:
+
+- GNU GPLv3
+- See more under [LICENSE.txt](./LICENSE.txt)
