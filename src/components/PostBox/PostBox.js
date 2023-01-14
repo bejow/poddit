@@ -20,7 +20,6 @@ import SvgArrowUp from "../icons/ArrowUp"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
 const PostBox = ({ post, clickable, children }) => {
-  const [votes] = useState(Math.floor(Math.random() * 1000))
   const { community } = post
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
   const { content, title, creator, comments } = postInfo
@@ -29,6 +28,7 @@ const PostBox = ({ post, clickable, children }) => {
   const { runAsyncFunction, isLoading } = useAsyncLoading()
   const navigate = useNavigate()
   // no real vote count yet
+  const [votes] = useState(Math.floor(Math.random() * 1000))
 
   useEffect(() => {
     runAsyncFunction(handlePost)
