@@ -19,9 +19,8 @@ import styles from "./PostBox.module.scss"
 import SvgArrowUp from "../icons/ArrowUp"
 import useAsyncLoading from "../../utils/hooks/useAsyncLoading"
 
-const votes = Math.floor(Math.random() * 1000)
-
 const PostBox = ({ post, clickable, children }) => {
+  const [votes] = useState(Math.floor(Math.random() * 1000))
   const { community } = post
   const [postInfo, setPostInfo] = useState({ content: "", title: "" })
   const { content, title, creator, comments } = postInfo
