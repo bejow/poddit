@@ -20,6 +20,7 @@ Poddit is a Decentral Social Network inspired by Reddit.
 - Husky - Precommit Hooks
 - Netlify - Hosting
 - SVGR - Handling SVG Icons
+- Sentry - Error Logging
 
 ## Setup Local
 
